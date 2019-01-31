@@ -127,7 +127,6 @@ public class MainActivity extends Activity {
 
                 Camera camera = frame.getCamera();
                 Pose pose = camera.getPose();
-                Pose virtualPose = camera.getDisplayOrientedPose();
 
                 float x = pose.qx();
                 float y = pose.qy();
@@ -146,16 +145,15 @@ public class MainActivity extends Activity {
                 float[] xAxis = pose.getXAxis();
                 float[] yAxis = pose.getYAxis();
                 float[] zAxis = pose.getZAxis();
-                mRenderer.addPoint(pose.tx(), pose.ty(), pose.tz());
-                mRenderer.addLineX(pose.tx(), pose.ty(), pose.tz(),
+                mRenderer.addPoint(pose.tx(), pose.ty(), pose.tz()-1);
+                mRenderer.addLineX(pose.tx(), pose.ty(), pose.tz()-1,
                         xAxis[0], xAxis[1], xAxis[2]);
-                mRenderer.addLineY(pose.tx(), pose.ty(), pose.tz(),
+                mRenderer.addLineY(pose.tx(), pose.ty(), pose.tz()-1,
                         yAxis[0], yAxis[1], yAxis[2]);
-                mRenderer.addLineZ(pose.tx(), pose.ty(), pose.tz(),
+                mRenderer.addLineZ(pose.tx(), pose.ty(), pose.tz()-1,
                         zAxis[0], zAxis[1], zAxis[2]);
 
                 mTextString = "Pose: " + pose.toString() + "\n"
-                        + "vPose: " + virtualPose.toString() + "\n"
                         + "xAxis: " + String.format("%.2f, %.2f, %.2f", xAxis[0], xAxis[1], xAxis[2]) + "\n"
                         + "yAxis: " + String.format("%.2f, %.2f, %.2f", yAxis[0], yAxis[1], yAxis[2]) + "\n"
                         + "zAxis: " + String.format("%.2f, %.2f, %.2f", zAxis[0], zAxis[1], zAxis[2]) + "\n"
