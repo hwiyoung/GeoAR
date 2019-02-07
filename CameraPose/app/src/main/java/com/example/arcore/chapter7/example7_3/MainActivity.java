@@ -129,9 +129,6 @@ public class MainActivity extends Activity {
                     mTouched = false;
                 }*/
 
-                Camera camera = frame.getCamera();
-                Pose pose = camera.getPose();
-
                 if (mTouched) {
                     List<HitResult> results = frame.hitTest(mCurrentX, mCurrentY);
                     for (HitResult result : results) {
@@ -157,6 +154,8 @@ public class MainActivity extends Activity {
                             anchors.remove(0);
                         }
 
+                        mTouched = false;
+
                         // Adding an Anchor tells ARCore that it should track this position in
                         // space. This anchor is created on the Plane to place the 3D model
                         // in the correct position relative both to the world and to the plane.
@@ -164,6 +163,9 @@ public class MainActivity extends Activity {
                         break;
                     }
                 }
+
+                Camera camera = frame.getCamera();
+                Pose pose = camera.getPose();
 
                 float x = pose.qx();
                 float y = pose.qy();
