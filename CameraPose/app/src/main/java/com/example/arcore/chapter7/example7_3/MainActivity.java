@@ -25,6 +25,7 @@ import com.google.ar.core.PointCloud;
 import com.google.ar.core.Pose;
 import com.google.ar.core.Session;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends Activity {
@@ -43,6 +44,8 @@ public class MainActivity extends Activity {
     private float mCurrentX;
     private float mCurrentY;
     private boolean mTouched = false;
+
+    private final List<Anchor> anchors = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,11 +92,12 @@ public class MainActivity extends Activity {
                     mRenderer.transformDisplayGeometry(frame);
                 }
 
-                /*
+
                 PointCloud pointCloud = frame.acquirePointCloud();
                 mRenderer.updatePointCloud(pointCloud);
                 pointCloud.release();
 
+                /*
                 if (mTouched) {
                     mTextString = "";
                     List<HitResult> results = frame.hitTest(mCurrentX, mCurrentY);
@@ -128,6 +132,39 @@ public class MainActivity extends Activity {
                 Camera camera = frame.getCamera();
                 Pose pose = camera.getPose();
 
+                if (mTouched) {
+                    List<HitResult> results = frame.hitTest(mCurrentX, mCurrentY);
+                    for (HitResult result : results) {
+                        Anchor anchor = result.createAnchor();
+                        Pose aPose = anchor.getPose();
+
+                        float[] xAxis = aPose.getXAxis();
+                        float[] yAxis = aPose.getYAxis();
+                        float[] zAxis = aPose.getZAxis();
+                        mRenderer.addPoint(aPose.tx(), aPose.ty(), aPose.tz());
+                        mRenderer.addLineX(aPose.tx(), aPose.ty(), aPose.tz(),
+                                xAxis[0], xAxis[1], xAxis[2]);
+                        mRenderer.addLineY(aPose.tx(), aPose.ty(), aPose.tz(),
+                                yAxis[0], yAxis[1], yAxis[2]);
+                        mRenderer.addLineZ(aPose.tx(), aPose.ty(), aPose.tz(),
+                                zAxis[0], zAxis[1], zAxis[2]);
+
+                        // Hits are sorted by depth. Consider only closest hit on a plane or oriented point.
+                        // Cap the number of objects created. This avoids overloading both the
+                        // rendering system and ARCore.
+                        if (anchors.size() >= 20) {
+                            anchors.get(0).detach();
+                            anchors.remove(0);
+                        }
+
+                        // Adding an Anchor tells ARCore that it should track this position in
+                        // space. This anchor is created on the Plane to place the 3D model
+                        // in the correct position relative both to the world and to the plane.
+                        anchors.add(anchor);
+                        break;
+                    }
+                }
+
                 float x = pose.qx();
                 float y = pose.qy();
                 float z = pose.qz();
@@ -145,6 +182,7 @@ public class MainActivity extends Activity {
                 float[] xAxis = pose.getXAxis();
                 float[] yAxis = pose.getYAxis();
                 float[] zAxis = pose.getZAxis();
+                /*
                 mRenderer.addPoint(pose.tx(), pose.ty(), pose.tz()-1);
                 mRenderer.addLineX(pose.tx(), pose.ty(), pose.tz()-1,
                         xAxis[0], xAxis[1], xAxis[2]);
@@ -152,6 +190,7 @@ public class MainActivity extends Activity {
                         yAxis[0], yAxis[1], yAxis[2]);
                 mRenderer.addLineZ(pose.tx(), pose.ty(), pose.tz()-1,
                         zAxis[0], zAxis[1], zAxis[2]);
+                        */
 
                 mTextString = "Pose: " + pose.toString() + "\n"
                         + "xAxis: " + String.format("%.2f, %.2f, %.2f", xAxis[0], xAxis[1], xAxis[2]) + "\n"
