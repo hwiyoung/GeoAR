@@ -25,7 +25,6 @@ import com.google.ar.core.PointCloud;
 import com.google.ar.core.Pose;
 import com.google.ar.core.Session;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends Activity {
@@ -44,8 +43,6 @@ public class MainActivity extends Activity {
     private float mCurrentX;
     private float mCurrentY;
     private boolean mTouched = false;
-
-    private final List<Anchor> anchors = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,19 +89,20 @@ public class MainActivity extends Activity {
                     mRenderer.transformDisplayGeometry(frame);
                 }
 
-
                 PointCloud pointCloud = frame.acquirePointCloud();
                 mRenderer.updatePointCloud(pointCloud);
                 pointCloud.release();
 
-                /*
+                mTextString = "";
                 if (mTouched) {
-                    mTextString = "";
+                    //mTextString = "";
                     List<HitResult> results = frame.hitTest(mCurrentX, mCurrentY);
                     int i = 0;
                     for (HitResult result : results) {
-                        float distance = result.getDistance();
-                        Pose pose = result.getHitPose();
+                        //float distance = result.getDistance();
+                        //Pose pose = result.getHitPose();
+                        Anchor anchor = result.createAnchor();
+                        Pose pose = anchor.getPose();
 
                         float[] xAxis = pose.getXAxis();
                         float[] yAxis = pose.getYAxis();
@@ -116,91 +114,24 @@ public class MainActivity extends Activity {
                                              yAxis[0], yAxis[1], yAxis[2]);
                         mRenderer.addLineZ(pose.tx(), pose.ty(), pose.tz(),
                                              zAxis[0], zAxis[1], zAxis[2]);
-                        mTextString += ("[" + i + "] distance : " + distance
-                                + ", Pose : " + pose.toString() + "\n");
+                        //mTextString += ("[" + i + "] distance : " + distance
+                        //        + ", Pose : " + pose.toString() + "\n");
+                        //mTextString += ("Anchor Pose : " + pose.toString() + "\n");
+                        //anchor.detach();
                         i++;
                     }
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            mTextView.setText(mTextString);
-                        }
-                    });
                     mTouched = false;
-                }*/
-
-                if (mTouched) {
-                    List<HitResult> results = frame.hitTest(mCurrentX, mCurrentY);
-                    for (HitResult result : results) {
-                        Anchor anchor = result.createAnchor();
-                        Pose aPose = anchor.getPose();
-
-                        float[] xAxis = aPose.getXAxis();
-                        float[] yAxis = aPose.getYAxis();
-                        float[] zAxis = aPose.getZAxis();
-                        mRenderer.addPoint(aPose.tx(), aPose.ty(), aPose.tz());
-                        mRenderer.addLineX(aPose.tx(), aPose.ty(), aPose.tz(),
-                                xAxis[0], xAxis[1], xAxis[2]);
-                        mRenderer.addLineY(aPose.tx(), aPose.ty(), aPose.tz(),
-                                yAxis[0], yAxis[1], yAxis[2]);
-                        mRenderer.addLineZ(aPose.tx(), aPose.ty(), aPose.tz(),
-                                zAxis[0], zAxis[1], zAxis[2]);
-
-                        // Hits are sorted by depth. Consider only closest hit on a plane or oriented point.
-                        // Cap the number of objects created. This avoids overloading both the
-                        // rendering system and ARCore.
-                        if (anchors.size() >= 20) {
-                            anchors.get(0).detach();
-                            anchors.remove(0);
-                        }
-
-                        mTouched = false;
-
-                        // Adding an Anchor tells ARCore that it should track this position in
-                        // space. This anchor is created on the Plane to place the 3D model
-                        // in the correct position relative both to the world and to the plane.
-                        anchors.add(anchor);
-                        break;
-                    }
                 }
 
                 Camera camera = frame.getCamera();
-                Pose pose = camera.getPose();
-
-                float x = pose.qx();
-                float y = pose.qy();
-                float z = pose.qz();
-                float w = pose.qw();
-
-                double roll = Math.atan2(2*(x*y + w*z), w*w + x*x - y*y - z*z) * 180 / Math.PI;
-                double pitch = Math.asin(-2*(x*z - w*y)) * 180 / Math.PI;
-                double yaw = Math.atan2(2*(y*z + w*x), w*w - x*x - y*y + z*z) * 180 / Math.PI;
-
                 float[] projMatrix = new float[16];
                 camera.getProjectionMatrix(projMatrix, 0, 0.1f, 100.0f);
                 float[] viewMatrix = new float[16];
                 camera.getViewMatrix(viewMatrix, 0);
 
-                float[] xAxis = pose.getXAxis();
-                float[] yAxis = pose.getYAxis();
-                float[] zAxis = pose.getZAxis();
-                /*
-                mRenderer.addPoint(pose.tx(), pose.ty(), pose.tz()-1);
-                mRenderer.addLineX(pose.tx(), pose.ty(), pose.tz()-1,
-                        xAxis[0], xAxis[1], xAxis[2]);
-                mRenderer.addLineY(pose.tx(), pose.ty(), pose.tz()-1,
-                        yAxis[0], yAxis[1], yAxis[2]);
-                mRenderer.addLineZ(pose.tx(), pose.ty(), pose.tz()-1,
-                        zAxis[0], zAxis[1], zAxis[2]);
-                        */
+                Pose camPose = camera.getPose();
 
-                mTextString = "Pose: " + pose.toString() + "\n"
-                        + "xAxis: " + String.format("%.2f, %.2f, %.2f", xAxis[0], xAxis[1], xAxis[2]) + "\n"
-                        + "yAxis: " + String.format("%.2f, %.2f, %.2f", yAxis[0], yAxis[1], yAxis[2]) + "\n"
-                        + "zAxis: " + String.format("%.2f, %.2f, %.2f", zAxis[0], zAxis[1], zAxis[2]) + "\n"
-                        + "Roll(Z): " + String.format("%.2f", roll) + "\n"
-                        + "Pitch(Y): " + String.format("%.2f", pitch) + "\n"
-                        + "Yaw(X): " + String.format("%.2f", yaw) + "\n";
+                mTextString += ("Camera Pose : " + camPose.toString() + "\n");
 
                 runOnUiThread(new Runnable() {
                     @Override
