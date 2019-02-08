@@ -129,9 +129,16 @@ public class MainActivity extends Activity {
                 float[] viewMatrix = new float[16];
                 camera.getViewMatrix(viewMatrix, 0);
 
-                Pose camPose = camera.getPose();
+                Pose camPose = camera.getDisplayOrientedPose();
 
-                mTextString += ("Camera Pose : " + camPose.toString() + "\n");
+                float[] xAxis = camPose.getXAxis();
+                float[] yAxis = camPose.getYAxis();
+                float[] zAxis = camPose.getZAxis();
+
+                mTextString += ("Camera Pose: " + camPose.toString() + "\n"
+                        + "xAxis: " + String.format("%.2f, %.2f, %.2f", xAxis[0], xAxis[1], xAxis[2]) + "\n"
+                        + "yAxis: " + String.format("%.2f, %.2f, %.2f", yAxis[0], yAxis[1], yAxis[2]) + "\n"
+                        + "zAxis: " + String.format("%.2f, %.2f, %.2f", zAxis[0], zAxis[1], zAxis[2]) + "\n");
 
                 runOnUiThread(new Runnable() {
                     @Override
