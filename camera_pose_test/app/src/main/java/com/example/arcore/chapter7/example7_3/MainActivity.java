@@ -148,18 +148,11 @@ public class MainActivity extends Activity {
                     float[] zAxis = camPose.getZAxis();
 
                     //******************* Test Android Sensor Pose *****************
-                    Display display = getWindowManager().getDefaultDisplay();
-                    int displayRotation = display.getRotation();
+                    Pose androidPose = frame.getAndroidSensorPose();
 
-                    Pose deviceOrientedPose = frame.getCamera().getDisplayOrientedPose().compose(
-                            Pose.makeInterpolated(
-                                    Pose.IDENTITY,
-                                    Pose.makeRotation(0, 0, sqrtHalf, sqrtHalf),
-                                    displayRotation));
-
-                    float[] deviceXAxis = deviceOrientedPose.getXAxis();
-                    float[] deviceYAxis = deviceOrientedPose.getYAxis();
-                    float[] deviceZAxis = deviceOrientedPose.getZAxis();
+                    float[] androidXAxis = androidPose.getXAxis();
+                    float[] androidYAxis = androidPose.getYAxis();
+                    float[] androidZAxis = androidPose.getZAxis();
 
                     //***************************************************************
 
@@ -167,10 +160,10 @@ public class MainActivity extends Activity {
                             + "xAxis: " + String.format("%.2f, %.2f, %.2f", xAxis[0], xAxis[1], xAxis[2]) + "\n"
                             + "yAxis: " + String.format("%.2f, %.2f, %.2f", yAxis[0], yAxis[1], yAxis[2]) + "\n"
                             + "zAxis: " + String.format("%.2f, %.2f, %.2f", zAxis[0], zAxis[1], zAxis[2]) + "\n"
-                            + "deviceOrientedPose: " + deviceOrientedPose.toString() + "\n"
-                            + "xAxis: " + String.format("%.2f, %.2f, %.2f", deviceXAxis[0], deviceXAxis[1], deviceXAxis[2]) + "\n"
-                            + "yAxis: " + String.format("%.2f, %.2f, %.2f", deviceYAxis[0], deviceYAxis[1], deviceYAxis[2]) + "\n"
-                            + "zAxis: " + String.format("%.2f, %.2f, %.2f", deviceZAxis[0], deviceZAxis[1], deviceZAxis[2]) + "\n");
+                            + "Android Sensor Pose: " + androidPose.toString() + "\n"
+                            + "xAxis: " + String.format("%.2f, %.2f, %.2f", androidXAxis[0], androidXAxis[1], androidXAxis[2]) + "\n"
+                            + "yAxis: " + String.format("%.2f, %.2f, %.2f", androidYAxis[0], androidYAxis[1], androidYAxis[2]) + "\n"
+                            + "zAxis: " + String.format("%.2f, %.2f, %.2f", androidZAxis[0], androidZAxis[1], androidZAxis[2]) + "\n");
 
                     runOnUiThread(new Runnable() {
                         @Override
