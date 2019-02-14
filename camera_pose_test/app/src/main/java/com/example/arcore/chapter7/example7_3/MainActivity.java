@@ -2,7 +2,12 @@ package com.example.arcore.chapter7.example7_3;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.Context;
 import android.content.pm.PackageManager;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.hardware.display.DisplayManager;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
@@ -35,7 +40,7 @@ import java.io.IOException;
 
 import java.util.List;
 
-public class MainActivity extends Activity {
+public class MainActivity extends Activity implements SensorEventListener {
     private static final String TAG = MainActivity.class.getSimpleName();
 
     private String mTextString;
@@ -52,13 +57,22 @@ public class MainActivity extends Activity {
     private float mCurrentY;
     private boolean mTouched = false;
 
-    static final float sqrtHalf = (float) Math.sqrt(0.5f);
+    //*********************** Test: Azimuth **************************
+    private SensorManager sensorManager;
+    private final float[] accelerometerReading = new float[3];
+    private final float[] magnetometerReading = new float[3];
+
+    private final float[] rotationMatrix = new float[9];
+    private final float[] orientationAngles = new float[3];
+    // ****************************************************************
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         hideStatusBarAndTitleBar();
         setContentView(R.layout.activity_main);
+
+        sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
 
         mTextView = (TextView) findViewById(R.id.ar_core_text);
         mSurfaceView = (GLSurfaceView) findViewById(R.id.gl_surface_view);
@@ -93,7 +107,6 @@ public class MainActivity extends Activity {
                 }
 
                 try {
-
                     mSession.setCameraTextureName(mRenderer.getTextureId());
 
                     Frame frame = mSession.update();
@@ -147,23 +160,25 @@ public class MainActivity extends Activity {
                     float[] yAxis = camPose.getYAxis();
                     float[] zAxis = camPose.getZAxis();
 
-                    //******************* Test Android Sensor Pose *****************
+                    //******************* Test: Android Sensor Pose *****************
                     Pose androidPose = frame.getAndroidSensorPose();
 
                     float[] androidXAxis = androidPose.getXAxis();
                     float[] androidYAxis = androidPose.getYAxis();
                     float[] androidZAxis = androidPose.getZAxis();
-
                     //***************************************************************
+
+                    orientationAngles[0] *= orientationAngles[0] * 180 / Math.PI;
+                    orientationAngles[1] *= orientationAngles[1] * 180 / Math.PI;
+                    orientationAngles[2] *= orientationAngles[2] * 180 / Math.PI;
 
                     mTextString += ("Camera Pose: " + camPose.toString() + "\n"
                             + "xAxis: " + String.format("%.2f, %.2f, %.2f", xAxis[0], xAxis[1], xAxis[2]) + "\n"
                             + "yAxis: " + String.format("%.2f, %.2f, %.2f", yAxis[0], yAxis[1], yAxis[2]) + "\n"
                             + "zAxis: " + String.format("%.2f, %.2f, %.2f", zAxis[0], zAxis[1], zAxis[2]) + "\n"
-                            + "Android Sensor Pose: " + androidPose.toString() + "\n"
-                            + "xAxis: " + String.format("%.2f, %.2f, %.2f", androidXAxis[0], androidXAxis[1], androidXAxis[2]) + "\n"
-                            + "yAxis: " + String.format("%.2f, %.2f, %.2f", androidYAxis[0], androidYAxis[1], androidYAxis[2]) + "\n"
-                            + "zAxis: " + String.format("%.2f, %.2f, %.2f", androidZAxis[0], androidZAxis[1], androidZAxis[2]) + "\n");
+                            + "Azimuth(-Z): " + String.format("%3.3f", orientationAngles[0]) + "\n"
+                            + "Pitch(X): " + String.format("%3.3f", orientationAngles[1]) + "\n"
+                            + "Roll(Y): " + String.format("%3.3f", orientationAngles[2]) + "\n");
 
                     runOnUiThread(new Runnable() {
                         @Override
@@ -187,11 +202,20 @@ public class MainActivity extends Activity {
     }
 
     @Override
+    public void onAccuracyChanged(Sensor sensor, int accuracy) {
+        // Do something here if sensor accuracy changes.
+        // You must implement this callback in your code.
+    }
+
+    @Override
     protected void onPause() {
         super.onPause();
 
         mSurfaceView.onPause();
         mSession.pause();
+
+        // Don't receive any more updates from either sensor.
+        sensorManager.unregisterListener(this);
     }
 
     @Override
@@ -217,18 +241,24 @@ public class MainActivity extends Activity {
 
         catch (UnsupportedOperationException e) {
             Log.e(TAG, e.getMessage());
+            return;
         }
         catch (UnavailableArcoreNotInstalledException
                 | UnavailableUserDeclinedInstallationException e) {
             Log.e(TAG, "Please install ARCore", e);
+            return;
         } catch (UnavailableApkTooOldException e) {
             Log.e(TAG, "Please update ARCore", e);
+            return;
         } catch (UnavailableSdkTooOldException e) {
             Log.e(TAG, "Please update this app", e);
+            return;
         } catch (UnavailableDeviceNotCompatibleException e) {
             Log.e(TAG, "This device does not support AR", e);
+            return;
         } catch (Exception e) {
             Log.e(TAG, "Failed to create AR session", e);
+            return;
         }
 
         /*
@@ -252,8 +282,55 @@ public class MainActivity extends Activity {
             return;
         }
 
+        // Get updates from the accelerometer and magnetometer at a constant rate.
+        // To make batch operations more efficient and reduce power consumption,
+        // provide support for delaying updates to the application.
+        //
+        // In this example, the sensor reporting delay is small enough such that
+        // the application receives an update before the system checks the sensor
+        // readings again.
+        Sensor accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        if (accelerometer != null) {
+            sensorManager.registerListener(this, accelerometer,
+                    SensorManager.SENSOR_DELAY_NORMAL, SensorManager.SENSOR_DELAY_UI);
+        }
+        Sensor magneticField = sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
+        if (magneticField != null) {
+            sensorManager.registerListener(this, magneticField,
+                    SensorManager.SENSOR_DELAY_NORMAL, SensorManager.SENSOR_DELAY_UI);
+        }
+
         mSurfaceView.onResume();
         mSurfaceView.setRenderMode(GLSurfaceView.RENDERMODE_CONTINUOUSLY);
+    }
+
+    // Get readings from accelerometer and magnetometer. To simplify calculations,
+    // consider storing these readings as unit vectors.
+    @Override
+    public void onSensorChanged(SensorEvent event) {
+        if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
+            System.arraycopy(event.values, 0, accelerometerReading,
+                    0, accelerometerReading.length);
+        } else if (event.sensor.getType() == Sensor.TYPE_MAGNETIC_FIELD) {
+            System.arraycopy(event.values, 0, magnetometerReading,
+                    0, magnetometerReading.length);
+        }
+
+        updateOrientationAngles();
+    }
+
+    // Compute the three orientation angles based on the most recent readings from
+    // the device's accelerometer and magnetometer.
+    public void updateOrientationAngles() {
+        // Update rotation matrix, which is needed to update orientation angles.
+        SensorManager.getRotationMatrix(rotationMatrix, null,
+                accelerometerReading, magnetometerReading);
+
+        // "mRotationMatrix" now has up-to-date information.
+
+        SensorManager.getOrientation(rotationMatrix, orientationAngles);
+
+        // "mOrientationAngles" now has up-to-date information.
     }
 
     @Override
