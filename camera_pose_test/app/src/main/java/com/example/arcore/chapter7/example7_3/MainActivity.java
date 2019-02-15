@@ -62,6 +62,8 @@ public class MainActivity extends Activity implements SensorEventListener {
     private final float[] accelerometerReading = new float[3];
     private final float[] magnetometerReading = new float[3];
 
+    private final float[] gravityReading = new float[3]; // Test: gravity
+
     private final float[] rotationMatrix = new float[9];
     private final float[] orientationAngles = new float[3];
     // ****************************************************************
@@ -178,7 +180,10 @@ public class MainActivity extends Activity implements SensorEventListener {
                             + "zAxis: " + String.format("%.2f, %.2f, %.2f", zAxis[0], zAxis[1], zAxis[2]) + "\n"
                             + "Azimuth(-Z): " + String.format("%3.3f", azimuth) + "\n"
                             + "Pitch(X): " + String.format("%3.3f", pitch) + "\n"
-                            + "Roll(Y): " + String.format("%3.3f", roll) + "\n");
+                            + "Roll(Y): " + String.format("%3.3f", roll) + "\n"
+                            + "gravityX: " + String.format("%.2f", gravityReading[0]) + "\n"
+                            + "gravityY: " + String.format("%.2f", gravityReading[1]) + "\n"
+                            + "gravityZ: " + String.format("%.2f", gravityReading[2]) + "\n");
 
                     runOnUiThread(new Runnable() {
                         @Override
@@ -299,6 +304,11 @@ public class MainActivity extends Activity implements SensorEventListener {
             sensorManager.registerListener(this, magneticField,
                     SensorManager.SENSOR_DELAY_NORMAL, SensorManager.SENSOR_DELAY_UI);
         }
+        Sensor gravity = sensorManager.getDefaultSensor(Sensor.TYPE_GRAVITY);
+        if (gravity != null) {
+            sensorManager.registerListener(this, gravity,
+                    SensorManager.SENSOR_DELAY_NORMAL, SensorManager.SENSOR_DELAY_UI);
+        }
 
         mSurfaceView.onResume();
         mSurfaceView.setRenderMode(GLSurfaceView.RENDERMODE_CONTINUOUSLY);
@@ -314,6 +324,9 @@ public class MainActivity extends Activity implements SensorEventListener {
         } else if (event.sensor.getType() == Sensor.TYPE_MAGNETIC_FIELD) {
             System.arraycopy(event.values, 0, magnetometerReading,
                     0, magnetometerReading.length);
+        } else if (event.sensor.getType() == Sensor.TYPE_GRAVITY) {
+            System.arraycopy(event.values, 0, gravityReading,
+                    0, gravityReading.length);
         }
 
         updateOrientationAngles();
