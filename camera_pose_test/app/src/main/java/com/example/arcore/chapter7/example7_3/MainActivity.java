@@ -168,17 +168,17 @@ public class MainActivity extends Activity implements SensorEventListener {
                     float[] androidZAxis = androidPose.getZAxis();
                     //***************************************************************
 
-                    orientationAngles[0] *= orientationAngles[0] * 180 / Math.PI;
-                    orientationAngles[1] *= orientationAngles[1] * 180 / Math.PI;
-                    orientationAngles[2] *= orientationAngles[2] * 180 / Math.PI;
+                    float azimuth = (float)Math.toDegrees(orientationAngles[0]);
+                    float pitch = (float)Math.toDegrees(orientationAngles[1]);
+                    float roll = (float)Math.toDegrees(orientationAngles[2]);
 
                     mTextString += ("Camera Pose: " + camPose.toString() + "\n"
                             + "xAxis: " + String.format("%.2f, %.2f, %.2f", xAxis[0], xAxis[1], xAxis[2]) + "\n"
                             + "yAxis: " + String.format("%.2f, %.2f, %.2f", yAxis[0], yAxis[1], yAxis[2]) + "\n"
                             + "zAxis: " + String.format("%.2f, %.2f, %.2f", zAxis[0], zAxis[1], zAxis[2]) + "\n"
-                            + "Azimuth(-Z): " + String.format("%3.3f", orientationAngles[0]) + "\n"
-                            + "Pitch(X): " + String.format("%3.3f", orientationAngles[1]) + "\n"
-                            + "Roll(Y): " + String.format("%3.3f", orientationAngles[2]) + "\n");
+                            + "Azimuth(-Z): " + String.format("%3.3f", azimuth) + "\n"
+                            + "Pitch(X): " + String.format("%3.3f", pitch) + "\n"
+                            + "Roll(Y): " + String.format("%3.3f", roll) + "\n");
 
                     runOnUiThread(new Runnable() {
                         @Override
