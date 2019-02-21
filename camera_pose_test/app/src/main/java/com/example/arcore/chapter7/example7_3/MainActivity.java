@@ -158,16 +158,25 @@ public class MainActivity extends Activity implements SensorEventListener {
 
                     Pose camPose = camera.getDisplayOrientedPose();
 
+                    //**************************************************************
+                    float theta = (float)Math.toDegrees(Math.acos(camPose.qw()) * 2);
+
+                    //**************************************************************
+
                     float[] xAxis = camPose.getXAxis();
                     float[] yAxis = camPose.getYAxis();
                     float[] zAxis = camPose.getZAxis();
 
-                    //******************* Test: Android Sensor Pose *****************
-                    Pose androidPose = frame.getAndroidSensorPose();
+                    //******************* Gravity Normalization *********************
+                    double normOfG = Math.sqrt(gravityReading[0] * gravityReading[0]
+                            + gravityReading[1] * gravityReading[1]
+                            + gravityReading[2] * gravityReading[2]);
 
-                    float[] androidXAxis = androidPose.getXAxis();
-                    float[] androidYAxis = androidPose.getYAxis();
-                    float[] androidZAxis = androidPose.getZAxis();
+                    gravityReading[0] = (float) (gravityReading[0] / normOfG);
+                    gravityReading[1] = (float) (gravityReading[1] / normOfG);
+                    gravityReading[2] = (float) (gravityReading[2] / normOfG);
+
+                    float inclination = (float)Math.toDegrees(Math.acos(gravityReading[2]));
                     //***************************************************************
 
                     // Azimuth - kappa
@@ -175,13 +184,14 @@ public class MainActivity extends Activity implements SensorEventListener {
                     if (azimuth < 0) azimuth += 360.0f;
 
                     // Pitch - omega
-                    float pitch = (float)Math.toDegrees(orientationAngles[1]);
+                    float pitch = -(float)Math.toDegrees(orientationAngles[1]);
 
                     // Roll - phi
                     float roll = (float)Math.toDegrees(orientationAngles[2]);
                     if (roll < 0) roll += 360.0f;
 
                     mTextString += ("Camera Pose: " + camPose.toString() + "\n"
+                            + "theta: " + String.format("%.2f", theta) + "\n"
                             + "xAxis: " + String.format("%.2f, %.2f, %.2f", xAxis[0], xAxis[1], xAxis[2]) + "\n"
                             + "yAxis: " + String.format("%.2f, %.2f, %.2f", yAxis[0], yAxis[1], yAxis[2]) + "\n"
                             + "zAxis: " + String.format("%.2f, %.2f, %.2f", zAxis[0], zAxis[1], zAxis[2]) + "\n"
@@ -190,7 +200,8 @@ public class MainActivity extends Activity implements SensorEventListener {
                             + "Roll(Y): " + String.format("%3.3f", roll) + "\n"
                             + "gravityX: " + String.format("%.2f", gravityReading[0]) + "\n"
                             + "gravityY: " + String.format("%.2f", gravityReading[1]) + "\n"
-                            + "gravityZ: " + String.format("%.2f", gravityReading[2]) + "\n");
+                            + "gravityZ: " + String.format("%.2f", gravityReading[2]) + "\n"
+                            + "inclination: " + String.format("%.2f", inclination) + "\n");
 
                     runOnUiThread(new Runnable() {
                         @Override
