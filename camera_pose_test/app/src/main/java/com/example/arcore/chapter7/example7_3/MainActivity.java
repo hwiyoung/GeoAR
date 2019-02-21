@@ -156,7 +156,7 @@ public class MainActivity extends Activity implements SensorEventListener {
                     float[] viewMatrix = new float[16];
                     camera.getViewMatrix(viewMatrix, 0);
 
-                    Pose camPose = camera.getPose();
+                    Pose camPose = camera.getDisplayOrientedPose();
 
                     float[] xAxis = camPose.getXAxis();
                     float[] yAxis = camPose.getYAxis();
@@ -170,15 +170,22 @@ public class MainActivity extends Activity implements SensorEventListener {
                     float[] androidZAxis = androidPose.getZAxis();
                     //***************************************************************
 
-                    float azimuth = (float)Math.toDegrees(orientationAngles[0]);
+                    // Azimuth - kappa
+                    float azimuth = -(float)Math.toDegrees(orientationAngles[0]);
+                    if (azimuth < 0) azimuth += 360.0f;
+
+                    // Pitch - omega
                     float pitch = (float)Math.toDegrees(orientationAngles[1]);
+
+                    // Roll - phi
                     float roll = (float)Math.toDegrees(orientationAngles[2]);
+                    if (roll < 0) roll += 360.0f;
 
                     mTextString += ("Camera Pose: " + camPose.toString() + "\n"
                             + "xAxis: " + String.format("%.2f, %.2f, %.2f", xAxis[0], xAxis[1], xAxis[2]) + "\n"
                             + "yAxis: " + String.format("%.2f, %.2f, %.2f", yAxis[0], yAxis[1], yAxis[2]) + "\n"
                             + "zAxis: " + String.format("%.2f, %.2f, %.2f", zAxis[0], zAxis[1], zAxis[2]) + "\n"
-                            + "Azimuth(-Z): " + String.format("%3.3f", azimuth) + "\n"
+                            + "Azimuth(Z): " + String.format("%3.3f", azimuth) + "\n"
                             + "Pitch(X): " + String.format("%3.3f", pitch) + "\n"
                             + "Roll(Y): " + String.format("%3.3f", roll) + "\n"
                             + "gravityX: " + String.format("%.2f", gravityReading[0]) + "\n"
