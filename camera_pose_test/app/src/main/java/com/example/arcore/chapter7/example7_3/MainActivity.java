@@ -175,8 +175,6 @@ public class MainActivity extends Activity implements SensorEventListener {
                     gravityReading[0] = (float) (gravityReading[0] / normOfG);
                     gravityReading[1] = (float) (gravityReading[1] / normOfG);
                     gravityReading[2] = (float) (gravityReading[2] / normOfG);
-
-                    float inclination = (float)Math.toDegrees(Math.acos(gravityReading[2]));
                     //***************************************************************
 
                     // Azimuth - kappa
@@ -195,13 +193,12 @@ public class MainActivity extends Activity implements SensorEventListener {
                             + "xAxis: " + String.format("%.2f, %.2f, %.2f", xAxis[0], xAxis[1], xAxis[2]) + "\n"
                             + "yAxis: " + String.format("%.2f, %.2f, %.2f", yAxis[0], yAxis[1], yAxis[2]) + "\n"
                             + "zAxis: " + String.format("%.2f, %.2f, %.2f", zAxis[0], zAxis[1], zAxis[2]) + "\n"
-                            + "Azimuth(Z): " + String.format("%3.3f", azimuth) + "\n"
-                            + "Pitch(X): " + String.format("%3.3f", pitch) + "\n"
-                            + "Roll(Y): " + String.format("%3.3f", roll) + "\n"
+                            + "Azimuth(k): " + String.format("%3.3f", azimuth) + "\n"
+                            + "Pitch(o): " + String.format("%3.3f", pitch) + "\n"
+                            + "Roll(p): " + String.format("%3.3f", roll) + "\n"
                             + "gravityX: " + String.format("%.2f", gravityReading[0]) + "\n"
                             + "gravityY: " + String.format("%.2f", gravityReading[1]) + "\n"
-                            + "gravityZ: " + String.format("%.2f", gravityReading[2]) + "\n"
-                            + "inclination: " + String.format("%.2f", inclination) + "\n");
+                            + "gravityZ: " + String.format("%.2f", gravityReading[2]) + "\n");
 
                     runOnUiThread(new Runnable() {
                         @Override
