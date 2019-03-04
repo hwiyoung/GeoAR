@@ -196,9 +196,9 @@ public class MainActivity extends Activity implements SensorEventListener {
                             + "Azimuth(k): " + String.format("%3.3f", azimuth) + "\n"
                             + "Pitch(o): " + String.format("%3.3f", pitch) + "\n"
                             + "Roll(p): " + String.format("%3.3f", roll) + "\n"
-                            + "gravityX: " + String.format("%.2f", gravityReading[0]) + "\n"
-                            + "gravityY: " + String.format("%.2f", gravityReading[1]) + "\n"
-                            + "gravityZ: " + String.format("%.2f", gravityReading[2]) + "\n");
+                            + "gravityX, xAxis[1]: " + String.format("%.2f, %.2f", gravityReading[0], xAxis[1]) + "\n"
+                            + "gravityY, yAxis[1]: " + String.format("%.2f, %.2f", gravityReading[1], yAxis[1]) + "\n"
+                            + "gravityZ, zAxis[1]: " + String.format("%.2f, %.2f", gravityReading[2], zAxis[1]) + "\n");
 
                     runOnUiThread(new Runnable() {
                         @Override
