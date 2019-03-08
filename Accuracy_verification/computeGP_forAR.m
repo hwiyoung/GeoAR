@@ -3,7 +3,7 @@ close all
 clc
 
 %% Initialize variables
-EO_all=load('EO_opk_test1.txt');
+EO_all=load('Jinwoo_EO_OPK_test.txt');
 
 % Visualize GP
 gp = load('GP.txt');
@@ -14,10 +14,11 @@ xlabel('X'), ylabel('Y'), zlabel('Z')
 
 % Visualize the CS from Photoscan
 hold on;
-for i = 1:size(EO_all)
+for i = 2:size(EO_all)
+    idx = num2str(i);
     ori = pi / 180 * [EO_all(i, 5) EO_all(i, 6) EO_all(i, 7)];
-    R = Rot3D(ori);
-    vis_coord_system(EO_all(i, 2:4)', R', 5, '', 'r');
+    R = Rot3D(ori);     % Ground -> Camera
+    vis_coord_system(EO_all(i, 2:4)', R', 5, idx, 'r');
 end
 
 p{1} = [205154.2278	553721.761 77.55746]';      % 25
@@ -39,16 +40,23 @@ ccs = load('IP.txt');
 NoGP = size(ccs,1);
 IP2GP = zeros(NoGP, 5);
 
-azimuth = -10.532 * pi / 180;
+azimuth = -1.798 * pi / 180;
+azimuth = -azimuth;
 % R matrix Local -> Camera
-Rlc = [0.05 0.66 0.75; 1 0.03 0.04; 0.01	0.75 -0.66];
-% R matrix World -> Local
-wl_params = [0, 0, -azimuth];
-Rwl = Rot3D(wl_params);
-R_test = Rlc*Rwl;
+x = [-0.08 1 -0.02]';
+y = [-1 -0.08 0.01]';
+z = [0.01 0.02 1]';
+Rlc = [x y z];
+Rlc = [x/norm(x) y/norm(y) z/norm(z)];
+% R matrix Ground -> Local
+gl_params = [0, 0, azimuth];
+Rgl = Rot3D(gl_params);
+% Ground -> Camera
+R_test = Rlc'*Rgl;
+% R_test = Rgl;
 
 hold on;
-vis_coord_system(EO_all(1, 2:4)', R_test, 5, '', 'b');
+vis_coord_system(EO_all(2, 2:4)', R_test', 5, '', 'b');
 
 for i = 1:NoGP
     imgIdx = find(ccs(i,1)==EO_all(:,1));
