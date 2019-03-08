@@ -21,7 +21,6 @@ for i = 2:size(EO_all)
     vis_coord_system(EO_all(i, 2:4)', R', 5, idx, 'r');
 end
 
-% Compute the azimuth from processed data
 rot = R';
 test_vec = -rot(:,1);   % -X axis
 test_y = [0 1 0]';      % North direction
@@ -48,21 +47,22 @@ ccs = load('IP.txt');
 NoGP = size(ccs,1);
 IP2GP = zeros(NoGP, 5);
 
-% azimuth = (-1.798) * pi / 180;
-% azimuth = -azimuth;
-azimuth = azimuth_dot * pi / 180;
-
+% azimuth = -1.798 * pi / 180;
+azimuth = -azimuth_dot * pi / 180;
+azimuth = -azimuth;
 % R matrix Local -> Camera
 x = [-0.08 1 -0.02]';
 y = [-1 -0.08 0.01]';
 z = [0.01 0.02 1]';
 Rlc = [x y z];
-Rlc = [x/norm(x) y/norm(y) z/norm(z)];
+Rlc = [x/norm(x) y/norm(y) z/norm(z)]';
 % R matrix Ground -> Local
 gl_params = [0, 0, azimuth];
 Rgl = Rot3D(gl_params);
 % Ground -> Camera
-R_test = Rlc'*Rgl;
+% R_test = Rlc'*Rgl;
+R_test = Rgl * Rot3D([-pi/2 0 0]);
+
 
 hold on;
 vis_coord_system(EO_all(2, 2:4)', R_test', 5, '', 'b');
