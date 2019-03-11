@@ -3,7 +3,7 @@ close all
 clc
 
 %% Initialize variables
-EO_all=load('EO_opk_test1.txt');
+EO_all=load('Jinwoo_EO_OPK_test.txt');
 
 p{1} = [205154.2278	553721.761 77.55746]';      % 25
 p{2} = [205154.0753	553719.4836	77.56137]';     % 29
@@ -16,9 +16,9 @@ nv = cross(v1, v2);     % normal vector: z-axis
 d = dot(nv, p{1});
 
 % Coordinates in CCS
-pixel_size = 0.001419771e-3;    % m/pix
-focal_length = 4.4928763627;    % mm
-ccs = load('IP.txt');
+pixel_size = 0.001419771;    % mm/pix
+focal_length = 3137.53 * pixel_size;    % mm
+ccs = load('IP_BBA_test.txt');
 
 %% Process
 NoGP = size(ccs,1);
@@ -35,7 +35,7 @@ for i = 1:NoGP
     % Distortion correction
     
     % Compute GPs
-    coordCCS = [ccs(i, 3:4) -focal_length];     % unit: m
+    coordCCS = [ccs(i, 3:4) -focal_length];     % unit: mm
     proj_coord = xy_g_min(EO, R, coordCCS', nv, d);    % compute the ground coordinates
     IP2GP(i,:) = [ccs(i,1) ccs(i,2) proj_coord'];
 end

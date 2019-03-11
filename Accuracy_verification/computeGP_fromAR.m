@@ -14,12 +14,9 @@ xlabel('X'), ylabel('Y'), zlabel('Z')
 
 % Visualize the CS from Photoscan
 hold on;
-for i = 2:size(EO_all)
-    idx = num2str(i);
-    ori = pi / 180 * [EO_all(i, 5) EO_all(i, 6) EO_all(i, 7)];
-    R = Rot3D(ori);     % Ground -> Camera
-    vis_coord_system(EO_all(i, 2:4)', R', 5, idx, 'r');
-end
+ori = pi / 180 * [EO_all(i, 5) EO_all(i, 6) EO_all(i, 7)];
+R = Rot3D(ori);     % Ground -> Camera
+vis_coord_system(EO_all(i, 2:4)', R', 5, '', 'r');
 
 % Compute the azimuth from processed data
 rot = R';
@@ -40,9 +37,9 @@ nv = cross(v1, v2);     % normal vector: z-axis
 d = dot(nv, p{1});
 
 % Coordinates in CCS
-pixel_size = 0.001419771e-3;    % m/pix
-focal_length = 4.4928763627;    % mm
-ccs = load('IP.txt');
+pixel_size = 0.001419771;    % mm/pix
+focal_length = 3137.53 * pixel_size;    % mm
+ccs = load('IP_AR_test.txt');
 
 %% Process
 NoGP = size(ccs,1);
@@ -56,13 +53,17 @@ azimuth = azimuth_dot * pi / 180;
 x = [-0.08 1 -0.02]';
 y = [-1 -0.08 0.01]';
 z = [0.01 0.02 1]';
-Rlc = [x y z];
-Rlc = [x/norm(x) y/norm(y) z/norm(z)];
+Rcl = [x y z];
+Rcl = [x/norm(x) y/norm(y) z/norm(z)];
+Rlc = Rcl';
+
 % R matrix Ground -> Local
-gl_params = [0, 0, azimuth];
+% gl_params = [0, 0, azimuth];
+gl_params = [pi/2, -(pi/2-azimuth), 0];
 Rgl = Rot3D(gl_params);
+
 % Ground -> Camera
-R_test = Rlc'*Rgl;
+R_test = Rlc*Rgl;
 
 hold on;
 vis_coord_system(EO_all(2, 2:4)', R_test', 5, '', 'b');
@@ -78,8 +79,9 @@ for i = 1:NoGP
     % Distortion correction
     
     % Compute GPs
-    coordCCS = [ccs(i, 3:4) -focal_length];     % unit: m
-    proj_coord = xy_g_min(EO, R, coordCCS', nv, d);    % compute the ground coordinates
+    coordCCS = [ccs(i, 3:4) -focal_length];     % unit: mm
+%     proj_coord = xy_g_min(EO, R, coordCCS', nv, d);    % compute the ground coordinates
+    proj_coord = xy_g_min(EO, R_test, coordCCS', nv, d);    % compute the ground coordinates
     IP2GP(i,:) = [ccs(i,1) ccs(i,2) proj_coord'];
 end
 
