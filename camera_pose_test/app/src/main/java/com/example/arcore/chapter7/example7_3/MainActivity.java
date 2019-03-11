@@ -156,7 +156,8 @@ public class MainActivity extends Activity implements SensorEventListener {
                     float[] viewMatrix = new float[16];
                     camera.getViewMatrix(viewMatrix, 0);
 
-                    Pose camPose = camera.getDisplayOrientedPose();
+                    //Pose camPose = camera.getDisplayOrientedPose();
+                    Pose camPose = camera.getPose();
 
                     //**************************************************************
                     float theta = (float)Math.toDegrees(Math.acos(camPose.qw()) * 2);
@@ -178,15 +179,13 @@ public class MainActivity extends Activity implements SensorEventListener {
                     //***************************************************************
 
                     // Azimuth - kappa
-                    float azimuth = -(float)Math.toDegrees(orientationAngles[0]);
-                    if (azimuth < 0) azimuth += 360.0f;
+                    float azimuth = (float)Math.toDegrees(orientationAngles[0]);
 
                     // Pitch - omega
-                    float pitch = -(float)Math.toDegrees(orientationAngles[1]);
+                    float pitch = (float)Math.toDegrees(orientationAngles[1]);
 
                     // Roll - phi
                     float roll = (float)Math.toDegrees(orientationAngles[2]);
-                    if (roll < 0) roll += 360.0f;
 
                     mTextString += ("Camera Pose: " + camPose.toString() + "\n"
                             + "theta: " + String.format("%.2f", theta) + "\n"
