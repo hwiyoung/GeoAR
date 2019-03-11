@@ -14,9 +14,9 @@ xlabel('X'), ylabel('Y'), zlabel('Z')
 
 % Visualize the CS from Photoscan
 hold on;
-ori = pi / 180 * [EO_all(i, 5) EO_all(i, 6) EO_all(i, 7)];
+ori = pi / 180 * [EO_all(1, 5) EO_all(1, 6) EO_all(1, 7)];
 R = Rot3D(ori);     % Ground -> Camera
-vis_coord_system(EO_all(i, 2:4)', R', 5, '', 'r');
+vis_coord_system(EO_all(1, 2:4)', R', 5, '', 'r');
 
 % Compute the azimuth from processed data
 rot = R';
@@ -66,7 +66,7 @@ Rgl = Rot3D(gl_params);
 R_test = Rlc*Rgl;
 
 hold on;
-vis_coord_system(EO_all(2, 2:4)', R_test', 5, '', 'b');
+vis_coord_system(EO_all(1, 2:4)', R_test', 5, '', 'b');
 
 for i = 1:NoGP
     imgIdx = find(ccs(i,1)==EO_all(:,1));
