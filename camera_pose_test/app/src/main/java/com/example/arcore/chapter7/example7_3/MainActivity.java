@@ -349,15 +349,16 @@ public class MainActivity extends Activity implements SensorEventListener {
     // Compute the three orientation angles based on the most recent readings from
     // the device's accelerometer and magnetometer.
     public void updateOrientationAngles() {
+        float[] R = new float[9];
+
         // Update rotation matrix, which is needed to update orientation angles.
         SensorManager.getRotationMatrix(rotationMatrix, null,
                 accelerometerReading, magnetometerReading);
 
-        // "mRotationMatrix" now has up-to-date information.
+        //Remap to camera's point-of-view
+        SensorManager.remapCoordinateSystem(rotationMatrix, SensorManager.AXIS_X, SensorManager.AXIS_Z, R);
 
-        SensorManager.getOrientation(rotationMatrix, orientationAngles);
-
-        // "mOrientationAngles" now has up-to-date information.
+        SensorManager.getOrientation(R, orientationAngles);
     }
 
     @Override
