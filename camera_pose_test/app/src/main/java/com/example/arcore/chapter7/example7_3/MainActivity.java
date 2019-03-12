@@ -66,6 +66,9 @@ public class MainActivity extends Activity implements SensorEventListener {
 
     private final float[] rotationMatrix = new float[9];
     private final float[] orientationAngles = new float[3];
+
+    private final float[] inclinationMatrix = new float[9];
+    private float inclinationAngles = 0;
     // ****************************************************************
 
     @Override
@@ -160,9 +163,6 @@ public class MainActivity extends Activity implements SensorEventListener {
                     Pose camPose = camera.getPose();
 
                     //**************************************************************
-                    float theta = (float)Math.toDegrees(Math.acos(camPose.qw()) * 2);
-
-                    //**************************************************************
 
                     float[] xAxis = camPose.getXAxis();
                     float[] yAxis = camPose.getYAxis();
@@ -176,6 +176,8 @@ public class MainActivity extends Activity implements SensorEventListener {
                     gravityReading[0] = (float) (gravityReading[0] / normOfG);
                     gravityReading[1] = (float) (gravityReading[1] / normOfG);
                     gravityReading[2] = (float) (gravityReading[2] / normOfG);
+
+                    //float inclination = (float)Math.toDegrees(Math.acos(gravityReading[2]));
                     //***************************************************************
 
                     // Azimuth - kappa
@@ -188,15 +190,15 @@ public class MainActivity extends Activity implements SensorEventListener {
                     float roll = (float)Math.toDegrees(orientationAngles[2]);
 
                     mTextString += ("Camera Pose: " + camPose.toString() + "\n"
-                            + "theta: " + String.format("%.2f", theta) + "\n"
+                            + "inclination: " + String.format("%.2f", inclinationAngles) + "\n"
                             + "xAxis: " + String.format("%.2f, %.2f, %.2f", xAxis[0], xAxis[1], xAxis[2]) + "\n"
                             + "yAxis: " + String.format("%.2f, %.2f, %.2f", yAxis[0], yAxis[1], yAxis[2]) + "\n"
                             + "zAxis: " + String.format("%.2f, %.2f, %.2f", zAxis[0], zAxis[1], zAxis[2]) + "\n"
-                            + "Azimuth(k): " + String.format("%3.3f", azimuth) + "\n"
-                            + "Pitch(o): " + String.format("%3.3f", pitch) + "\n"
-                            + "Roll(p): " + String.format("%3.3f", roll) + "\n"
-                            + "gravityX, xAxis[1]: " + String.format("%.2f, %.2f", gravityReading[0], xAxis[1]) + "\n"
-                            + "gravityY, yAxis[1]: " + String.format("%.2f, %.2f", gravityReading[1], yAxis[1]) + "\n"
+                            + "Azimuth(magnetic): " + String.format("%3.3f", azimuth) + "\n"
+                            + "Pitch: " + String.format("%3.3f", pitch) + "\n"
+                            + "Roll: " + String.format("%3.3f", roll) + "\n"
+                            + "gravityX, yAxis[1]: " + String.format("%.2f, %.2f", gravityReading[0], yAxis[1]) + "\n"
+                            + "gravityY, -xAxis[1]: " + String.format("%.2f, %.2f", gravityReading[1], -xAxis[1]) + "\n"
                             + "gravityZ, zAxis[1]: " + String.format("%.2f, %.2f", gravityReading[2], zAxis[1]) + "\n");
 
                     runOnUiThread(new Runnable() {
@@ -355,10 +357,15 @@ public class MainActivity extends Activity implements SensorEventListener {
         SensorManager.getRotationMatrix(rotationMatrix, null,
                 accelerometerReading, magnetometerReading);
 
-        //Remap to camera's point-of-view
-        SensorManager.remapCoordinateSystem(rotationMatrix, SensorManager.AXIS_X, SensorManager.AXIS_Z, R);
+        inclinationAngles = (float) Math.toDegrees(Math.acos(rotationMatrix[8]));
 
-        SensorManager.getOrientation(R, orientationAngles);
+        if (inclinationAngles < 25 || inclinationAngles > 155) {
+            SensorManager.getOrientation(rotationMatrix, orientationAngles);
+        } else {
+            //Remap to camera's point-of-view
+            SensorManager.remapCoordinateSystem(rotationMatrix, SensorManager.AXIS_X, SensorManager.AXIS_Z, R);
+            SensorManager.getOrientation(R, orientationAngles);
+        }
     }
 
     @Override
