@@ -4,10 +4,17 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
+
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+
+import android.hardware.GeomagneticField;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
+
 import android.hardware.display.DisplayManager;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
@@ -40,7 +47,7 @@ import java.io.IOException;
 
 import java.util.List;
 
-public class MainActivity extends Activity implements SensorEventListener {
+public class MainActivity extends Activity implements SensorEventListener, LocationListener {
     private static final String TAG = MainActivity.class.getSimpleName();
 
     private String mTextString;
@@ -66,9 +73,12 @@ public class MainActivity extends Activity implements SensorEventListener {
 
     private final float[] rotationMatrix = new float[9];
     private final float[] orientationAngles = new float[3];
-
-    private final float[] inclinationMatrix = new float[9];
     private float inclinationAngles = 0;
+
+    private LocationManager locationManager;
+    private Location mLocation;
+    private float declination;
+
     // ****************************************************************
 
     @Override
@@ -78,6 +88,7 @@ public class MainActivity extends Activity implements SensorEventListener {
         setContentView(R.layout.activity_main);
 
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
         mTextView = (TextView) findViewById(R.id.ar_core_text);
         mSurfaceView = (GLSurfaceView) findViewById(R.id.gl_surface_view);
@@ -199,7 +210,8 @@ public class MainActivity extends Activity implements SensorEventListener {
                             + "Roll: " + String.format("%3.3f", roll) + "\n"
                             + "gravityX, yAxis[1]: " + String.format("%.2f, %.2f", gravityReading[0], yAxis[1]) + "\n"
                             + "gravityY, -xAxis[1]: " + String.format("%.2f, %.2f", gravityReading[1], -xAxis[1]) + "\n"
-                            + "gravityZ, zAxis[1]: " + String.format("%.2f, %.2f", gravityReading[2], zAxis[1]) + "\n");
+                            + "gravityZ, zAxis[1]: " + String.format("%.2f, %.2f", gravityReading[2], zAxis[1]) + "\n"
+                            + "declination: " + String.format("%.2f", declination));
 
                     runOnUiThread(new Runnable() {
                         @Override
@@ -220,12 +232,6 @@ public class MainActivity extends Activity implements SensorEventListener {
         mSurfaceView.setPreserveEGLContextOnPause(true);
         mSurfaceView.setEGLContextClientVersion(2);
         mSurfaceView.setRenderer(mRenderer);
-    }
-
-    @Override
-    public void onAccuracyChanged(Sensor sensor, int accuracy) {
-        // Do something here if sensor accuracy changes.
-        // You must implement this callback in your code.
     }
 
     @Override
@@ -326,6 +332,17 @@ public class MainActivity extends Activity implements SensorEventListener {
                     SensorManager.SENSOR_DELAY_NORMAL, SensorManager.SENSOR_DELAY_UI);
         }
 
+        for (final String provider : locationManager.getProviders(true)) {
+            if (LocationManager.GPS_PROVIDER.equals(provider)
+                    || LocationManager.PASSIVE_PROVIDER.equals(provider)
+                    || LocationManager.NETWORK_PROVIDER.equals(provider)) {
+                if (mLocation == null) {
+                    mLocation = locationManager.getLastKnownLocation(provider);
+                }
+                locationManager.requestLocationUpdates(provider, 0, 100.0f, this);
+            }
+        }
+
         mSurfaceView.onResume();
         mSurfaceView.setRenderMode(GLSurfaceView.RENDERMODE_CONTINUOUSLY);
     }
@@ -348,6 +365,12 @@ public class MainActivity extends Activity implements SensorEventListener {
         updateOrientationAngles();
     }
 
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int accuracy) {
+        // Do something here if sensor accuracy changes.
+        // You must implement this callback in your code.
+    }
+
     // Compute the three orientation angles based on the most recent readings from
     // the device's accelerometer and magnetometer.
     public void updateOrientationAngles() {
@@ -366,6 +389,74 @@ public class MainActivity extends Activity implements SensorEventListener {
             SensorManager.remapCoordinateSystem(rotationMatrix, SensorManager.AXIS_X, SensorManager.AXIS_Z, R);
             SensorManager.getOrientation(R, orientationAngles);
         }
+    }
+
+    //==============================================================================================
+    // LocationListener implementation
+    //==============================================================================================
+
+    @Override
+    public void onLocationChanged(Location location)
+    {
+        // set the new location
+        this.mLocation = location;
+
+        // update mBearing
+        //updateBearing();
+        declination = getBearingForLocation(this.mLocation);
+    }
+
+    @Override
+    public void onStatusChanged(String s, int i, Bundle bundle) {   }
+
+    @Override
+    public void onProviderEnabled(String s) {   }
+
+    @Override
+    public void onProviderDisabled(String s) {   }
+
+    //==============================================================================================
+    // Private Utilities
+    //==============================================================================================
+
+    /*
+    private void updateBearing()
+    {
+        if (!Double.isNaN(this.mAzimuth)) {
+            if(this.mLocation == null) {
+                Log.w(TAG, "Location is NULL bearing is not true north!");
+                mBearing = mAzimuth;
+            } else {
+                mBearing = getBearingForLocation(this.mLocation);
+            }
+
+            // Throttle dispatching based on mThrottleTime and minDiffForEvent
+            if( System.currentTimeMillis() - mLastChangeDispatchedAt > mThrottleTime &&
+                    (Double.isNaN(mLastBearing) || Math.abs(mLastBearing - mBearing) >= mMinDiffForEvent)) {
+                mLastBearing = mBearing;
+                if(mChangeEventListener != null) {
+                    mChangeEventListener.onBearingChanged(mBearing);
+                }
+                mLastChangeDispatchedAt = System.currentTimeMillis();
+            }
+        }
+    }
+    */
+
+    private float getBearingForLocation(Location location)
+    {
+        //return mAzimuth + getGeomagneticField(location).getDeclination();
+        return getGeomagneticField(location).getDeclination();
+    }
+
+    private GeomagneticField getGeomagneticField(Location location)
+    {
+        GeomagneticField geomagneticField = new GeomagneticField(
+                (float)location.getLatitude(),
+                (float)location.getLongitude(),
+                (float)location.getAltitude(),
+                System.currentTimeMillis());
+        return geomagneticField;
     }
 
     @Override
