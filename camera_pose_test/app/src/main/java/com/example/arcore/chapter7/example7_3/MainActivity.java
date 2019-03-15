@@ -66,8 +66,8 @@ public class MainActivity extends Activity implements SensorEventListener, Locat
 
     //*********************** Test: Azimuth **************************
     private SensorManager sensorManager;
-    private final float[] accelerometerReading = new float[3];
-    private final float[] magnetometerReading = new float[3];
+    private float[] accelerometerReading = new float[3];
+    private float[] magnetometerReading = new float[3];
 
     private final float[] gravityReading = new float[3]; // Test: gravity
 
@@ -78,6 +78,8 @@ public class MainActivity extends Activity implements SensorEventListener, Locat
     private LocationManager locationManager;
     private Location mLocation;
     private float declination;
+
+    static final float ALPHA = 0.25f;
     // ****************************************************************
 
     @Override
@@ -353,6 +355,7 @@ public class MainActivity extends Activity implements SensorEventListener, Locat
     // consider storing these readings as unit vectors.
     @Override
     public void onSensorChanged(SensorEvent event) {
+        /*
         if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
             System.arraycopy(event.values, 0, accelerometerReading,
                     0, accelerometerReading.length);
@@ -363,14 +366,35 @@ public class MainActivity extends Activity implements SensorEventListener, Locat
             System.arraycopy(event.values, 0, gravityReading,
                     0, gravityReading.length);
         }
+        */
 
-        updateOrientationAngles();
+        if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
+            accelerometerReading = lowPass(event.values.clone(), accelerometerReading);
+        } else if (event.sensor.getType() == Sensor.TYPE_MAGNETIC_FIELD) {
+            magnetometerReading = lowPass(event.values.clone(), magnetometerReading);
+        } else if (event.sensor.getType() == Sensor.TYPE_GRAVITY) {
+            System.arraycopy(event.values, 0, gravityReading,
+                    0, gravityReading.length);
+        }
+        if (accelerometerReading != null && magnetometerReading != null) {
+            updateOrientationAngles();
+        }
+
+        //updateOrientationAngles();
     }
 
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
         // Do something here if sensor accuracy changes.
         // You must implement this callback in your code.
+    }
+
+    protected float[] lowPass( float[] input, float[] output ) {
+        if ( output == null ) return input;
+        for (int i = 0; i < input.length; i++ ) {
+            output[i] = output[i] + ALPHA * (input[i] - output[i]);
+        }
+        return output;
     }
 
     // Compute the three orientation angles based on the most recent readings from
