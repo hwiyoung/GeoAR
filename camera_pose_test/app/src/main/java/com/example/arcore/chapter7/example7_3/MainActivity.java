@@ -206,6 +206,7 @@ public class MainActivity extends Activity implements SensorEventListener, Locat
                             + "yAxis: " + String.format("%.2f, %.2f, %.2f", yAxis[0], yAxis[1], yAxis[2]) + "\n"
                             + "zAxis: " + String.format("%.2f, %.2f, %.2f", zAxis[0], zAxis[1], zAxis[2]) + "\n"
                             + "Azimuth(magnetic): " + String.format("%3.3f", azimuth) + "\n"
+                            + "Azimuth(true): " + String.format("%3.3f", azimuth + declination) + "\n"
                             + "Pitch: " + String.format("%3.3f", pitch) + "\n"
                             + "Roll: " + String.format("%3.3f", roll) + "\n"
                             + "gravityX, yAxis[1]: " + String.format("%.2f, %.2f", gravityReading[0], yAxis[1]) + "\n"
@@ -332,6 +333,8 @@ public class MainActivity extends Activity implements SensorEventListener, Locat
                     SensorManager.SENSOR_DELAY_NORMAL, SensorManager.SENSOR_DELAY_UI);
         }
 
+        requestGPSPermission();
+
         for (final String provider : locationManager.getProviders(true)) {
             if (LocationManager.GPS_PROVIDER.equals(provider)
                     || LocationManager.PASSIVE_PROVIDER.equals(provider)
@@ -394,6 +397,7 @@ public class MainActivity extends Activity implements SensorEventListener, Locat
     //==============================================================================================
     // LocationListener implementation
     //==============================================================================================
+    // https://stackoverflow.com/questions/42200059/calculate-true-heading-correctly-in-android
 
     @Override
     public void onLocationChanged(Location location)
@@ -401,9 +405,7 @@ public class MainActivity extends Activity implements SensorEventListener, Locat
         // set the new location
         this.mLocation = location;
 
-        // update mBearing
-        //updateBearing();
-        declination = getBearingForLocation(this.mLocation);
+        declination = getGeomagneticField(this.mLocation).getDeclination();
     }
 
     @Override
@@ -443,12 +445,6 @@ public class MainActivity extends Activity implements SensorEventListener, Locat
     }
     */
 
-    private float getBearingForLocation(Location location)
-    {
-        //return mAzimuth + getGeomagneticField(location).getDeclination();
-        return getGeomagneticField(location).getDeclination();
-    }
-
     private GeomagneticField getGeomagneticField(Location location)
     {
         GeomagneticField geomagneticField = new GeomagneticField(
@@ -475,6 +471,13 @@ public class MainActivity extends Activity implements SensorEventListener, Locat
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
                 != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, 0);
+        }
+    }
+
+    private void requestGPSPermission() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 0);
         }
     }
 
