@@ -78,7 +78,6 @@ public class MainActivity extends Activity implements SensorEventListener, Locat
     private LocationManager locationManager;
     private Location mLocation;
     private float declination;
-
     // ****************************************************************
 
     @Override
@@ -420,30 +419,6 @@ public class MainActivity extends Activity implements SensorEventListener, Locat
     //==============================================================================================
     // Private Utilities
     //==============================================================================================
-
-    /*
-    private void updateBearing()
-    {
-        if (!Double.isNaN(this.mAzimuth)) {
-            if(this.mLocation == null) {
-                Log.w(TAG, "Location is NULL bearing is not true north!");
-                mBearing = mAzimuth;
-            } else {
-                mBearing = getBearingForLocation(this.mLocation);
-            }
-
-            // Throttle dispatching based on mThrottleTime and minDiffForEvent
-            if( System.currentTimeMillis() - mLastChangeDispatchedAt > mThrottleTime &&
-                    (Double.isNaN(mLastBearing) || Math.abs(mLastBearing - mBearing) >= mMinDiffForEvent)) {
-                mLastBearing = mBearing;
-                if(mChangeEventListener != null) {
-                    mChangeEventListener.onBearingChanged(mBearing);
-                }
-                mLastChangeDispatchedAt = System.currentTimeMillis();
-            }
-        }
-    }
-    */
 
     private GeomagneticField getGeomagneticField(Location location)
     {
