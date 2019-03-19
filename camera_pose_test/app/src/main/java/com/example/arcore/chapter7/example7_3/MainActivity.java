@@ -64,7 +64,7 @@ public class MainActivity extends Activity implements SensorEventListener, Locat
     private float mCurrentY;
     private boolean mTouched = false;
 
-    //*********************** Test: Azimuth **************************
+    //*********************** Azimuth ********************************
     private SensorManager sensorManager;
     private float[] accelerometerReading = new float[3];
     private float[] magnetometerReading = new float[3];
@@ -74,6 +74,15 @@ public class MainActivity extends Activity implements SensorEventListener, Locat
     private final float[] rotationMatrix = new float[9];
     private final float[] orientationAngles = new float[3];
     private float inclinationAngles = 0;
+
+    // ***************************************************************
+    // Test for a low pass filter
+    private float[] accReading_LP;
+    private float[] magReading_LP;
+    private final float[] rotationMatrix_LP = new float[9];
+    private final float[] orientationAngles_LP = new float[3];
+    private float inclinationAngles_LP = 0;
+    // ***************************************************************
 
     private LocationManager locationManager;
     private Location mLocation;
@@ -194,6 +203,7 @@ public class MainActivity extends Activity implements SensorEventListener, Locat
 
                     // Azimuth - kappa
                     float azimuth = (float)Math.toDegrees(orientationAngles[0]);
+                    float azimuth_LP = (float)Math.toDegrees(orientationAngles_LP[0]);
 
                     // Pitch - omega
                     float pitch = (float)Math.toDegrees(orientationAngles[1]);
@@ -208,6 +218,7 @@ public class MainActivity extends Activity implements SensorEventListener, Locat
                             + "zAxis: " + String.format("%.2f, %.2f, %.2f", zAxis[0], zAxis[1], zAxis[2]) + "\n"
                             + "Azimuth(magnetic): " + String.format("%3.3f", azimuth) + "\n"
                             + "Azimuth(true): " + String.format("%3.3f", azimuth + declination) + "\n"
+                            + "Azimuth(true, LP): " + String.format("%3.3f", azimuth_LP + declination) + "\n"
                             + "Pitch: " + String.format("%3.3f", pitch) + "\n"
                             + "Roll: " + String.format("%3.3f", roll) + "\n"
                             + "gravityX, yAxis[1]: " + String.format("%.2f, %.2f", gravityReading[0], yAxis[1]) + "\n"
@@ -369,18 +380,23 @@ public class MainActivity extends Activity implements SensorEventListener, Locat
         */
 
         if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
-            accelerometerReading = lowPass(event.values.clone(), accelerometerReading);
+            System.arraycopy(event.values, 0, accelerometerReading,
+                    0, accelerometerReading.length);
+            accReading_LP = lowPass(event.values.clone(), accReading_LP);
         } else if (event.sensor.getType() == Sensor.TYPE_MAGNETIC_FIELD) {
-            magnetometerReading = lowPass(event.values.clone(), magnetometerReading);
+            System.arraycopy(event.values, 0, magnetometerReading,
+                    0, magnetometerReading.length);
+            magReading_LP = lowPass(event.values.clone(), magReading_LP);
         } else if (event.sensor.getType() == Sensor.TYPE_GRAVITY) {
             System.arraycopy(event.values, 0, gravityReading,
                     0, gravityReading.length);
         }
-        if (accelerometerReading != null && magnetometerReading != null) {
-            updateOrientationAngles();
+
+        if (accReading_LP != null && magReading_LP != null) {
+            updateOrientationAngles_LP();
         }
 
-        //updateOrientationAngles();
+        updateOrientationAngles();
     }
 
     @Override
@@ -414,6 +430,24 @@ public class MainActivity extends Activity implements SensorEventListener, Locat
             //Remap to camera's point-of-view
             SensorManager.remapCoordinateSystem(rotationMatrix, SensorManager.AXIS_X, SensorManager.AXIS_Z, R);
             SensorManager.getOrientation(R, orientationAngles);
+        }
+    }
+
+    public void updateOrientationAngles_LP() {
+        float[] R = new float[9];
+
+        // Update rotation matrix, which is needed to update orientation angles.
+        SensorManager.getRotationMatrix(rotationMatrix_LP, null,
+                accReading_LP, magReading_LP);
+
+        inclinationAngles_LP = (float) Math.toDegrees(Math.acos(rotationMatrix_LP[8]));
+
+        if (inclinationAngles_LP < 25 || inclinationAngles_LP > 155) {
+            SensorManager.getOrientation(rotationMatrix_LP, orientationAngles_LP);
+        } else {
+            //Remap to camera's point-of-view
+            SensorManager.remapCoordinateSystem(rotationMatrix_LP, SensorManager.AXIS_X, SensorManager.AXIS_Z, R);
+            SensorManager.getOrientation(R, orientationAngles_LP);
         }
     }
 
