@@ -144,6 +144,17 @@ public class MainActivity extends Activity implements SensorEventListener, Locat
                     mRenderer.updatePointCloud(pointCloud);
                     pointCloud.release();
 
+                    // ************ Test for Visualizing Data **********
+                    mRenderer.addPoint(1, 0 , 0);
+                    mRenderer.addPoint((float)0.5, 0 , 0);
+                    mRenderer.addPoint(0, 1 , 0);
+                    mRenderer.addPoint(0, 0 , 1);
+                    mRenderer.addPoint(0, 0 , -1);
+                    //mRenderer.addPoint(0, 0 , (float)-0.5);
+
+                    mRenderer.addLineY(0, 0, -1, 1, 0, -1);
+                    // *************************************************
+
                     mTextString = "";
                     if (mTouched) {
                         //mTextString = "";
@@ -151,13 +162,14 @@ public class MainActivity extends Activity implements SensorEventListener, Locat
                         int i = 0;
                         for (HitResult result : results) {
                             //float distance = result.getDistance();
-                            //Pose pose = result.getHitPose();
+                            Pose pose = result.getHitPose();
                             Anchor anchor = result.createAnchor();
-                            Pose pose = anchor.getPose();
+                            Pose anchorPose = anchor.getPose();
 
                             float[] xAxis = pose.getXAxis();
                             float[] yAxis = pose.getYAxis();
                             float[] zAxis = pose.getZAxis();
+
                             mRenderer.addPoint(pose.tx(), pose.ty(), pose.tz());
                             mRenderer.addLineX(pose.tx(), pose.ty(), pose.tz(),
                                     xAxis[0], xAxis[1], xAxis[2]);
@@ -167,8 +179,9 @@ public class MainActivity extends Activity implements SensorEventListener, Locat
                                     zAxis[0], zAxis[1], zAxis[2]);
                             //mTextString += ("[" + i + "] distance : " + distance
                             //        + ", Pose : " + pose.toString() + "\n");
-                            //mTextString += ("Anchor Pose : " + pose.toString() + "\n");
-                            //anchor.detach();
+                            //mTextString += ("HitResult Pose : " + pose.toString() + "\n");
+                            //mTextString += ("Anchor Pose : " + anchorPose.toString() + "\n");
+                            anchor.detach();
                             i++;
                         }
                         mTouched = false;
