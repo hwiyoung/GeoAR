@@ -10,6 +10,9 @@ import com.google.ar.core.Frame;
 import com.google.ar.core.PointCloud;
 import com.google.ar.core.Session;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
@@ -23,7 +26,9 @@ public class MainRenderer implements GLSurfaceView.Renderer {
     private CameraRenderer mCamera;
     private PointCloudRenderer mPointCloud;
 
-    private Sphere mPoint;
+    private List<Sphere> mSpheres = new ArrayList<Sphere>();
+
+    //private Sphere mPoint;
     private Line mLineX;
     private Line mLineY;
     private Line mLineZ;
@@ -40,7 +45,7 @@ public class MainRenderer implements GLSurfaceView.Renderer {
         mCamera = new CameraRenderer();
         mPointCloud = new PointCloudRenderer();
 
-        mPoint = new Sphere(0.01f, Color.YELLOW);
+        //mPoint = new Sphere(0.01f, Color.YELLOW);
 
         mRenderCallback = callback;
     }
@@ -53,7 +58,7 @@ public class MainRenderer implements GLSurfaceView.Renderer {
         mCamera.init();
         mPointCloud.init();
 
-        mPoint.init();
+        //mPoint.init();
     }
 
     @Override
@@ -76,7 +81,15 @@ public class MainRenderer implements GLSurfaceView.Renderer {
 
         mPointCloud.draw();
 
-        mPoint.draw();
+        //mPoint.draw();
+
+        for (int i = 0; i < mSpheres.size(); i++) {
+            Sphere sphere = mSpheres.get(i);
+            if (!sphere.isInitialized()) {
+                sphere.init();
+            }
+            sphere.draw();
+        }
 
         if (mLineX != null) {
             if (!mLineX.isInitialized()) {
@@ -130,13 +143,17 @@ public class MainRenderer implements GLSurfaceView.Renderer {
 
         mPointCloud.setProjectionMatrix(matrix);
 
-        mPoint.setProjectionMatrix(matrix);
+        //mPoint.setProjectionMatrix(matrix);
     }
 
     public void updateViewMatrix(float[] matrix) {
         mPointCloud.setViewMatrix(matrix);
 
-        mPoint.setViewMatrix(matrix);
+        //mPoint.setViewMatrix(matrix);
+
+        for (int i = 0; i < mSpheres.size(); i++) {
+            mSpheres.get(i).setViewMatrix(matrix);
+        }
 
         if (mLineX != null) {
             mLineX.setViewMatrix(matrix);
@@ -150,18 +167,30 @@ public class MainRenderer implements GLSurfaceView.Renderer {
     }
 
     public void setModelMatrix(float[] matrix) {
-        mPoint.setModelMatrix(matrix);
-        mLineX.setModelMatrix(matrix);
-        mLineY.setModelMatrix(matrix);
-        mLineZ.setModelMatrix(matrix);
+        //mPoint.setModelMatrix(matrix);
+        //mLineX.setModelMatrix(matrix);
+        //mLineY.setModelMatrix(matrix);
+        //mLineZ.setModelMatrix(matrix);
     }
 
+    public void addPoint(float x, float y, float z) {
+        Sphere currentPoint = new Sphere(0.01f, Color.YELLOW);
+        currentPoint.setProjectionMatrix(mProjMatrix);
+
+        float[] translation = new float[16];
+        Matrix.setIdentityM(translation, 0);
+        Matrix.translateM(translation, 0, x, y, z);
+        currentPoint.setModelMatrix(translation);
+    }
+
+    /*
     public void addPoint(float x, float y, float z) {
         float[] matrix = new float[16];
         Matrix.setIdentityM(matrix, 0);
         Matrix.translateM(matrix, 0, x, y, z);
         mPoint.setModelMatrix(matrix);
     }
+    */
 
     public void addLineX(float x1, float y1, float z1, float x2, float y2, float z2) {
         mLineX = new Line(x1, y1, z1, x2, y2, z2, 10, Color.RED);

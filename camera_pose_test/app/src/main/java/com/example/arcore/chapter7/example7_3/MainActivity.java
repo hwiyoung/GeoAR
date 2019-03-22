@@ -60,6 +60,9 @@ public class MainActivity extends Activity implements SensorEventListener, Locat
     private Session mSession;
     private Config mConfig;
 
+    private float[] mProjMatrix = new float[16];
+    private float[] mViewMatrix = new float[16];
+
     private float mCurrentX;
     private float mCurrentY;
     private boolean mTouched = false;
@@ -144,15 +147,33 @@ public class MainActivity extends Activity implements SensorEventListener, Locat
                     mRenderer.updatePointCloud(pointCloud);
                     pointCloud.release();
 
+                    /*
+                    Camera camera = frame.getCamera();
+                    float[] projMatrix = new float[16];
+                    camera.getProjectionMatrix(projMatrix, 0, 0.1f, 100.0f);
+                    float[] viewMatrix = new float[16];
+                    camera.getViewMatrix(viewMatrix, 0);
+
+                    mRenderer.setProjectionMatrix(projMatrix);
+                    mRenderer.updateViewMatrix(viewMatrix);
+                    */
+
+                    Camera camera = frame.getCamera();
+                    camera.getProjectionMatrix(mProjMatrix, 0, 0.1f, 100.0f);
+                    camera.getViewMatrix(mViewMatrix, 0);
+
+                    //mRenderer.setProjectionMatrix(mProjMatrix);
+                    //mRenderer.updateViewMatrix(mViewMatrix);
+
                     // ************ Test for Visualizing Data **********
-                    mRenderer.addPoint(1, 0 , 0);
-                    mRenderer.addPoint((float)0.5, 0 , 0);
-                    mRenderer.addPoint(0, 1 , 0);
-                    mRenderer.addPoint(0, 0 , 1);
+                    //mRenderer.addPoint(1, 0 , 0);
+                    //mRenderer.addPoint((float)0.5, 0 , 0);
+                    //mRenderer.addPoint(0, 1 , 0);
+                    //mRenderer.addPoint(0, 0 , 1);
                     mRenderer.addPoint(0, 0 , -1);
                     //mRenderer.addPoint(0, 0 , (float)-0.5);
 
-                    mRenderer.addLineY(0, 0, -1, 1, 0, -1);
+                    //mRenderer.addLineY(0, 0, -1, 1, 0, -1);
                     // *************************************************
 
                     mTextString = "";
@@ -186,12 +207,6 @@ public class MainActivity extends Activity implements SensorEventListener, Locat
                         }
                         mTouched = false;
                     }
-
-                    Camera camera = frame.getCamera();
-                    float[] projMatrix = new float[16];
-                    camera.getProjectionMatrix(projMatrix, 0, 0.1f, 100.0f);
-                    float[] viewMatrix = new float[16];
-                    camera.getViewMatrix(viewMatrix, 0);
 
                     //Pose camPose = camera.getDisplayOrientedPose();
                     Pose camPose = camera.getPose();
@@ -246,8 +261,11 @@ public class MainActivity extends Activity implements SensorEventListener, Locat
                         }
                     });
 
-                    mRenderer.setProjectionMatrix(projMatrix);
-                    mRenderer.updateViewMatrix(viewMatrix);
+                    mRenderer.setProjectionMatrix(mProjMatrix);
+                    mRenderer.updateViewMatrix(mViewMatrix);
+
+                    //mRenderer.setProjectionMatrix(projMatrix);
+                    //mRenderer.updateViewMatrix(viewMatrix);
                 }
                 catch (Throwable t) {
                     // Avoid crashing the application due to unhandled exceptions.
