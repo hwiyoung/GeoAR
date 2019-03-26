@@ -14,7 +14,7 @@ public class Sphere {
 
     private static final String TAG = Sphere.class.getSimpleName();
 
-    private final int POINT_COUNT = 20;
+    private final int POINT_COUNT = 10;
     public static final int RED = 0;
     public static final int GREEN = 1;
     public static final int BLUE = 2;

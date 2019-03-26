@@ -181,6 +181,8 @@ public class MainRenderer implements GLSurfaceView.Renderer {
         Matrix.setIdentityM(translation, 0);
         Matrix.translateM(translation, 0, x, y, z);
         currentPoint.setModelMatrix(translation);
+
+        mSpheres.add(currentPoint);
     }
 
     /*

@@ -72,18 +72,18 @@ public class MainActivity extends Activity implements SensorEventListener, Locat
     private float[] accelerometerReading = new float[3];
     private float[] magnetometerReading = new float[3];
 
-    private final float[] gravityReading = new float[3]; // Test: gravity
+    private float[] gravityReading = new float[3]; // Test: gravity
 
-    private final float[] rotationMatrix = new float[9];
-    private final float[] orientationAngles = new float[3];
+    private float[] rotationMatrix = new float[9];
+    private float[] orientationAngles = new float[3];
     private float inclinationAngles = 0;
 
     // ***************************************************************
     // Test for a low pass filter
     private float[] accReading_LP;
     private float[] magReading_LP;
-    private final float[] rotationMatrix_LP = new float[9];
-    private final float[] orientationAngles_LP = new float[3];
+    private float[] rotationMatrix_LP = new float[9];
+    private float[] orientationAngles_LP = new float[3];
     private float inclinationAngles_LP = 0;
     // ***************************************************************
 
@@ -166,12 +166,12 @@ public class MainActivity extends Activity implements SensorEventListener, Locat
                     //mRenderer.updateViewMatrix(mViewMatrix);
 
                     // ************ Test for Visualizing Data **********
-                    //mRenderer.addPoint(1, 0 , 0);
-                    //mRenderer.addPoint((float)0.5, 0 , 0);
-                    //mRenderer.addPoint(0, 1 , 0);
+                    mRenderer.addPoint(1, 0 , 0);
+                    mRenderer.addPoint((float)0.5, 0 , 0);
+                    mRenderer.addPoint(0, 1 , 0);
                     //mRenderer.addPoint(0, 0 , 1);
                     mRenderer.addPoint(0, 0 , -1);
-                    //mRenderer.addPoint(0, 0 , (float)-0.5);
+                    mRenderer.addPoint(0, 0 , (float)-0.5);
 
                     //mRenderer.addLineY(0, 0, -1, 1, 0, -1);
                     // *************************************************
