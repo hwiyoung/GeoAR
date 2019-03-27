@@ -28,7 +28,6 @@ public class MainRenderer implements GLSurfaceView.Renderer {
 
     private List<Sphere> mSpheres = new ArrayList<Sphere>();
 
-    //private Sphere mPoint;
     private Line mLineX;
     private Line mLineY;
     private Line mLineZ;
@@ -45,8 +44,6 @@ public class MainRenderer implements GLSurfaceView.Renderer {
         mCamera = new CameraRenderer();
         mPointCloud = new PointCloudRenderer();
 
-        //mPoint = new Sphere(0.01f, Color.YELLOW);
-
         mRenderCallback = callback;
     }
 
@@ -57,8 +54,6 @@ public class MainRenderer implements GLSurfaceView.Renderer {
 
         mCamera.init();
         mPointCloud.init();
-
-        //mPoint.init();
     }
 
     @Override
@@ -80,8 +75,6 @@ public class MainRenderer implements GLSurfaceView.Renderer {
         GLES20.glDepthMask(true);
 
         mPointCloud.draw();
-
-        //mPoint.draw();
 
         for (int i = 0; i < mSpheres.size(); i++) {
             Sphere sphere = mSpheres.get(i);
@@ -142,8 +135,6 @@ public class MainRenderer implements GLSurfaceView.Renderer {
         System.arraycopy(matrix, 0, mProjMatrix, 0, 16);
 
         mPointCloud.setProjectionMatrix(matrix);
-
-        //mPoint.setProjectionMatrix(matrix);
     }
 
     public void updateViewMatrix(float[] matrix) {
@@ -167,10 +158,6 @@ public class MainRenderer implements GLSurfaceView.Renderer {
     }
 
     public void setModelMatrix(float[] matrix) {
-        //mPoint.setModelMatrix(matrix);
-        //mLineX.setModelMatrix(matrix);
-        //mLineY.setModelMatrix(matrix);
-        //mLineZ.setModelMatrix(matrix);
     }
 
     public void addPoint(float x, float y, float z) {
@@ -184,15 +171,6 @@ public class MainRenderer implements GLSurfaceView.Renderer {
 
         mSpheres.add(currentPoint);
     }
-
-    /*
-    public void addPoint(float x, float y, float z) {
-        float[] matrix = new float[16];
-        Matrix.setIdentityM(matrix, 0);
-        Matrix.translateM(matrix, 0, x, y, z);
-        mPoint.setModelMatrix(matrix);
-    }
-    */
 
     public void addLineX(float x1, float y1, float z1, float x2, float y2, float z2) {
         mLineX = new Line(x1, y1, z1, x2, y2, z2, 10, Color.RED);
