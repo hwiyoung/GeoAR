@@ -27,6 +27,7 @@ public class MainRenderer implements GLSurfaceView.Renderer {
     private PointCloudRenderer mPointCloud;
 
     private List<Sphere> mSpheres = new ArrayList<Sphere>();
+    private List<Line> mLines = new ArrayList<Line>();
 
     private Line mLineX;
     private Line mLineY;
@@ -82,6 +83,14 @@ public class MainRenderer implements GLSurfaceView.Renderer {
                 sphere.init();
             }
             sphere.draw();
+        }
+
+        for (int i = 0; i < mLines.size(); i++) {
+            Line line = mLines.get(i);
+            if (!line.isInitialized()) {
+                line.init();
+            }
+            line.draw();
         }
 
         if (mLineX != null) {
@@ -146,6 +155,10 @@ public class MainRenderer implements GLSurfaceView.Renderer {
             mSpheres.get(i).setViewMatrix(matrix);
         }
 
+        for (int i = 0; i < mLines.size(); i++) {
+            mLines.get(i).setViewMatrix(matrix);
+        }
+
         if (mLineX != null) {
             mLineX.setViewMatrix(matrix);
         }
@@ -170,6 +183,17 @@ public class MainRenderer implements GLSurfaceView.Renderer {
         currentPoint.setModelMatrix(translation);
 
         mSpheres.add(currentPoint);
+    }
+
+    public void addLine(float x1, float y1, float z1, float x2, float y2, float z2) {
+        Line currentLine = new Line(x1, y1, z1, x2, y2, z2, 10, Color.WHITE);
+        currentLine.setProjectionMatrix(mProjMatrix);
+
+        float[] identity = new float[16];
+        Matrix.setIdentityM(identity, 0);
+        currentLine.setModelMatrix(identity);
+
+        mLines.add(currentLine);
     }
 
     public void addLineX(float x1, float y1, float z1, float x2, float y2, float z2) {

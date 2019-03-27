@@ -173,7 +173,8 @@ public class MainActivity extends Activity implements SensorEventListener, Locat
                     mRenderer.addPoint(0, 0 , -1);
                     mRenderer.addPoint(0, 0 , (float)-0.5);
 
-                    //mRenderer.addLineY(0, 0, -1, 1, 0, -1);
+                    mRenderer.addLine(0, 0, -1, 1, 0, -1);
+                    mRenderer.addLine(0, 0, -1, 1, 1, -1);
                     // *************************************************
 
                     mTextString = "";
