@@ -28,6 +28,7 @@ public class MainRenderer implements GLSurfaceView.Renderer {
 
     private List<Sphere> mSpheres = new ArrayList<Sphere>();
     private List<Line> mLines = new ArrayList<Line>();
+    private List<Polygon> mPolygons = new ArrayList<Polygon>();
 
     private Line mLineX;
     private Line mLineY;
@@ -91,6 +92,14 @@ public class MainRenderer implements GLSurfaceView.Renderer {
                 line.init();
             }
             line.draw();
+        }
+
+        for (int i = 0; i < mPolygons.size(); i++) {
+            Polygon polygon = mPolygons.get(i);
+            if (!polygon.isInitialized()) {
+                polygon.init();
+            }
+            polygon.draw();
         }
 
         if (mLineX != null) {
@@ -159,6 +168,10 @@ public class MainRenderer implements GLSurfaceView.Renderer {
             mLines.get(i).setViewMatrix(matrix);
         }
 
+        for (int i = 0; i < mPolygons.size(); i++) {
+            mPolygons.get(i).setViewMatrix(matrix);
+        }
+
         if (mLineX != null) {
             mLineX.setViewMatrix(matrix);
         }
@@ -194,6 +207,17 @@ public class MainRenderer implements GLSurfaceView.Renderer {
         currentLine.setModelMatrix(identity);
 
         mLines.add(currentLine);
+    }
+
+    public void addPolygon(float x, float y, float z) {
+        Polygon currentPolygon = new Polygon(Color.GRAY, 0.5f);
+        currentPolygon.setProjectionMatrix(mProjMatrix);
+
+        float[] identity = new float[16];
+        Matrix.setIdentityM(identity, 0);
+        currentPolygon.setModelMatrix(identity);
+
+        mPolygons.add(currentPolygon);
     }
 
     public void addLineX(float x1, float y1, float z1, float x2, float y2, float z2) {

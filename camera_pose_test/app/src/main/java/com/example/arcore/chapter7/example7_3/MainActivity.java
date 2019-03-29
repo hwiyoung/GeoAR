@@ -147,23 +147,9 @@ public class MainActivity extends Activity implements SensorEventListener, Locat
                     mRenderer.updatePointCloud(pointCloud);
                     pointCloud.release();
 
-                    /*
-                    Camera camera = frame.getCamera();
-                    float[] projMatrix = new float[16];
-                    camera.getProjectionMatrix(projMatrix, 0, 0.1f, 100.0f);
-                    float[] viewMatrix = new float[16];
-                    camera.getViewMatrix(viewMatrix, 0);
-
-                    mRenderer.setProjectionMatrix(projMatrix);
-                    mRenderer.updateViewMatrix(viewMatrix);
-                    */
-
                     Camera camera = frame.getCamera();
                     camera.getProjectionMatrix(mProjMatrix, 0, 0.1f, 100.0f);
                     camera.getViewMatrix(mViewMatrix, 0);
-
-                    //mRenderer.setProjectionMatrix(mProjMatrix);
-                    //mRenderer.updateViewMatrix(mViewMatrix);
 
                     // ************ Test for Visualizing Data **********
 //                    mRenderer.addPoint(1, 0 , 0);
@@ -179,6 +165,8 @@ public class MainActivity extends Activity implements SensorEventListener, Locat
                     mRenderer.addLine(0, 0, -1, -1, 0, -1);
                     mRenderer.addLine(0, 0, -1, -1, 1, -1);
                     mRenderer.addLine(0, 0, -1, 1, 1, 0);
+
+//                    mRenderer.addPolygon();
                     // *************************************************
 
                     mTextString = "";
@@ -230,8 +218,6 @@ public class MainActivity extends Activity implements SensorEventListener, Locat
                     gravityReading[0] = (float) (gravityReading[0] / normOfG);
                     gravityReading[1] = (float) (gravityReading[1] / normOfG);
                     gravityReading[2] = (float) (gravityReading[2] / normOfG);
-
-                    //float inclination = (float)Math.toDegrees(Math.acos(gravityReading[2]));
                     //***************************************************************
 
                     // Azimuth - kappa
@@ -264,9 +250,6 @@ public class MainActivity extends Activity implements SensorEventListener, Locat
 
                     mRenderer.setProjectionMatrix(mProjMatrix);
                     mRenderer.updateViewMatrix(mViewMatrix);
-
-                    //mRenderer.setProjectionMatrix(projMatrix);
-                    //mRenderer.updateViewMatrix(viewMatrix);
                 }
                 catch (Throwable t) {
                     // Avoid crashing the application due to unhandled exceptions.
