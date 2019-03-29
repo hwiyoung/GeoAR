@@ -166,15 +166,19 @@ public class MainActivity extends Activity implements SensorEventListener, Locat
                     //mRenderer.updateViewMatrix(mViewMatrix);
 
                     // ************ Test for Visualizing Data **********
-                    mRenderer.addPoint(1, 0 , 0);
-                    mRenderer.addPoint((float)0.5, 0 , 0);
-                    mRenderer.addPoint(0, 1 , 0);
-                    //mRenderer.addPoint(0, 0 , 1);
-                    mRenderer.addPoint(0, 0 , -1);
-                    mRenderer.addPoint(0, 0 , (float)-0.5);
+//                    mRenderer.addPoint(1, 0 , 0);
+//                    mRenderer.addPoint((float)0.5, 0 , 0);
+//                    mRenderer.addPoint(0, 1 , 0);
+//                    mRenderer.addPoint(0, 0 , 1);
+//                    mRenderer.addPoint(0, 0 , -1);
+//                    mRenderer.addPoint(0, 0 , (float)-0.5);
 
                     mRenderer.addLine(0, 0, -1, 1, 0, -1);
                     mRenderer.addLine(0, 0, -1, 1, 1, -1);
+                    mRenderer.addLine(0, 0, -1, 0, 1, -1);
+                    mRenderer.addLine(0, 0, -1, -1, 0, -1);
+                    mRenderer.addLine(0, 0, -1, -1, 1, -1);
+                    mRenderer.addLine(0, 0, -1, 1, 1, 0);
                     // *************************************************
 
                     mTextString = "";
@@ -248,12 +252,8 @@ public class MainActivity extends Activity implements SensorEventListener, Locat
                             + "Azimuth(magnetic): " + String.format("%3.3f", azimuth) + "\n"
                             + "Azimuth(true): " + String.format("%3.3f", azimuth + declination) + "\n"
                             + "Azimuth(true, LP): " + String.format("%3.3f", azimuth_LP + declination) + "\n"
-                            + "Pitch: " + String.format("%3.3f", pitch) + "\n"
-                            + "Roll: " + String.format("%3.3f", roll) + "\n"
-                            + "gravityX, yAxis[1]: " + String.format("%.2f, %.2f", gravityReading[0], yAxis[1]) + "\n"
-                            + "gravityY, -xAxis[1]: " + String.format("%.2f, %.2f", gravityReading[1], -xAxis[1]) + "\n"
-                            + "gravityZ, zAxis[1]: " + String.format("%.2f, %.2f", gravityReading[2], zAxis[1]) + "\n"
-                            + "declination: " + String.format("%.2f", declination));
+                            + "declination: " + String.format("%.2f", declination) + "\n"
+                            + "TrackingState: " + camera.getTrackingState());
 
                     runOnUiThread(new Runnable() {
                         @Override
