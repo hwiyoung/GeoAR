@@ -902,24 +902,26 @@ public class SharedCameraActivity extends AppCompatActivity
     Matrix.setIdentityM(translation, 0);
     Matrix.translateM(translation, 0, 0, 0, -1);
 
-    float[] testColor = {.0f, .0f, 255.0f, 255.0f};
+    //float[] testColor = {.0f, .0f, 255.0f, 255.0f};
+    float[] testColor = {139.0f, 195.0f, 74.0f, 255.0f};
 
     virtualObject.updateModelMatrix(translation, scaleFactor);
     virtualObjectShadow.updateModelMatrix(translation, scaleFactor);
     virtualObject.draw(viewmtx, projmtx, colorCorrectionRgba, testColor);
     virtualObjectShadow.draw(viewmtx, projmtx, colorCorrectionRgba, testColor);
 
-      float[] translation2 = new float[16];
-      Matrix.setIdentityM(translation2, 0);
-      Matrix.translateM(translation2, 0, 1, 0, -1);
+    float[] translation2 = new float[16];
+    Matrix.setIdentityM(translation2, 0);
+    Matrix.translateM(translation2, 0, 1, 0, -1);
 
-      float[] testColor2 = {.0f, 255.0f, 255.0f, 255.0f};
+    //float[] testColor2 = {.0f, 255.0f, 255.0f, 255.0f};
+    float[] testColor2 = {66.0f, 133.0f, 244.0f, 255.0f};
 
-      virtualObject.updateModelMatrix(translation2, scaleFactor);
-      virtualObjectShadow.updateModelMatrix(translation2, scaleFactor);
-      virtualObject.draw(viewmtx, projmtx, colorCorrectionRgba, testColor2);
-      virtualObjectShadow.draw(viewmtx, projmtx, colorCorrectionRgba, testColor2);
-      //*************************************************************************************
+    virtualObject.updateModelMatrix(translation2, scaleFactor);
+    virtualObjectShadow.updateModelMatrix(translation2, scaleFactor);
+    virtualObject.draw(viewmtx, projmtx, colorCorrectionRgba, testColor2);
+    virtualObjectShadow.draw(viewmtx, projmtx, colorCorrectionRgba, testColor2);
+    //*************************************************************************************
 
     for (ColoredAnchor coloredAnchor : anchors) {
       if (coloredAnchor.anchor.getTrackingState() != TrackingState.TRACKING) {
