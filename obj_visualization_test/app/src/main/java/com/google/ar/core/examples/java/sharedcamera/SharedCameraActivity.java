@@ -754,8 +754,10 @@ public class SharedCameraActivity extends AppCompatActivity
       virtualObject.createOnGlThread(this, "models/andy.obj", "models/andy.png");
       virtualObject.setMaterialProperties(0.0f, 2.0f, 0.5f, 6.0f);
 
+//      virtualObjectShadow.createOnGlThread(
+//          this, "models/andy_shadow.obj", "models/andy_shadow.png");
       virtualObjectShadow.createOnGlThread(
-          this, "models/andy_shadow.obj", "models/andy_shadow.png");
+              this, "models/andy_shadow_test.obj", "models/andy.png");
       virtualObjectShadow.setBlendMode(BlendMode.Shadow);
       virtualObjectShadow.setMaterialProperties(1.0f, 0.0f, 0.0f, 1.0f);
 
@@ -905,9 +907,9 @@ public class SharedCameraActivity extends AppCompatActivity
     //float[] testColor = {.0f, .0f, 255.0f, 255.0f};
     float[] testColor = {139.0f, 195.0f, 74.0f, 255.0f};
 
-    virtualObject.updateModelMatrix(translation, scaleFactor);
+    //virtualObject.updateModelMatrix(translation, scaleFactor);
     virtualObjectShadow.updateModelMatrix(translation, scaleFactor);
-    virtualObject.draw(viewmtx, projmtx, colorCorrectionRgba, testColor);
+    //virtualObject.draw(viewmtx, projmtx, colorCorrectionRgba, testColor);
     virtualObjectShadow.draw(viewmtx, projmtx, colorCorrectionRgba, testColor);
 
     float[] translation2 = new float[16];
