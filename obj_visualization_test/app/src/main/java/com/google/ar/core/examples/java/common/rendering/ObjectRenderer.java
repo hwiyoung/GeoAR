@@ -20,10 +20,14 @@ import android.graphics.BitmapFactory;
 import android.opengl.GLES20;
 import android.opengl.GLUtils;
 import android.opengl.Matrix;
+
+import com.google.ar.core.examples.java.common.*;
+
 import de.javagl.obj.Obj;
 import de.javagl.obj.ObjData;
 import de.javagl.obj.ObjReader;
 import de.javagl.obj.ObjUtils;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
@@ -108,7 +112,7 @@ public class ObjectRenderer {
   private float specularPower = 6.0f;
 
   public ObjectRenderer() {}
-
+  
   /**
    * Creates and initializes OpenGL resources needed for rendering the model.
    *
@@ -184,7 +188,11 @@ public class ObjectRenderer {
 
     // Obtain the data from the OBJ, as direct buffers:
     IntBuffer wideIndices = ObjData.getFaceVertexIndices(obj, 3);
-    FloatBuffer vertices = ObjData.getVertices(obj);
+
+    ReturnType returnType = InnoObjData.getVertices(obj,true);
+    FloatBuffer vertices = returnType.floatBuffer;
+    AverageInfo averageInfo =  returnType.averageInfo;
+
     FloatBuffer texCoords = ObjData.getTexCoords(obj, 2);
     FloatBuffer normals = ObjData.getNormals(obj);
 
@@ -197,6 +205,18 @@ public class ObjectRenderer {
       indices.put((short) wideIndices.get());
     }
     indices.rewind();
+
+    // Test: Convert the coordinates vertices
+    FloatBuffer vertices_test =
+            ByteBuffer.allocateDirect(4 * vertices.limit())
+                    .order(ByteOrder.nativeOrder())
+                    .asFloatBuffer();
+    while (vertices.hasRemaining()) {
+      vertices_test.put(vertices.get()-averageInfo.getX_avereage());//x
+      vertices_test.put(vertices.get()-averageInfo.getY_avereage());//y
+      vertices_test.put(vertices.get());//z
+    }
+    vertices_test.rewind();
 
     int[] buffers = new int[2];
     GLES20.glGenBuffers(2, buffers, 0);
@@ -211,8 +231,10 @@ public class ObjectRenderer {
 
     GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, vertexBufferId);
     GLES20.glBufferData(GLES20.GL_ARRAY_BUFFER, totalBytes, null, GLES20.GL_STATIC_DRAW);
+//    GLES20.glBufferSubData(
+//        GLES20.GL_ARRAY_BUFFER, verticesBaseAddress, 4 * vertices.limit(), vertices);
     GLES20.glBufferSubData(
-        GLES20.GL_ARRAY_BUFFER, verticesBaseAddress, 4 * vertices.limit(), vertices);
+            GLES20.GL_ARRAY_BUFFER, verticesBaseAddress, 4 * vertices.limit(), vertices_test);
     GLES20.glBufferSubData(
         GLES20.GL_ARRAY_BUFFER, texCoordsBaseAddress, 4 * texCoords.limit(), texCoords);
     GLES20.glBufferSubData(

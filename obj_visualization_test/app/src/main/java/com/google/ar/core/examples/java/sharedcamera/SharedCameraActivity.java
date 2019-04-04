@@ -751,13 +751,13 @@ public class SharedCameraActivity extends AppCompatActivity
       planeRenderer.createOnGlThread(this, "models/trigrid.png");
       pointCloudRenderer.createOnGlThread(this);
 
-      virtualObject.createOnGlThread(this, "models/andy.obj", "models/andy.png");
-      virtualObject.setMaterialProperties(0.0f, 2.0f, 0.5f, 6.0f);
+//      virtualObject.createOnGlThread(this, "models/andy.obj", "models/andy.png");
+//      virtualObject.setMaterialProperties(0.0f, 2.0f, 0.5f, 6.0f);
 
 //      virtualObjectShadow.createOnGlThread(
 //          this, "models/andy_shadow.obj", "models/andy_shadow.png");
       virtualObjectShadow.createOnGlThread(
-              this, "models/andy_shadow_test.obj", "models/andy.png");
+              this, "models/andy_shadow_test2.obj", "models/andy.png");
       virtualObjectShadow.setBlendMode(BlendMode.Shadow);
       virtualObjectShadow.setMaterialProperties(1.0f, 0.0f, 0.0f, 1.0f);
 
@@ -919,9 +919,9 @@ public class SharedCameraActivity extends AppCompatActivity
     //float[] testColor2 = {.0f, 255.0f, 255.0f, 255.0f};
     float[] testColor2 = {66.0f, 133.0f, 244.0f, 255.0f};
 
-    virtualObject.updateModelMatrix(translation2, scaleFactor);
+//    virtualObject.updateModelMatrix(translation2, scaleFactor);
     virtualObjectShadow.updateModelMatrix(translation2, scaleFactor);
-    virtualObject.draw(viewmtx, projmtx, colorCorrectionRgba, testColor2);
+//    virtualObject.draw(viewmtx, projmtx, colorCorrectionRgba, testColor2);
     virtualObjectShadow.draw(viewmtx, projmtx, colorCorrectionRgba, testColor2);
     //*************************************************************************************
 
