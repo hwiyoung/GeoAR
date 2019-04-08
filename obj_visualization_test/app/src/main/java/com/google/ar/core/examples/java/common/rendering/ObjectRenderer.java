@@ -214,7 +214,8 @@ public class ObjectRenderer {
     while (vertices.hasRemaining()) {
       vertices_test.put(vertices.get()-averageInfo.getX_avereage());//x
       vertices_test.put(vertices.get()-averageInfo.getY_avereage());//y
-      vertices_test.put(vertices.get());//z
+      vertices_test.put(vertices.get()-averageInfo.getZ_avereage());//z
+//      vertices_test.put(vertices.get());//z
     }
     vertices_test.rewind();
 

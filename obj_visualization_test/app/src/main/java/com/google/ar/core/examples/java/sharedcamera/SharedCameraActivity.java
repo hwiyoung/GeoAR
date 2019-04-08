@@ -757,8 +757,8 @@ public class SharedCameraActivity extends AppCompatActivity
 //      virtualObjectShadow.createOnGlThread(
 //          this, "models/andy_shadow.obj", "models/andy_shadow.png");
       virtualObjectShadow.createOnGlThread(
-              this, "models/andy_shadow_test2.obj", "models/andy.png");
-      virtualObjectShadow.setBlendMode(BlendMode.Shadow);
+              this, "models/GCP_edit.obj", "models/trigrid.png");
+//      virtualObjectShadow.setBlendMode(BlendMode.Shadow);
       virtualObjectShadow.setMaterialProperties(1.0f, 0.0f, 0.0f, 1.0f);
 
       openCamera();
@@ -902,7 +902,8 @@ public class SharedCameraActivity extends AppCompatActivity
     //************************** Test: OBJ Visualization ************************************
     float[] translation = new float[16];
     Matrix.setIdentityM(translation, 0);
-    Matrix.translateM(translation, 0, 0, 0, -1);
+//    Matrix.translateM(translation, 0, (float)0, (float)0, (float)-1);
+    Matrix.translateM(translation, 0, (float)1.1079, (float)-1.6808, (float)-11.2636);
 
     //float[] testColor = {.0f, .0f, 255.0f, 255.0f};
     float[] testColor = {139.0f, 195.0f, 74.0f, 255.0f};
@@ -912,17 +913,17 @@ public class SharedCameraActivity extends AppCompatActivity
     //virtualObject.draw(viewmtx, projmtx, colorCorrectionRgba, testColor);
     virtualObjectShadow.draw(viewmtx, projmtx, colorCorrectionRgba, testColor);
 
-    float[] translation2 = new float[16];
-    Matrix.setIdentityM(translation2, 0);
-    Matrix.translateM(translation2, 0, 1, 0, -1);
-
-    //float[] testColor2 = {.0f, 255.0f, 255.0f, 255.0f};
-    float[] testColor2 = {66.0f, 133.0f, 244.0f, 255.0f};
-
-//    virtualObject.updateModelMatrix(translation2, scaleFactor);
-    virtualObjectShadow.updateModelMatrix(translation2, scaleFactor);
-//    virtualObject.draw(viewmtx, projmtx, colorCorrectionRgba, testColor2);
-    virtualObjectShadow.draw(viewmtx, projmtx, colorCorrectionRgba, testColor2);
+//    float[] translation2 = new float[16];
+//    Matrix.setIdentityM(translation2, 0);
+//    Matrix.translateM(translation2, 0, 1, 0, -1);
+//
+//    //float[] testColor2 = {.0f, 255.0f, 255.0f, 255.0f};
+//    float[] testColor2 = {66.0f, 133.0f, 244.0f, 255.0f};
+//
+////    virtualObject.updateModelMatrix(translation2, scaleFactor);
+//    virtualObjectShadow.updateModelMatrix(translation2, scaleFactor);
+////    virtualObject.draw(viewmtx, projmtx, colorCorrectionRgba, testColor2);
+//    virtualObjectShadow.draw(viewmtx, projmtx, colorCorrectionRgba, testColor2);
     //*************************************************************************************
 
     for (ColoredAnchor coloredAnchor : anchors) {
