@@ -462,11 +462,11 @@ public class SharedCameraActivity extends AppCompatActivity
   }
 
   private void updateSnackbarMessage() {
-    messageSnackbarHelper.showMessage(
-        this,
-        arcoreActive
-            ? "ARCore is active.\nSearch for plane, then tap to place a 3D model."
-            : "ARCore is paused.\nCamera effects enabled.");
+//    messageSnackbarHelper.showMessage(
+//        this,
+//        arcoreActive
+//            ? "ARCore is active.\nSearch for plane, then tap to place a 3D model."
+//            : "ARCore is paused.\nCamera effects enabled.");
   }
 
   // Called when starting non-AR mode or switching to non-AR mode.
@@ -700,15 +700,15 @@ public class SharedCameraActivity extends AppCompatActivity
     if (!automatorRun.get() || (automatorRun.get() && cpuImagesProcessed % 60 == 0)) {
       runOnUiThread(
           () ->
-              statusTextView.setText(
-                  "CPU images processed: "
-                      + cpuImagesProcessed
-                      + "\n\nMode: "
-                      + (arMode ? "AR" : "non-AR")
-                      + " \nARCore active: "
-                      + arcoreActive
-                      + " \nShould update surface texture: "
-                      + shouldUpdateSurfaceTexture.get()));
+              statusTextView.setText(""));
+//                  "CPU images processed: "
+//                      + cpuImagesProcessed
+//                      + "\n\nMode: "
+//                      + (arMode ? "AR" : "non-AR")
+//                      + " \nARCore active: "
+//                      + arcoreActive
+//                      + " \nShould update surface texture: "
+//                      + shouldUpdateSurfaceTexture.get()));
     }
   }
 
@@ -752,13 +752,15 @@ public class SharedCameraActivity extends AppCompatActivity
       pointCloudRenderer.createOnGlThread(this);
 
 //      virtualObject.createOnGlThread(this, "models/andy.obj", "models/andy.png");
-//      virtualObject.setMaterialProperties(0.0f, 2.0f, 0.5f, 6.0f);
+      virtualObject.createOnGlThread(this, "models/GCP_edit_coords.obj", "models/test3.png");
+      virtualObject.setBlendMode(BlendMode.Grid);
+      virtualObject.setMaterialProperties(0.0f, 2.0f, 0.5f, 6.0f);
 
-//      virtualObjectShadow.createOnGlThread(
-//          this, "models/andy_shadow.obj", "models/andy_shadow.png");
       virtualObjectShadow.createOnGlThread(
-              this, "models/GCP_edit.obj", "models/trigrid.png");
-//      virtualObjectShadow.setBlendMode(BlendMode.Shadow);
+          this, "models/andy_shadow.obj", "models/andy_shadow.png");
+//      virtualObjectShadow.createOnGlThread(
+//              this, "models/GCP_edit_coords.obj", "models/trigrid.png");
+      virtualObjectShadow.setBlendMode(BlendMode.Shadow);
       virtualObjectShadow.setMaterialProperties(1.0f, 0.0f, 0.0f, 1.0f);
 
       openCamera();
@@ -875,26 +877,26 @@ public class SharedCameraActivity extends AppCompatActivity
     final float[] colorCorrectionRgba = new float[4];
     frame.getLightEstimate().getColorCorrection(colorCorrectionRgba, 0);
 
-    // Visualize tracked points.
-    // Use try-with-resources to automatically release the point cloud.
-    try (PointCloud pointCloud = frame.acquirePointCloud()) {
-      pointCloudRenderer.update(pointCloud);
-      pointCloudRenderer.draw(viewmtx, projmtx);
-    }
-
-    // If we detected any plane and snackbar is visible, then hide the snackbar.
-    if (messageSnackbarHelper.isShowing()) {
-      for (Plane plane : sharedSession.getAllTrackables(Plane.class)) {
-        if (plane.getTrackingState() == TrackingState.TRACKING) {
-          messageSnackbarHelper.hide(this);
-          break;
-        }
-      }
-    }
-
-    // Visualize planes.
-    planeRenderer.drawPlanes(
-        sharedSession.getAllTrackables(Plane.class), camera.getDisplayOrientedPose(), projmtx);
+//    // Visualize tracked points.
+//    // Use try-with-resources to automatically release the point cloud.
+//    try (PointCloud pointCloud = frame.acquirePointCloud()) {
+//      pointCloudRenderer.update(pointCloud);
+//      pointCloudRenderer.draw(viewmtx, projmtx);
+//    }
+//
+//    // If we detected any plane and snackbar is visible, then hide the snackbar.
+//    if (messageSnackbarHelper.isShowing()) {
+//      for (Plane plane : sharedSession.getAllTrackables(Plane.class)) {
+//        if (plane.getTrackingState() == TrackingState.TRACKING) {
+//          messageSnackbarHelper.hide(this);
+//          break;
+//        }
+//      }
+//    }
+//
+//    // Visualize planes.
+//    planeRenderer.drawPlanes(
+//        sharedSession.getAllTrackables(Plane.class), camera.getDisplayOrientedPose(), projmtx);
 
     // Visualize anchors created by touch.
     float scaleFactor = 1.0f;
@@ -905,13 +907,13 @@ public class SharedCameraActivity extends AppCompatActivity
 //    Matrix.translateM(translation, 0, (float)0, (float)0, (float)-1);
     Matrix.translateM(translation, 0, (float)1.1079, (float)-1.6808, (float)-11.2636);
 
-    //float[] testColor = {.0f, .0f, 255.0f, 255.0f};
-    float[] testColor = {139.0f, 195.0f, 74.0f, 255.0f};
+    float[] testColor = {255.0f, 239.0f, 191.0f, 255.0f};
+//    float[] testColor = {139.0f, 195.0f, 74.0f, 255.0f};
 
-    //virtualObject.updateModelMatrix(translation, scaleFactor);
-    virtualObjectShadow.updateModelMatrix(translation, scaleFactor);
-    //virtualObject.draw(viewmtx, projmtx, colorCorrectionRgba, testColor);
-    virtualObjectShadow.draw(viewmtx, projmtx, colorCorrectionRgba, testColor);
+    virtualObject.updateModelMatrix(translation, scaleFactor);
+//    virtualObjectShadow.updateModelMatrix(translation, scaleFactor);
+    virtualObject.draw(viewmtx, projmtx, colorCorrectionRgba, testColor);
+//    virtualObjectShadow.draw(viewmtx, projmtx, colorCorrectionRgba, testColor);
 
 //    float[] translation2 = new float[16];
 //    Matrix.setIdentityM(translation2, 0);

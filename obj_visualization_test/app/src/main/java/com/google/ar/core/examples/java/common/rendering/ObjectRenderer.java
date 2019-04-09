@@ -206,18 +206,18 @@ public class ObjectRenderer {
     }
     indices.rewind();
 
-    // Test: Convert the coordinates vertices
-    FloatBuffer vertices_test =
-            ByteBuffer.allocateDirect(4 * vertices.limit())
-                    .order(ByteOrder.nativeOrder())
-                    .asFloatBuffer();
-    while (vertices.hasRemaining()) {
-      vertices_test.put(vertices.get()-averageInfo.getX_avereage());//x
-      vertices_test.put(vertices.get()-averageInfo.getY_avereage());//y
-      vertices_test.put(vertices.get()-averageInfo.getZ_avereage());//z
-//      vertices_test.put(vertices.get());//z
-    }
-    vertices_test.rewind();
+//    // Test: Convert the coordinates vertices
+//    FloatBuffer vertices_test =
+//            ByteBuffer.allocateDirect(4 * vertices.limit())
+//                    .order(ByteOrder.nativeOrder())
+//                    .asFloatBuffer();
+//    while (vertices.hasRemaining()) {
+//      vertices_test.put(vertices.get()-averageInfo.getX_avereage());//x
+//      vertices_test.put(vertices.get()-averageInfo.getY_avereage());//y
+//      vertices_test.put(vertices.get()-averageInfo.getZ_avereage());//z
+////      vertices_test.put(vertices.get());//z
+//    }
+//    vertices_test.rewind();
 
     int[] buffers = new int[2];
     GLES20.glGenBuffers(2, buffers, 0);
@@ -232,10 +232,10 @@ public class ObjectRenderer {
 
     GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, vertexBufferId);
     GLES20.glBufferData(GLES20.GL_ARRAY_BUFFER, totalBytes, null, GLES20.GL_STATIC_DRAW);
-//    GLES20.glBufferSubData(
-//        GLES20.GL_ARRAY_BUFFER, verticesBaseAddress, 4 * vertices.limit(), vertices);
     GLES20.glBufferSubData(
-            GLES20.GL_ARRAY_BUFFER, verticesBaseAddress, 4 * vertices.limit(), vertices_test);
+        GLES20.GL_ARRAY_BUFFER, verticesBaseAddress, 4 * vertices.limit(), vertices);
+//    GLES20.glBufferSubData(
+//            GLES20.GL_ARRAY_BUFFER, verticesBaseAddress, 4 * vertices.limit(), vertices_test);
     GLES20.glBufferSubData(
         GLES20.GL_ARRAY_BUFFER, texCoordsBaseAddress, 4 * texCoords.limit(), texCoords);
     GLES20.glBufferSubData(
@@ -380,6 +380,7 @@ public class ObjectRenderer {
         case Grid:
           // Grid, additive blending function.
           GLES20.glBlendFunc(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA);
+//          GLES20.glBlendFunc(GLES20.GL_DST_ALPHA, GLES20.GL_ONE_MINUS_DST_ALPHA);
           break;
       }
     }
