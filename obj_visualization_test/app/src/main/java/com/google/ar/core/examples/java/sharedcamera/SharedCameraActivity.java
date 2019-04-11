@@ -877,26 +877,26 @@ public class SharedCameraActivity extends AppCompatActivity
     final float[] colorCorrectionRgba = new float[4];
     frame.getLightEstimate().getColorCorrection(colorCorrectionRgba, 0);
 
-//    // Visualize tracked points.
-//    // Use try-with-resources to automatically release the point cloud.
-//    try (PointCloud pointCloud = frame.acquirePointCloud()) {
-//      pointCloudRenderer.update(pointCloud);
-//      pointCloudRenderer.draw(viewmtx, projmtx);
-//    }
-//
-//    // If we detected any plane and snackbar is visible, then hide the snackbar.
-//    if (messageSnackbarHelper.isShowing()) {
-//      for (Plane plane : sharedSession.getAllTrackables(Plane.class)) {
-//        if (plane.getTrackingState() == TrackingState.TRACKING) {
-//          messageSnackbarHelper.hide(this);
-//          break;
-//        }
-//      }
-//    }
-//
-//    // Visualize planes.
-//    planeRenderer.drawPlanes(
-//        sharedSession.getAllTrackables(Plane.class), camera.getDisplayOrientedPose(), projmtx);
+    // Visualize tracked points.
+    // Use try-with-resources to automatically release the point cloud.
+    try (PointCloud pointCloud = frame.acquirePointCloud()) {
+      pointCloudRenderer.update(pointCloud);
+      pointCloudRenderer.draw(viewmtx, projmtx);
+    }
+
+    // If we detected any plane and snackbar is visible, then hide the snackbar.
+    if (messageSnackbarHelper.isShowing()) {
+      for (Plane plane : sharedSession.getAllTrackables(Plane.class)) {
+        if (plane.getTrackingState() == TrackingState.TRACKING) {
+          messageSnackbarHelper.hide(this);
+          break;
+        }
+      }
+    }
+
+    // Visualize planes.
+    planeRenderer.drawPlanes(
+        sharedSession.getAllTrackables(Plane.class), camera.getDisplayOrientedPose(), projmtx);
 
     // Visualize anchors created by touch.
     float scaleFactor = 1.0f;
@@ -938,9 +938,9 @@ public class SharedCameraActivity extends AppCompatActivity
 
       // Update and draw the model and its shadow.
       virtualObject.updateModelMatrix(anchorMatrix, scaleFactor);
-      virtualObjectShadow.updateModelMatrix(anchorMatrix, scaleFactor);
+//      virtualObjectShadow.updateModelMatrix(anchorMatrix, scaleFactor);
       virtualObject.draw(viewmtx, projmtx, colorCorrectionRgba, coloredAnchor.color);
-      virtualObjectShadow.draw(viewmtx, projmtx, colorCorrectionRgba, coloredAnchor.color);
+//      virtualObjectShadow.draw(viewmtx, projmtx, colorCorrectionRgba, coloredAnchor.color);
     }
   }
 
