@@ -82,6 +82,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
+import com.google.ar.core.exceptions.NotYetAvailableException;
+
 /**
  * This is a simple example that demonstrates how to use the Camera2 API while sharing camera access
  * with ARCore. An on-screen switch can be used to pause and resume ARCore. The app utilizes a
@@ -688,6 +690,9 @@ public class SharedCameraActivity extends AppCompatActivity
   @Override
   public void onImageAvailable(ImageReader imageReader) {
     Image image = imageReader.acquireLatestImage();
+    int width = image.getWidth();
+    int height = image.getHeight();
+
     if (image == null) {
       Log.w(TAG, "onImageAvailable: Skipping null image.");
       return;
@@ -700,15 +705,19 @@ public class SharedCameraActivity extends AppCompatActivity
     if (!automatorRun.get() || (automatorRun.get() && cpuImagesProcessed % 60 == 0)) {
       runOnUiThread(
           () ->
-              statusTextView.setText(""));
-//                  "CPU images processed: "
-//                      + cpuImagesProcessed
-//                      + "\n\nMode: "
-//                      + (arMode ? "AR" : "non-AR")
-//                      + " \nARCore active: "
-//                      + arcoreActive
-//                      + " \nShould update surface texture: "
-//                      + shouldUpdateSurfaceTexture.get()));
+              statusTextView.setText(
+                  "CPU images processed: "
+                      + cpuImagesProcessed
+                      + "\n\nMode: "
+                      + (arMode ? "AR" : "non-AR")
+                      + " \nARCore active: "
+                      + arcoreActive
+                      + " \nShould update surface texture: "
+                      + shouldUpdateSurfaceTexture.get()
+                      + " \nWidth: "
+                      + width
+                      + " \nHeight: "
+                      + height));
     }
   }
 
@@ -847,6 +856,8 @@ public class SharedCameraActivity extends AppCompatActivity
     // Perform ARCore per-frame update.
     Frame frame = sharedSession.update();
     Camera camera = frame.getCamera();
+
+    int[] dim = camera.getImageIntrinsics().getImageDimensions();
 
     // ARCore attached the surface to GL context using the texture ID we provided
     // in createCameraPreviewSession() via sharedSession.setCameraTextureName(…).
