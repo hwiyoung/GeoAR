@@ -353,7 +353,8 @@ public class SolarActivity extends AppCompatActivity {
 
     Node sun = new Node();
     sun.setParent(base);
-    sun.setLocalPosition(new Vector3(0.0f, 0.5f, 0.0f));
+//    sun.setLocalPosition(new Vector3(0.0f, 0.5f, 0.0f));
+    sun.setWorldPosition(new Vector3(0.0f, 0.5f, 0.0f));
 
     Node sunVisual = new Node();
     sunVisual.setParent(sun);
