@@ -762,6 +762,7 @@ public class SharedCameraActivity extends AppCompatActivity
 
 //      virtualObject.createOnGlThread(this, "models/andy.obj", "models/andy.png");
       virtualObject.createOnGlThread(this, "models/GCP_edit_coords.obj", "models/test3.png");
+      // Box dimension for GCP_edit - X: 6.84 / Y: 0.22 / Z: 9.75
       virtualObject.setBlendMode(BlendMode.Grid);
       virtualObject.setMaterialProperties(0.0f, 2.0f, 0.5f, 6.0f);
 
