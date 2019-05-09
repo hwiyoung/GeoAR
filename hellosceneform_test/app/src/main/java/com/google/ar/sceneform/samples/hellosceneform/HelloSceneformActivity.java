@@ -18,6 +18,7 @@ package com.google.ar.sceneform.samples.hellosceneform;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.content.Context;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Build.VERSION_CODES;
 import android.os.Bundle;
@@ -45,6 +46,7 @@ public class HelloSceneformActivity extends AppCompatActivity {
 
   private ArFragment arFragment;
   private ModelRenderable andyRenderable;
+  private ModelRenderable parkingRenderable;
 
   @Override
   @SuppressWarnings({"AndroidApiChecker", "FutureReturnValueIgnored"})
@@ -75,9 +77,23 @@ public class HelloSceneformActivity extends AppCompatActivity {
               return null;
             });
 
+    // Test set
+      ModelRenderable.builder()
+              .setSource(this, Uri.parse("GCP_edit_coords.sfb"))
+              .build()
+              .thenAccept(renderable -> parkingRenderable = renderable)
+              .exceptionally(
+                      throwable -> {
+                          Toast toast =
+                                  Toast.makeText(this, "Unable to load andy renderable", Toast.LENGTH_LONG);
+                          toast.setGravity(Gravity.CENTER, 0, 0);
+                          toast.show();
+                          return null;
+                      });
+
     arFragment.setOnTapArPlaneListener(
         (HitResult hitResult, Plane plane, MotionEvent motionEvent) -> {
-          if (andyRenderable == null) {
+          if (andyRenderable == null || parkingRenderable == null) {
             return;
           }
 
@@ -100,7 +116,7 @@ public class HelloSceneformActivity extends AppCompatActivity {
 //          andy.setLocalScale(new Vector3(2f, 2f, 2f));
           andy.setParent(anchorNode);
           andy.setRenderable(andyRenderable);
-//          andy.setLocalScale(new Vector3(2f, 2f, 2f));
+//          andy.setRenderable(parkingRenderable);
           andy.select();
         });
   }
