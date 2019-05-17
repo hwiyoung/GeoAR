@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.arcore.chapter7.example7_3.MainActivity"
+    android:id="@+id/main_layout">
+
+    <android.opengl.GLSurfaceView
+    android:id="@+id/gl_surface_view"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" />
+
+    <LinearLayout
+        android:id="@+id/ar_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/ar_core_text"
+            android:textSize="30sp"
+            android:textColor="#ffff0000"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+
+
+
+
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/ar_core_camera_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="135dp"
+        android:layout_marginBottom="12dp"
+        android:text="only camera" />
+
+    <Button
+        android:id="@+id/ar_core_screenshot_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="13dp"
+        android:layout_marginBottom="12dp"
+        android:text="Screenshot" />
+
+    <TextView
+        android:id="@+id/azimuth_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/ar_core_screenshot_btn"
+        android:layout_alignBottom="@+id/ar_layout"
+        android:text="TextView" />
+
+
+</RelativeLayout>
