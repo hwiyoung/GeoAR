@@ -79,6 +79,7 @@ import java.io.OutputStreamWriter;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Arrays;
 
 import org.osgeo.proj4j.CRSFactory;
 import org.osgeo.proj4j.CoordinateReferenceSystem;
@@ -93,15 +94,21 @@ import static com.example.arcore.chapter7.example7_3.ScreenshotHandler.init;
 public class MainActivity extends Activity implements SensorEventListener, LocationListener {
     private static final String TAG = MainActivity.class.getSimpleName();
 
-    private String mTextString;
-    private TextView mTextView;
+    // Main variables
     private GLSurfaceView mSurfaceView;
     private MainRenderer mRenderer;
+
+    // Present the value of sensors
+    private TextView mTextView;
+    private String mTextString;
+
+    // Check the change of textView
     private TextView mAziTextView;
     private String mTextAzimuth;
 
+    // Configuration
     private boolean mUserRequestedInstall = true;
-
+    final int REQUEST_PERMISSION_WRITE_EXTERNAL_STORAGE_ = 1001;
     private Session mSession;
     private Config mConfig;
 
@@ -109,7 +116,7 @@ public class MainActivity extends Activity implements SensorEventListener, Locat
     private float mCurrentY;
     private boolean mTouched = false;
 
-    //*********************** Azimuth ********************************
+    // Variables for Azimuth
     private SensorManager sensorManager;
     private float[] accelerometerReading = new float[3];
     private float[] magnetometerReading = new float[3];
@@ -120,24 +127,24 @@ public class MainActivity extends Activity implements SensorEventListener, Locat
     private final float[] orientationAngles = new float[3];
     private float inclinationAngles = 0;
 
-    // ***************************************************************
+    float azimuth;
+    float azimuth_LP;
+    float azimuth_true;
+
     // Test for a low pass filter
     private float[] accReading_LP;
     private float[] magReading_LP;
     private final float[] rotationMatrix_LP = new float[9];
     private final float[] orientationAngles_LP = new float[3];
     private float inclinationAngles_LP = 0;
-    // ***************************************************************
 
+    static final float ALPHA = 0.25f;
+
+    // Receive the location
     private LocationManager locationManager;
     private Location mLocation;
     private float declination;
 
-    static final float ALPHA = 0.25f;
-    // ****************************************************************
-
-    private Button ArScreenshotBtn;
-    private Button ArCameraBtn;
     private Double lon;
     private Double lat;
     private Double tm_x;
@@ -145,20 +152,26 @@ public class MainActivity extends Activity implements SensorEventListener, Locat
     private Double tm_z;
     private String cLon = "";
     private String cLat = "";
+
+    // Button
+    private Button ArScreenshotBtn;
+    private Button ArCameraBtn;
+
+    // Axes information in tracking
     float[] xAxis;
     float[] yAxis;
     float[] zAxis;
-    final int REQUEST_PERMISSION_WRITE_EXTERNAL_STORAGE_ = 1001;
-    float azimuth;
-    float azimuth_LP;
-    float azimuth_true;
 
+    // Path to save the log
     final static String foldername1 = Environment.getExternalStorageDirectory()+File.separator+"DCIM/TEXT_Screenshot";
     final static String foldername2 = Environment.getExternalStorageDirectory()+File.separator+"DCIM/TEXT_Capture";
     final static String foldername3 = Environment.getExternalStorageDirectory()+File.separator+"DCIM/TEXT_frame";
 //    final static String filename = "log.txt";
-
     private String filename;
+
+    // Rotation matrix
+    private Rotation rotation = new Rotation();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -174,7 +187,8 @@ public class MainActivity extends Activity implements SensorEventListener, Locat
         ArCameraBtn = (Button) findViewById(R.id.ar_core_camera_btn);
         mAziTextView = (TextView) findViewById(R.id.azimuth_text);
 
-        MediaProjectionManager projectionManager = (MediaProjectionManager) getSystemService(Context.MEDIA_PROJECTION_SERVICE);
+        MediaProjectionManager projectionManager = (MediaProjectionManager) getSystemService(
+                                                    Context.MEDIA_PROJECTION_SERVICE);
 
         String now = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
         filename = now+".txt";
@@ -402,6 +416,12 @@ public class MainActivity extends Activity implements SensorEventListener, Locat
                     azimuth_LP = (float) Math.toDegrees(orientationAngles_LP[0]);
                     azimuth_true = azimuth_LP + declination;
 
+                    float omega = (float) Math.toRadians(90);
+                    float phi = (float) Math.toRadians(-azimuth_true);
+                    float kappa = 0;
+
+                    double[][] R = rotation.Rot3D(omega, phi, kappa);
+
                     // Pitch - omega
                     float pitch = (float) Math.toDegrees(orientationAngles[1]);
 
@@ -410,10 +430,14 @@ public class MainActivity extends Activity implements SensorEventListener, Locat
 
                     mTextString += ("Camera Pose: " + camPose.toString() + "\n"
                             + "Azimuth(true, LP): " + String.format("%3.3f", azimuth_true) + "\n"
-                            + "latitude: " + cLat + "\n"
-                            + "longitude: " + cLon + "\n"
-                            + "X: " + String.format("%.2f", tm_y) + "\n"
-                            + "Y: " + String.format("%.2f", tm_x) + "\n"
+                            + "Rotation matrix" + "\n"
+                            + "[" + String.format("%.5f, %.5f, %.5f", R[0][0], R[0][1], R[0][2]) + "\n"
+                            + String.format("%.5f, %.5f, %.5f", R[1][0], R[1][1], R[1][2]) + "\n"
+                            + String.format("%.5f, %.5f, %.5f", R[2][0], R[2][1], R[2][2]) + "]\n"
+                            + "Latitude: " + cLat + "\n"
+                            + "Longitude: " + cLon + "\n"
+                            + "X: " + String.format("%.2f", tm_x) + "\n"
+                            + "Y: " + String.format("%.2f", tm_y) + "\n"
                             + "Z: " + String.format("%.2f", tm_z) + "\n"
                             + camera.getTrackingState());
 
