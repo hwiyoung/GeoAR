@@ -180,60 +180,55 @@ public class MainActivity extends Activity implements SensorEventListener, Locat
         filename = now+".txt";
 
         mAziTextView.addTextChangedListener(new TextWatcher() {
-                                                @Override
-                                                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {    }
 
-                                                }
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {   }
 
-                                                @Override
-                                                public void onTextChanged(CharSequence s, int start, int before, int count) {
+            @Override
+            public void afterTextChanged(Editable s) {
+//                Toast.makeText(getApplicationContext(), "성공",Toast.LENGTH_LONG).show();
+                String content = now + "_screenshot.jpg\t"+lat+"\t"+lon+"\t"
+                        +tm_x+"\t"+tm_y+"\t"+tm_z+"\t"+azimuth+"\t"+azimuth_true+"\t"
+                        +xAxis[0]+"\t"+xAxis[1]+"\t"+xAxis[2]+"\t"
+                        +yAxis[0]+"\t"+yAxis[1]+"\t"+yAxis[2]+"\t"
+                        +zAxis[0]+"\t"+zAxis[1]+"\t"+zAxis[2]+"\n"+ mTextAzimuth + "\n";
+                WriteTextFile(foldername3, filename, content);
+            }
 
-                                                }
+            public void WriteTextFile(String foldername, String filename, String contents) {
+                try {
+                    File dir = new File (foldername);
+                    if(!dir.exists()){
+                        dir.mkdir();
+                    }
+                    FileOutputStream fos = new FileOutputStream(foldername+'/'+filename, true);
 
-                                                @Override
-                                                public void afterTextChanged(Editable s) {
+                    BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(fos));
+                    writer.write(contents);
+                    writer.flush();
 
-//                                                    Toast.makeText(getApplicationContext(), "성공",Toast.LENGTH_LONG).show();
-                                                    String content = now + "_screenshot.jpg\t"+lat+"\t"+lon+"\t"+tm_x+"\t"+tm_y+"\t"+tm_z+"\t"+azimuth+"\t"+azimuth_true+"\t"+xAxis[0]+"\t"+xAxis[1]+"\t"+xAxis[2]+"\t"+yAxis[0]+"\t"+yAxis[1]+"\t"+yAxis[2]+"\t"+zAxis[0]+"\t"+zAxis[1]+"\t"+zAxis[2]+"\n"+ mTextAzimuth + "\n";
+                    writer.close();
+                    fos.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
 
-                                                    WriteTextFile(foldername3, filename, content);
-
-
-                                                }
-
-                                                public void WriteTextFile(String foldername, String filename, String contents){
-                                                    try{
-                                                        File dir = new File (foldername);
-                                                        if(!dir.exists()){
-                                                            dir.mkdir();
-                                                        }
-                                                        FileOutputStream fos = new FileOutputStream(foldername+'/'+filename, true);
-
-                                                        BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(fos));
-                                                        writer.write(contents);
-                                                        writer.flush();
-
-                                                        writer.close();
-                                                        fos.close();
-                                                    }catch (IOException e){
-                                                        e.printStackTrace();
-                                                    }
-
-                                                }
-                                            }
-
-        );
-
-        ArScreenshotBtn.setOnClickListener(new Button.OnClickListener() {
-
+        ArScreenshotBtn.setOnClickListener(new Button.OnClickListener() {   // ScreenShot
             @Override
             public void onClick(View view) {
                 String result = takeAr(0);
                 Toast.makeText(getApplicationContext(), result + " 에 저장되었습니다.", Toast.LENGTH_LONG).show();
                 String now = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
-                String contents = now + "_screenshot.jpg\t"+lat+"\t"+lon+"\t"+tm_x+"\t"+tm_y+"\t"+tm_z+"\t"+azimuth+"\t"+azimuth_true+"\t"+xAxis[0]+"\t"+xAxis[1]+"\t"+xAxis[2]+"\t"+yAxis[0]+"\t"+yAxis[1]+"\t"+yAxis[2]+"\t"+zAxis[0]+"\t"+zAxis[1]+"\t"+zAxis[2]+"\n";
+                String contents = now + "_screenshot.jpg\t"+lat+"\t"+lon+"\t"
+                        +tm_x+"\t"+tm_y+"\t"+tm_z+"\t"+azimuth+"\t"+azimuth_true+"\t"
+                        +xAxis[0]+"\t"+xAxis[1]+"\t"+xAxis[2]+"\t"
+                        +yAxis[0]+"\t"+yAxis[1]+"\t"+yAxis[2]+"\t"
+                        +zAxis[0]+"\t"+zAxis[1]+"\t"+zAxis[2]+"\n";
                 WriteTextFile(foldername1, filename, contents);
-
             }
 
             public void WriteTextFile(String foldername, String filename, String contents){
@@ -253,18 +248,20 @@ public class MainActivity extends Activity implements SensorEventListener, Locat
                 }catch (IOException e){
                     e.printStackTrace();
                 }
-
             }
         });
 
-        ArCameraBtn.setOnClickListener(new Button.OnClickListener() {
-
+        ArCameraBtn.setOnClickListener(new Button.OnClickListener() {   // Only Camera
             @Override
             public void onClick(View view) {
                 String result = takeAr(1);
                 Toast.makeText(getApplicationContext(), result + " 에 저장되었습니다.", Toast.LENGTH_LONG).show();
                 String now = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
-                String contents = now + "_screenshot.jpg\t"+lat+"\t"+lon+"\t"+tm_x+"\t"+tm_y+"\t"+tm_z+"\t"+azimuth+"\t"+azimuth_true+"\t"+xAxis[0]+"\t"+xAxis[1]+"\t"+xAxis[2]+"\t"+yAxis[0]+"\t"+yAxis[1]+"\t"+yAxis[2]+"\t"+zAxis[0]+"\t"+zAxis[1]+"\t"+zAxis[2]+"\n";
+                String contents = now + "_screenshot.jpg\t"+lat+"\t"+lon+"\t"
+                        +tm_x+"\t"+tm_y+"\t"+tm_z+"\t"+azimuth+"\t"+azimuth_true+"\t"
+                        +xAxis[0]+"\t"+xAxis[1]+"\t"+xAxis[2]+"\t"
+                        +yAxis[0]+"\t"+yAxis[1]+"\t"+yAxis[2]+"\t"
+                        +zAxis[0]+"\t"+zAxis[1]+"\t"+zAxis[2]+"\n";
                 WriteTextFile(foldername2, filename, contents);
             }
 
@@ -404,6 +401,7 @@ public class MainActivity extends Activity implements SensorEventListener, Locat
                     azimuth = (float) Math.toDegrees(orientationAngles[0]);
                     azimuth_LP = (float) Math.toDegrees(orientationAngles_LP[0]);
                     azimuth_true = azimuth_LP + declination;
+
                     // Pitch - omega
                     float pitch = (float) Math.toDegrees(orientationAngles[1]);
 
@@ -411,21 +409,13 @@ public class MainActivity extends Activity implements SensorEventListener, Locat
                     float roll = (float) Math.toDegrees(orientationAngles[2]);
 
                     mTextString += ("Camera Pose: " + camPose.toString() + "\n"
-                            + "inclination: " + String.format("%.2f", inclinationAngles) + "\n"
-                            + "xAxis: " + String.format("%.2f, %.2f, %.2f", xAxis[0], xAxis[1], xAxis[2]) + "\n"
-                            + "yAxis: " + String.format("%.2f, %.2f, %.2f", yAxis[0], yAxis[1], yAxis[2]) + "\n"
-                            + "zAxis: " + String.format("%.2f, %.2f, %.2f", zAxis[0], zAxis[1], zAxis[2]) + "\n"
                             + "Azimuth(true, LP): " + String.format("%3.3f", azimuth_true) + "\n"
-                            + "Pitch: " + String.format("%3.3f", pitch) + "\n"
-                            + "Roll: " + String.format("%3.3f", roll) + "\n"
-                            + "declination: " + String.format("%.2f", declination) + "\n"
                             + "latitude: " + cLat + "\n"
                             + "longitude: " + cLon + "\n"
-                            + "TM x 좌표는 : " + String.format("%.2f", tm_y) + "\n"
-                            + "TM y 좌표는 : " + String.format("%.2f", tm_x) + "\n"
-                            + "TM z 좌표는 : " + String.format("%.2f", tm_z) + "\n"
+                            + "X: " + String.format("%.2f", tm_y) + "\n"
+                            + "Y: " + String.format("%.2f", tm_x) + "\n"
+                            + "Z: " + String.format("%.2f", tm_z) + "\n"
                             + camera.getTrackingState());
-
 
                     runOnUiThread(new Runnable() {
                         @Override
@@ -435,8 +425,12 @@ public class MainActivity extends Activity implements SensorEventListener, Locat
                         }
                     });
 
-                    if(ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
-                        ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},REQUEST_PERMISSION_WRITE_EXTERNAL_STORAGE_);
+                    if(ContextCompat.checkSelfPermission(getApplicationContext(),
+                            Manifest.permission.WRITE_EXTERNAL_STORAGE) !=
+                            PackageManager.PERMISSION_GRANTED) {
+                        ActivityCompat.requestPermissions(MainActivity.this,
+                                new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                                REQUEST_PERMISSION_WRITE_EXTERNAL_STORAGE_);
                     }
 
                     mRenderer.setProjectionMatrix(projMatrix);
@@ -669,8 +663,7 @@ public class MainActivity extends Activity implements SensorEventListener, Locat
     // https://stackoverflow.com/questions/42200059/calculate-true-heading-correctly-in-android
 
     @Override
-    public void  onLocationChanged(Location location)
-    {
+    public void  onLocationChanged(Location location)    {
         // set the new location
         this.mLocation = location;
         cLat = Double.toString(location.getLatitude());
@@ -681,8 +674,12 @@ public class MainActivity extends Activity implements SensorEventListener, Locat
 
         CoordinateTransformFactory ctFactory = new CoordinateTransformFactory();
         CRSFactory csFactory = new CRSFactory();
-        CoordinateReferenceSystem WGS84 = csFactory.createFromParameters("EPSG: 4326", "+proj=longlat +datum=WGS84 +no_defs");
-        CoordinateReferenceSystem TM = csFactory.createFromParameters("EPSG: 5186", "+proj=tmerc +lat_0=38 +lon_0=127 +k=1 +x_0=200000 +y_0=600000 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs");
+        CoordinateReferenceSystem WGS84 = csFactory.createFromParameters(
+                "EPSG: 4326", "+proj=longlat +datum=WGS84 +no_defs");
+        CoordinateReferenceSystem TM = csFactory.createFromParameters(
+                "EPSG: 5186", "+proj=tmerc +lat_0=38 +lon_0=127 " +
+                        "+k=1 +x_0=200000 +y_0=600000 +ellps=GRS80 " +
+                        "+towgs84=0,0,0,0,0,0,0 +units=m +no_defs");
         CoordinateTransform trans = ctFactory.createTransform(WGS84, TM);
 
         ProjCoordinate p = new ProjCoordinate();
@@ -695,8 +692,6 @@ public class MainActivity extends Activity implements SensorEventListener, Locat
         Log.e("location","lat : " + cLat+ ", lon : " + cLon);
 
         declination = getGeomagneticField(this.mLocation).getDeclination();
-
-
     }
 
     @Override
@@ -712,8 +707,7 @@ public class MainActivity extends Activity implements SensorEventListener, Locat
     // Private Utilities
     //==============================================================================================
 
-    private GeomagneticField getGeomagneticField(Location location)
-    {
+    private GeomagneticField getGeomagneticField(Location location) {
         GeomagneticField geomagneticField = new GeomagneticField(
                 (float)location.getLatitude(),
                 (float)location.getLongitude(),
@@ -753,8 +747,8 @@ public class MainActivity extends Activity implements SensorEventListener, Locat
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
     }
-/*
 
+    /*
     private void screenshot(){
 
         Log.e("screenshot","스크린샷 시작");
@@ -779,13 +773,9 @@ public class MainActivity extends Activity implements SensorEventListener, Locat
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }*/
 
-
-
-    }
-*/
-
-    public String takeAr(int num){
+    public String takeAr(int num) {
         final String filename = generateFilename();
         View view = mSurfaceView.getRootView();
         SurfaceView test = mSurfaceView;
@@ -798,6 +788,7 @@ public class MainActivity extends Activity implements SensorEventListener, Locat
         // Create a handler thread to offload the processing of the image.
         final HandlerThread handlerThread = new HandlerThread("PixelCopier");
         handlerThread.start();
+
         // Make the request to copy.
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             PixelCopy.request(mSurfaceView, bitmap, (copyResult) -> {
@@ -809,8 +800,6 @@ public class MainActivity extends Activity implements SensorEventListener, Locat
                         Toast toast = Toast.makeText(this, e.toString(),
                                 Toast.LENGTH_LONG);
                         toast.show();
-
-
                         return;
                     }
                     //Toast.makeText(this,"저장저장저장",Toast.LENGTH_SHORT).show();
@@ -826,8 +815,6 @@ public class MainActivity extends Activity implements SensorEventListener, Locat
                         intent.setDataAndType(photoURI, "image/*");
                         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                         startActivity(intent);
-
-
                     });
                     snackbar.show();*/
                 } else {
@@ -898,7 +885,5 @@ public class MainActivity extends Activity implements SensorEventListener, Locat
         canvas.drawBitmap(front, 0, 0, null);
         return result;
     }
-
-
 
 }
