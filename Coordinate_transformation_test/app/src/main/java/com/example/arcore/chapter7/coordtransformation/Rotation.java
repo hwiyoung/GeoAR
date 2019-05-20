@@ -37,5 +37,20 @@ public class Rotation {
         return result_2;
     }
 
+    public double[] TransformG2L(double[][] R, double[] Location_Org, double[] Location_GPS) {
+        double[] translation = new double[3];
+        for (int i = 0; i < Location_Org.length; i++) {
+            translation[i] = Location_Org[i] - Location_GPS[i];
+        }
 
+        double[] result = new double[3];
+
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                result[i] += R[i][j] * translation[j];
+            }
+        }
+
+        return result;
+    }
 }

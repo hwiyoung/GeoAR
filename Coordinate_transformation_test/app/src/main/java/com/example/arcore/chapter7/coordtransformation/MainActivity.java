@@ -395,6 +395,12 @@ public class MainActivity extends Activity implements SensorEventListener, Locat
                     //float inclination = (float)Math.toDegrees(Math.acos(gravityReading[2]));
                     //***************************************************************
 
+                    // Pitch - omega
+                    float pitch = (float) Math.toDegrees(orientationAngles[1]);
+
+                    // Roll - phi
+                    float roll = (float) Math.toDegrees(orientationAngles[2]);
+
                     // Azimuth - kappa
                     azimuth = (float) Math.toDegrees(orientationAngles[0]);
                     azimuth_LP = (float) Math.toDegrees(orientationAngles_LP[0]);
@@ -406,11 +412,10 @@ public class MainActivity extends Activity implements SensorEventListener, Locat
                     float kappa = 0;
                     double[][] R = rotation.Rot3D(omega, phi, kappa);
 
-                    // Pitch - omega
-                    float pitch = (float) Math.toDegrees(orientationAngles[1]);
-
-                    // Roll - phi
-                    float roll = (float) Math.toDegrees(orientationAngles[2]);
+                    // Coordinates Transformation - Ground to Local
+                    double[] LocORG = {196545.595,	548238.6565, 47.7685};
+                    double[] LocGPS = {tm_x, tm_y, tm_z};
+                    double[] transformedCoords = rotation.TransformG2L(R, LocORG, LocGPS);
 
                     mTextString += ("Camera Pose: " + camPose.toString() + "\n"
                             + "Azimuth(true, LP): " + String.format("%3.3f", azimuth_true) + "\n"
@@ -420,9 +425,12 @@ public class MainActivity extends Activity implements SensorEventListener, Locat
                             + String.format("%.5f, %.5f, %.5f", R[2][0], R[2][1], R[2][2]) + "]\n"
                             + "Latitude: " + cLat + "\n"
                             + "Longitude: " + cLon + "\n"
-                            + "X: " + String.format("%.2f", tm_x) + "\n"
-                            + "Y: " + String.format("%.2f", tm_y) + "\n"
-                            + "Z: " + String.format("%.2f", tm_z) + "\n"
+                            + "X: " + String.format("%.5f", tm_x) + "\n"
+                            + "Y: " + String.format("%.5f", tm_y) + "\n"
+                            + "Z: " + String.format("%.5f", tm_z) + "\n"
+                            + "X_transformed: " + String.format("%.5f", transformedCoords[0]) + "\n"
+                            + "Y_transformed: " + String.format("%.5f", transformedCoords[1]) + "\n"
+                            + "Z_transformed: " + String.format("%.5f", transformedCoords[2]) + "\n"
                             + camera.getTrackingState());
 
                     runOnUiThread(new Runnable() {

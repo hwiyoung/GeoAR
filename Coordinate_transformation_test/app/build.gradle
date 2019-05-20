@@ -34,7 +34,8 @@ dependencies {
     //androidTestImplementation 'com.android.support.test:runner:1.0.1'
     //androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
     //implementation files('C:/Users/user/Desktop/camera_pose_test-master 2/.idea/libraries/proj4j-0.1.0.jar')
-    implementation files('D:/11_Reference/07_Github/GeoAR/Coordinate_transformation_test/.idea/libraries/proj4j-0.1.0.jar')
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation files('libs/proj4j-0.1.0.jar')
 }
 repositories {
     mavenCentral()
