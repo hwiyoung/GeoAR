@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.arcore.chapter7.example7_3.MainActivity"
+    tools:context="com.example.arcore.chapter7.coordtransformation.MainActivity"
     android:id="@+id/main_layout">
 
     <android.opengl.GLSurfaceView

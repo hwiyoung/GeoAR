@@ -1,4 +1,4 @@
-package com.example.arcore.chapter7.example7_3;
+package com.example.arcore.chapter7.coordtransformation;
 
 import android.app.Activity;
 import android.content.Context;
@@ -18,9 +18,7 @@ import android.support.annotation.Nullable;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Display;
-import android.view.View;
 import android.view.WindowManager;
-import android.widget.Toast;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -30,7 +28,6 @@ import java.nio.ByteBuffer;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
-import java.util.logging.Logger;
 
 
 public class ScreenshotHandler {

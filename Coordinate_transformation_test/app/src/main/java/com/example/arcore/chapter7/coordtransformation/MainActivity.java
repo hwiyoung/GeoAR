@@ -1,13 +1,11 @@
-package com.example.arcore.chapter7.example7_3;
+package com.example.arcore.chapter7.coordtransformation;
 
 import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -21,19 +19,14 @@ import android.location.LocationManager;
 
 import android.hardware.display.DisplayManager;
 import android.media.projection.MediaProjectionManager;
-import android.net.Uri;
 import android.opengl.GLSurfaceView;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.HandlerThread;
-import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.content.FileProvider;
-import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -42,7 +35,6 @@ import android.view.MotionEvent;
 import android.view.PixelCopy;
 import android.view.SurfaceView;
 import android.view.View;
-import android.view.ViewGroupOverlay;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -56,11 +48,9 @@ import com.google.ar.core.Camera;
 import com.google.ar.core.Config;
 import com.google.ar.core.Frame;
 import com.google.ar.core.HitResult;
-import com.google.ar.core.PointCloud;
 import com.google.ar.core.Pose;
 import com.google.ar.core.Session;
 
-import com.google.ar.core.TrackingState;
 import com.google.ar.core.exceptions.CameraNotAvailableException;
 import com.google.ar.core.exceptions.UnavailableApkTooOldException;
 import com.google.ar.core.exceptions.UnavailableArcoreNotInstalledException;
@@ -71,7 +61,6 @@ import com.google.ar.core.exceptions.UnavailableUserDeclinedInstallationExceptio
 import java.io.BufferedWriter;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
@@ -79,17 +68,12 @@ import java.io.OutputStreamWriter;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import java.util.Arrays;
 
 import org.osgeo.proj4j.CRSFactory;
 import org.osgeo.proj4j.CoordinateReferenceSystem;
 import org.osgeo.proj4j.CoordinateTransform;
 import org.osgeo.proj4j.CoordinateTransformFactory;
 import org.osgeo.proj4j.ProjCoordinate;
-
-import com.example.arcore.chapter7.example7_3.ScreenshotHandler;
-
-import static com.example.arcore.chapter7.example7_3.ScreenshotHandler.init;
 
 public class MainActivity extends Activity implements SensorEventListener, LocationListener {
     private static final String TAG = MainActivity.class.getSimpleName();
@@ -416,10 +400,10 @@ public class MainActivity extends Activity implements SensorEventListener, Locat
                     azimuth_LP = (float) Math.toDegrees(orientationAngles_LP[0]);
                     azimuth_true = azimuth_LP + declination;
 
+                    // Rotation matrix - Ground to Local
                     float omega = (float) Math.toRadians(90);
                     float phi = (float) Math.toRadians(-azimuth_true);
                     float kappa = 0;
-
                     double[][] R = rotation.Rot3D(omega, phi, kappa);
 
                     // Pitch - omega
@@ -430,7 +414,7 @@ public class MainActivity extends Activity implements SensorEventListener, Locat
 
                     mTextString += ("Camera Pose: " + camPose.toString() + "\n"
                             + "Azimuth(true, LP): " + String.format("%3.3f", azimuth_true) + "\n"
-                            + "Rotation matrix" + "\n"
+                            + "Rotation matrix - Ground to Local" + "\n"
                             + "[" + String.format("%.5f, %.5f, %.5f", R[0][0], R[0][1], R[0][2]) + "\n"
                             + String.format("%.5f, %.5f, %.5f", R[1][0], R[1][1], R[1][2]) + "\n"
                             + String.format("%.5f, %.5f, %.5f", R[2][0], R[2][1], R[2][2]) + "]\n"

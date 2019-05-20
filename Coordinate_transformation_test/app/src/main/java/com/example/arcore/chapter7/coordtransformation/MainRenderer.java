@@ -1,10 +1,9 @@
-package com.example.arcore.chapter7.example7_3;
+package com.example.arcore.chapter7.coordtransformation;
 
 import android.graphics.Color;
 import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
 import android.opengl.Matrix;
-import android.util.Log;
 
 import com.google.ar.core.Frame;
 import com.google.ar.core.PointCloud;

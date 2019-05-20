@@ -1,4 +1,4 @@
-package com.example.arcore.chapter7.example7_3;
+package com.example.arcore.chapter7.coordtransformation;
 
 import android.graphics.Color;
 import android.opengl.GLES20;
@@ -10,10 +10,11 @@ import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 import java.nio.ShortBuffer;
 
-public class Line {
+public class Sphere {
 
-    private static final String TAG = Line.class.getSimpleName();
+    private static final String TAG = Sphere.class.getSimpleName();
 
+    private final int POINT_COUNT = 20;
     public static final int RED = 0;
     public static final int GREEN = 1;
     public static final int BLUE = 2;
@@ -48,19 +49,56 @@ public class Line {
     private FloatBuffer mColors;
     private ShortBuffer mIndices;
 
-    private float mLineWidth = 1.0f;
+    private float[] mColor = new float[]{0.0f, 0.0f, 0.0f, 1.0f};
 
-    public Line(float startX, float startY, float startZ, float endX, float endY, float endZ, int lineWidth, int color) {
-        float[] vertices = new float[]{ startX, startY, startZ, endX, endY, endZ };
+    public Sphere(float radius, int color) {
+        float[] vertices = new float[POINT_COUNT * POINT_COUNT * 3];
+        for (int i = 0; i < POINT_COUNT; i++) {
+            for (int j = 0; j < POINT_COUNT; j++) {
+                float theta = i * (float) Math.PI / (POINT_COUNT - 1);
+                float phi = j * 2 * (float) Math.PI / (POINT_COUNT - 1);
+                float x = (float) (radius * Math.sin(theta) * Math.cos(phi));
+                float y = (float) (radius * Math.cos(theta));
+                float z = (float) -(radius * Math.sin(theta) * Math.sin(phi));
+                int index = i * POINT_COUNT + j;
+                vertices[3 * index] = x;
+                vertices[3 * index + 1] = y;
+                vertices[3 * index + 2] = z;
+            }
+        }
 
-        float r  = Color.red(color) / 255.f;
-        float g = Color.green(color) / 255.f;
-        float b = Color.blue(color) / 255.f;
-        float a = Color.alpha(color) / 255.f;
+        mColor[RED] = Color.red(color) / 255.f;
+        mColor[GREEN] = Color.green(color) / 255.f;
+        mColor[BLUE] = Color.blue(color) / 255.f;
+        mColor[ALPHA] = Color.alpha(color) / 255.f;
 
-        float[] colors = new float[]{ r, g, b, a, r, g, b, a };
+        float[] colors = new float[POINT_COUNT * POINT_COUNT * 4];
+        for (int i = 0; i < POINT_COUNT ; i++) {
+            for (int j = 0; j < POINT_COUNT; j++) {
+                int index = i * POINT_COUNT + j;
+                colors[4 * index + 0] = mColor[RED];
+                colors[4 * index + 1] = mColor[GREEN];
+                colors[4 * index + 2] = mColor[BLUE];
+                colors[4 * index + 3] = mColor[ALPHA];
+            }
+        }
 
-        short[] indices = new short[] { 0, 1 };
+        int numIndices = 2 * (POINT_COUNT - 1) * POINT_COUNT;
+        short[] indices = new short[numIndices];
+        short index = 0;
+        for (int i = 0; i < POINT_COUNT - 1; i++) {
+            if ((i & 1) == 0) {
+                for (int j = 0; j < POINT_COUNT; j++) {
+                    indices[index++] = (short) (i * POINT_COUNT + j);
+                    indices[index++] = (short) ((i + 1) * POINT_COUNT + j);
+                }
+            } else {
+                for (int j = POINT_COUNT - 1; j >= 0; j--) {
+                    indices[index++] = (short) ((i + 1) * POINT_COUNT + j);
+                    indices[index++] = (short) (i * POINT_COUNT + j);
+                }
+            }
+        }
 
         mVertices = ByteBuffer.allocateDirect(vertices.length * Float.SIZE / 8).order(ByteOrder.nativeOrder()).asFloatBuffer();
         mVertices.put(vertices);
@@ -73,8 +111,6 @@ public class Line {
         mIndices = ByteBuffer.allocateDirect(indices.length * Short.SIZE / 8).order(ByteOrder.nativeOrder()).asShortBuffer();
         mIndices.put(indices);
         mIndices.position(0);
-
-        mLineWidth = (float) lineWidth;
     }
 
     public void init() {
@@ -130,9 +166,7 @@ public class Line {
         GLES20.glEnableVertexAttribArray(color);
         GLES20.glVertexAttribPointer(color, 4, GLES20.GL_FLOAT, false, 4 * 4, mColors);
 
-        GLES20.glLineWidth(mLineWidth);
-        GLES20.glDrawElements(GLES20.GL_LINES, mIndices.capacity(), GLES20.GL_UNSIGNED_SHORT, mIndices);
-        GLES20.glLineWidth(1.0f);
+        GLES20.glDrawElements(GLES20.GL_TRIANGLE_STRIP, mIndices.capacity(), GLES20.GL_UNSIGNED_SHORT, mIndices);
 
         GLES20.glDisableVertexAttribArray(position);
     }
@@ -153,4 +187,3 @@ public class Line {
         System.arraycopy(viewMatrix, 0, mViewMatrix, 0, 16);
     }
 }
-

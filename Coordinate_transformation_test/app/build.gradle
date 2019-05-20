@@ -5,7 +5,7 @@ apply plugin: 'kotlin-android'
 android {
     compileSdkVersion 27
     defaultConfig {
-        applicationId "com.example.arcore.chapter7.example7_3"
+        applicationId "com.example.arcore.chapter7.coordtransformation"
         minSdkVersion 24
         targetSdkVersion 27
         versionCode 1
