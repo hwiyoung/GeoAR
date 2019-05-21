@@ -575,7 +575,9 @@ public class MainActivity extends Activity implements SensorEventListener, Locat
                     }
                     mLocation = locationManager.getLastKnownLocation(provider);
                 }
-                locationManager.requestLocationUpdates(provider, 0, 0, this);
+//                locationManager.requestLocationUpdates(provider, 0, 0, this);
+                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+                locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
 
             }
         }
@@ -764,33 +766,6 @@ public class MainActivity extends Activity implements SensorEventListener, Locat
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
     }
 
-    /*
-    private void screenshot(){
-
-        Log.e("screenshot","스크린샷 시작");
-
-        //View v = getWindow().getDecorView().getRootView();
-        View v = getWindow().getDecorView();
-        v.setDrawingCacheEnabled(true);
-        Bitmap bmp = viewToBitmap(v);
-        //Bitmap bmp = Bitmap.createBitmap(v.getDrawingCache());
-        v.setDrawingCacheEnabled(false);
-        try {
-            FileOutputStream fos = new FileOutputStream(new File(Environment
-                    .getExternalStorageDirectory().toString()+"/DCIM/Screenshots", "AR_Screenshot_"
-                    + System.currentTimeMillis() + ".png"));
-            Log.e("screenshot","경로 : " + Environment.getExternalStorageDirectory().toString()+"/DCIM/Screenshots");
-            bmp.compress(Bitmap.CompressFormat.PNG, 100, fos);
-            fos.flush();
-            fos.close();
-            Log.e("screenshot","스크린샷 종료");
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }*/
-
     public String takeAr(int num) {
         final String filename = generateFilename();
         View view = mSurfaceView.getRootView();
@@ -818,21 +793,6 @@ public class MainActivity extends Activity implements SensorEventListener, Locat
                         toast.show();
                         return;
                     }
-                    //Toast.makeText(this,"저장저장저장",Toast.LENGTH_SHORT).show();
-                    /*Snackbar snackbar = Snackbar.make(findViewById(android.R.id.content),
-                            "Photo saved", Snackbar.LENGTH_INDEFINITE);
-                    snackbar.setAction("열기", v -> {
-                        File photoFile = new File(filename);
-
-                        Uri photoURI = FileProvider.getUriForFile(this,
-                                this.getPackageName() + ".save.provider",
-                                photoFile);
-                        Intent intent = new Intent(Intent.ACTION_VIEW, photoURI);
-                        intent.setDataAndType(photoURI, "image/*");
-                        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                        startActivity(intent);
-                    });
-                    snackbar.show();*/
                 } else {
                     Toast toast = Toast.makeText(this,
                             "Failed to copyPixels: " + copyResult, Toast.LENGTH_LONG);
@@ -901,5 +861,4 @@ public class MainActivity extends Activity implements SensorEventListener, Locat
         canvas.drawBitmap(front, 0, 0, null);
         return result;
     }
-
 }
