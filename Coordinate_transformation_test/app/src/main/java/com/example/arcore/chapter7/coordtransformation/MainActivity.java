@@ -413,9 +413,9 @@ public class MainActivity extends Activity implements SensorEventListener, Locat
                     double[][] R = rotation.Rot3D(omega, phi, kappa);
 
                     // Coordinates Transformation - Ground to Local
-                    double[] LocORG = {196545.595,	548238.6565, 47.7685};
+                    double[] LocAnchor = {196545.595,	548238.6565, 47.7685};
                     double[] LocGPS = {tm_x, tm_y, tm_z};
-                    double[] transformedCoords = rotation.TransformG2L(R, LocORG, LocGPS);
+                    double[] transformedCoords = rotation.TransformG2L(R, LocAnchor, LocGPS);
 
                     mTextString += ("Camera Pose: " + camPose.toString() + "\n"
                             + "Azimuth(true, LP): " + String.format("%3.3f", azimuth_true) + "\n"
