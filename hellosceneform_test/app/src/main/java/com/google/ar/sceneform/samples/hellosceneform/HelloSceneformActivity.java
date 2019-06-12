@@ -103,8 +103,9 @@ public class HelloSceneformActivity extends AppCompatActivity {
 //          anchorNode.setParent(arFragment.getArSceneView().getScene());
 
           // Create the Anchor.
-          float[] translation = new float[]{0f, 0f, -1f};
-          float[] rotation = new float[]{90f, 0f, 0f, 0f};
+          float[] translation = new float[]{0f, -1.6420f, -12.1569f};
+//          float[] translation = new float[]{0f, 0f, -1f};
+          float[] rotation = new float[]{0f, -0.3f, 0f, 0.9539f};
           Pose pose = new Pose(translation, rotation);
           Anchor anchor = arFragment.getArSceneView().getSession().createAnchor(pose);
           AnchorNode anchorNode = new AnchorNode(anchor);
