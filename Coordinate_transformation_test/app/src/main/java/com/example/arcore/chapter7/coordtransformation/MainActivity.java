@@ -417,7 +417,11 @@ public class MainActivity extends Activity implements SensorEventListener, Locat
                     double[] LocGPS = {tm_x, tm_y, tm_z};
                     double[] transformedCoords = rotation.TransformG2L(R, LocAnchor, LocGPS);
 
+                    float[] q = camPose.getRotationQuaternion();
+                    double normOfQ = Math.sqrt(q[0]*q[0] + q[1]*q[1] + q[2]*q[2] + q[3]*q[3]);
+
                     mTextString += ("Camera Pose: " + camPose.toString() + "\n"
+                            + "Norm of Q" + String.format("%.3f", normOfQ) + "\n"
                             + "Azimuth(true, LP): " + String.format("%3.3f", azimuth_true) + "\n"
                             + "Rotation matrix - Ground to Local" + "\n"
                             + "[" + String.format("%.5f, %.5f, %.5f", R[0][0], R[0][1], R[0][2]) + "\n"
