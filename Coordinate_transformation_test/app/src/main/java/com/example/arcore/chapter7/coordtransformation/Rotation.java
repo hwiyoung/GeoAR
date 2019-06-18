@@ -53,4 +53,29 @@ public class Rotation {
 
         return result;
     }
+
+    public double[] ConvertA2Q(double azimuth) {    // yaw (Z), pitch (Y), roll (X)
+        // yaw (Z)
+        double yaw = 0;
+        double cy = Math.cos(yaw / 2);
+        double sy = Math.sin(yaw / 2);
+        // pitch (Y)
+        double azimuth2 = -azimuth;     // azimuth - LHS, quaternion - RHS
+        double cp = Math.cos(azimuth2 / 2);
+        double sp = Math.sin(azimuth2 / 2);
+        // roll (X)
+        double roll = 0;
+        double cr = Math.cos(roll / 2);
+        double sr = Math.sin(roll / 2);
+
+        // Conversion
+        double w = cy * cp * cr + sy * sp * sr;
+        double x = cy * cp * sr - sy * sp * cr;
+        double y = sy * cp * sr + cy * sp * cr;
+        double z = sy * cp * cr - cy * sp * sr;
+
+        double[] q = new double[4];
+        q[0] = x; q[1] = y; q[2] = z; q[3] = w;
+        return q;
+    }
 }

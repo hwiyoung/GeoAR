@@ -415,13 +415,10 @@ public class MainActivity extends Activity implements SensorEventListener, Locat
                     // Coordinates Transformation - Ground to Local
                     double[] LocAnchor = {196545.595,	548238.6565, 47.7685};
                     double[] LocGPS = {tm_x, tm_y, tm_z};
-                    double[] transformedCoords = rotation.TransformG2L(R, LocAnchor, LocGPS);
-
-                    float[] q = camPose.getRotationQuaternion();
-                    double normOfQ = Math.sqrt(q[0]*q[0] + q[1]*q[1] + q[2]*q[2] + q[3]*q[3]);
+                    double[] XYZinLocal = rotation.TransformG2L(R, LocAnchor, LocGPS);
+                    double[] QinLocal = rotation.ConvertA2Q(azimuth_true);
 
                     mTextString += ("Camera Pose: " + camPose.toString() + "\n"
-                            + "Norm of Q" + String.format("%.3f", normOfQ) + "\n"
                             + "Azimuth(true, LP): " + String.format("%3.3f", azimuth_true) + "\n"
                             + "Rotation matrix - Ground to Local" + "\n"
                             + "[" + String.format("%.5f, %.5f, %.5f", R[0][0], R[0][1], R[0][2]) + "\n"
@@ -432,9 +429,10 @@ public class MainActivity extends Activity implements SensorEventListener, Locat
                             + "X: " + String.format("%.5f", tm_x) + "\n"
                             + "Y: " + String.format("%.5f", tm_y) + "\n"
                             + "Z: " + String.format("%.5f", tm_z) + "\n"
-                            + "X_transformed: " + String.format("%.5f", transformedCoords[0]) + "\n"
-                            + "Y_transformed: " + String.format("%.5f", transformedCoords[1]) + "\n"
-                            + "Z_transformed: " + String.format("%.5f", transformedCoords[2]) + "\n"
+                            + "XYZ in Local: (" + String.format("%.3f %.3f %.3f",
+                                XYZinLocal[0], XYZinLocal[1], XYZinLocal[2]) + ")\n"
+                            + "Q in Local: (" + String.format("%.3f, %.3f, %.3f, %.3f",
+                                QinLocal[0], QinLocal[1], QinLocal[2], QinLocal[3]) + ")\n"
                             + camera.getTrackingState());
 
                     runOnUiThread(new Runnable() {
