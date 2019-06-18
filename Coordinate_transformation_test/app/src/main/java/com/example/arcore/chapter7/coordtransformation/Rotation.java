@@ -60,9 +60,15 @@ public class Rotation {
         double cy = Math.cos(yaw / 2);
         double sy = Math.sin(yaw / 2);
         // pitch (Y)
-        double azimuth2 = -azimuth;     // azimuth - LHS, quaternion - RHS
-        double cp = Math.cos(azimuth2 / 2);
-        double sp = Math.sin(azimuth2 / 2);
+        double azimuth2;
+        if (azimuth >= 0) {
+            azimuth2 = Math.toRadians(180 - azimuth);
+        } else {
+            azimuth2 = -Math.toRadians(180 + azimuth);
+        }
+        double theta = -azimuth2;     // azimuth - LHS, quaternion - RHS
+        double cp = Math.cos(theta / 2);
+        double sp = Math.sin(theta / 2);
         // roll (X)
         double roll = 0;
         double cr = Math.cos(roll / 2);
