@@ -70,3 +70,23 @@ sceneform.asset('sampledata/GCP_edit_coords.obj',
         'default',
         'sampledata/GCP_edit_coords.sfa',
         'src/main/assets/GCP_edit_coords')
+
+sceneform.asset('sampledata/parkingLot_test.obj',
+        'default',
+        'sampledata/parkingLot_test.sfa',
+        'src/main/assets/parkingLot_test')
+
+sceneform.asset('sampledata/parkingLot_test2.obj',
+        'default',
+        'sampledata/parkingLot_test2.sfa',
+        'src/main/assets/parkingLot_test2')
+
+sceneform.asset('sampledata/parkingLot_test3.obj',
+        'default',
+        'sampledata/parkingLot_test3.sfa',
+        'src/main/assets/parkingLot_test3')
+
+sceneform.asset('sampledata/andy_shadow.obj',
+        'default',
+        'sampledata/andy_shadow.sfa',
+        'src/main/assets/andy_shadow')

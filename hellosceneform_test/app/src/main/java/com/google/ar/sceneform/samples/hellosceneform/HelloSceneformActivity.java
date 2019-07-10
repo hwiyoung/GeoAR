@@ -79,7 +79,8 @@ public class HelloSceneformActivity extends AppCompatActivity {
 
     // Test set
       ModelRenderable.builder()
-              .setSource(this, Uri.parse("GCP_edit_coords.sfb"))
+//              .setSource(this, Uri.parse("GCP_edit_coords.sfb"))
+              .setSource(this, Uri.parse("andy_shadow.sfb"))
               .build()
               .thenAccept(renderable -> parkingRenderable = renderable)
               .exceptionally(
@@ -97,10 +98,10 @@ public class HelloSceneformActivity extends AppCompatActivity {
             return;
           }
 
-//          // Create the Anchor.
-//          Anchor anchor = hitResult.createAnchor();
-//          AnchorNode anchorNode = new AnchorNode(anchor);
-//          anchorNode.setParent(arFragment.getArSceneView().getScene());
+          // Create the Anchor.
+          Anchor anchor = hitResult.createAnchor();
+          AnchorNode anchorNode = new AnchorNode(anchor);
+          anchorNode.setParent(arFragment.getArSceneView().getScene());
 
           // Create the Anchor.
 //          // 2 -> 1
@@ -115,41 +116,12 @@ public class HelloSceneformActivity extends AppCompatActivity {
 //          AnchorNode anchorNode = new AnchorNode(anchor);
 //          anchorNode.setParent(arFragment.getArSceneView().getScene());
 //
-//          // Create the transformable andy and add it to the anchor.
-//          TransformableNode andy = new TransformableNode(arFragment.getTransformationSystem());
-//          andy.setParent(anchorNode);
-//          andy.setRenderable(andyRenderable);
-////          andy.setRenderable(parkingRenderable);
-//          andy.select();
-
-          // test
-          float[] translation = new float[]{-0.5f, 0f, -1f};
-          float[] rotation = new float[]{0f, 0f, 0f, 0f};
-          Pose pose = new Pose(translation, rotation);
-          Anchor anchor = arFragment.getArSceneView().getSession().createAnchor(pose);
-          AnchorNode anchorNode = new AnchorNode(anchor);
-          anchorNode.setParent(arFragment.getArSceneView().getScene());
-
           // Create the transformable andy and add it to the anchor.
           TransformableNode andy = new TransformableNode(arFragment.getTransformationSystem());
           andy.setParent(anchorNode);
-          andy.setRenderable(andyRenderable);
-//          andy.setRenderable(parkingRenderable);
+//          andy.setRenderable(andyRenderable);
+          andy.setRenderable(parkingRenderable);
           andy.select();
-
-          // test
-          float[] translation2 = new float[]{0.5f, 0f, -1f};
-          float[] rotation2 = new float[]{0f, 0f, 0f, 0f};
-          Pose pose2 = new Pose(translation2, rotation2);
-          Anchor anchor2 = arFragment.getArSceneView().getSession().createAnchor(pose2);
-          AnchorNode anchorNode2 = new AnchorNode(anchor2);
-          anchorNode2.setParent(arFragment.getArSceneView().getScene());
-
-          // Create the transformable andy and add it to the anchor.
-          TransformableNode andy2 = new TransformableNode(arFragment.getTransformationSystem());
-          andy2.setParent(anchorNode2);
-          andy2.setRenderable(andyRenderable);
-          andy2.select();
         });
   }
 
