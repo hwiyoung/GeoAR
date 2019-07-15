@@ -100,3 +100,8 @@ sceneform.asset('sampledata/parkingLot_test4.obj',
         'default',
         'sampledata/parkingLot_test4.sfa',
         'src/main/assets/parkingLot_test4')
+
+sceneform.asset('sampledata/tile/tile.obj',
+        'default',
+        'sampledata/tile/tile.sfa',
+        'src/main/assets/tile')
