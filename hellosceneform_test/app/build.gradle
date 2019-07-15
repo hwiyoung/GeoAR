@@ -90,3 +90,13 @@ sceneform.asset('sampledata/andy_shadow.obj',
         'default',
         'sampledata/andy_shadow.sfa',
         'src/main/assets/andy_shadow')
+
+sceneform.asset('sampledata/andy_shadow_parkingLot.obj',
+        'default',
+        'sampledata/andy_shadow_parkingLot.sfa',
+        'src/main/assets/andy_shadow_parkingLot')
+
+sceneform.asset('sampledata/parkingLot_test4.obj',
+        'default',
+        'sampledata/parkingLot_test4.sfa',
+        'src/main/assets/parkingLot_test4')
