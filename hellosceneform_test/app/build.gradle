@@ -105,3 +105,8 @@ sceneform.asset('sampledata/tile/tile.obj',
         'default',
         'sampledata/tile/tile.sfa',
         'src/main/assets/tile')
+
+sceneform.asset('sampledata/tile/tile2.obj',
+        'default',
+        'sampledata/tile/tile2.sfa',
+        'src/main/assets/tile2')
