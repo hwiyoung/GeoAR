@@ -82,7 +82,7 @@ public class HelloSceneformActivity extends AppCompatActivity {
 //              .setSource(this, Uri.parse("GCP_edit_coords.sfb"))
 //              .setSource(this, Uri.parse("andy_shadow.sfb"))
 //              .setSource(this, Uri.parse("andy_shadow_parkingLot.sfb"))
-              .setSource(this, Uri.parse("tile2.sfb"))
+              .setSource(this, Uri.parse("tile.sfb"))
               .build()
               .thenAccept(renderable -> parkingRenderable = renderable)
               .exceptionally(
@@ -100,10 +100,10 @@ public class HelloSceneformActivity extends AppCompatActivity {
             return;
           }
 
-          // Create the Anchor.
-          Anchor anchor = hitResult.createAnchor();
-          AnchorNode anchorNode = new AnchorNode(anchor);
-          anchorNode.setParent(arFragment.getArSceneView().getScene());
+//          // Create the Anchor.
+//          Anchor anchor = hitResult.createAnchor();
+//          AnchorNode anchorNode = new AnchorNode(anchor);
+//          anchorNode.setParent(arFragment.getArSceneView().getScene());
 
           // Create the Anchor.
 //          // 2 -> 1
@@ -113,11 +113,14 @@ public class HelloSceneformActivity extends AppCompatActivity {
 //          float[] translation = new float[]{0f, -1.7580f, -12.1569f};
 //          float[] rotation = new float[]{0f, 0.9532f, 0f, 0.3022f};
 //
-//          Pose pose = new Pose(translation, rotation);
-//          Anchor anchor = arFragment.getArSceneView().getSession().createAnchor(pose);
-//          AnchorNode anchorNode = new AnchorNode(anchor);
-//          anchorNode.setParent(arFragment.getArSceneView().getScene());
-//
+          // 2 -> plane
+          float[] translation = new float[]{0f, -1.3755f, -1.5324f};
+          float[] rotation = new float[]{0f, -0.9977f, 0f, 0.0678f};
+          Pose pose = new Pose(translation, rotation);
+          Anchor anchor = arFragment.getArSceneView().getSession().createAnchor(pose);
+          AnchorNode anchorNode = new AnchorNode(anchor);
+          anchorNode.setParent(arFragment.getArSceneView().getScene());
+
           // Create the transformable andy and add it to the anchor.
           TransformableNode andy = new TransformableNode(arFragment.getTransformationSystem());
           andy.setParent(anchorNode);

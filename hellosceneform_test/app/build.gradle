@@ -110,3 +110,18 @@ sceneform.asset('sampledata/tile/tile2.obj',
         'default',
         'sampledata/tile/tile2.sfa',
         'src/main/assets/tile2')
+
+sceneform.asset('sampledata/rooftop/rooftop_lcs.obj',
+        'default',
+        'sampledata/rooftop/rooftop_lcs.sfa',
+        'src/main/assets/rooftop_lcs')
+
+sceneform.asset('sampledata/rooftop/rooftop1_lcs.obj',
+        'default',
+        'sampledata/rooftop/rooftop1_lcs.sfa',
+        'src/main/assets/rooftop1_lcs')
+
+sceneform.asset('sampledata/rooftop/rooftop_lcs_1.obj',
+        'default',
+        'sampledata/rooftop/rooftop_lcs_1.sfa',
+        'src/main/assets/rooftop_lcs_1')
