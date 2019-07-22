@@ -71,36 +71,6 @@ sceneform.asset('sampledata/GCP_edit_coords.obj',
         'sampledata/GCP_edit_coords.sfa',
         'src/main/assets/GCP_edit_coords')
 
-sceneform.asset('sampledata/parkingLot_test.obj',
-        'default',
-        'sampledata/parkingLot_test.sfa',
-        'src/main/assets/parkingLot_test')
-
-sceneform.asset('sampledata/parkingLot_test2.obj',
-        'default',
-        'sampledata/parkingLot_test2.sfa',
-        'src/main/assets/parkingLot_test2')
-
-sceneform.asset('sampledata/parkingLot_test3.obj',
-        'default',
-        'sampledata/parkingLot_test3.sfa',
-        'src/main/assets/parkingLot_test3')
-
-sceneform.asset('sampledata/andy_shadow.obj',
-        'default',
-        'sampledata/andy_shadow.sfa',
-        'src/main/assets/andy_shadow')
-
-sceneform.asset('sampledata/andy_shadow_parkingLot.obj',
-        'default',
-        'sampledata/andy_shadow_parkingLot.sfa',
-        'src/main/assets/andy_shadow_parkingLot')
-
-sceneform.asset('sampledata/parkingLot_test4.obj',
-        'default',
-        'sampledata/parkingLot_test4.sfa',
-        'src/main/assets/parkingLot_test4')
-
 sceneform.asset('sampledata/tile/tile.obj',
         'default',
         'sampledata/tile/tile.sfa',
@@ -115,11 +85,6 @@ sceneform.asset('sampledata/rooftop/rooftop_lcs.obj',
         'default',
         'sampledata/rooftop/rooftop_lcs.sfa',
         'src/main/assets/rooftop_lcs')
-
-sceneform.asset('sampledata/rooftop/rooftop1_lcs.obj',
-        'default',
-        'sampledata/rooftop/rooftop1_lcs.sfa',
-        'src/main/assets/rooftop1_lcs')
 
 sceneform.asset('sampledata/rooftop/rooftop_lcs_1.obj',
         'default',
