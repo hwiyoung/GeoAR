@@ -105,3 +105,8 @@ sceneform.asset('sampledata/tile/tile_test.obj',
         'default',
         'sampledata/tile/tile_test.sfa',
         'src/main/assets/tile_test')
+
+sceneform.asset('sampledata/Yongsan_test/new_scene_0.obj',
+        'default',
+        'sampledata/Yongsan_test/new_scene_0.sfa',
+        'src/main/assets/new_scene_0')

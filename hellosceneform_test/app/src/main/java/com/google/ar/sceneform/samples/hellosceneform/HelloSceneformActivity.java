@@ -80,9 +80,9 @@ public class HelloSceneformActivity extends AppCompatActivity {
     // Test set
       ModelRenderable.builder()
 //              .setSource(this, Uri.parse("GCP_edit_coords.sfb"))
-//              .setSource(this, Uri.parse("andy_shadow.sfb"))
-//              .setSource(this, Uri.parse("andy_shadow_parkingLot.sfb"))
-              .setSource(this, Uri.parse("tile_test.sfb"))
+//              .setSource(this, Uri.parse("tile_test3.sfb"))
+//              .setSource(this, Uri.parse("rooftop_lcs_1.sfb"))
+              .setSource(this, Uri.parse("new_scene_0.sfb"))
               .build()
               .thenAccept(renderable -> parkingRenderable = renderable)
               .exceptionally(
@@ -114,7 +114,9 @@ public class HelloSceneformActivity extends AppCompatActivity {
 //          float[] rotation = new float[]{0f, 0.9532f, 0f, 0.3022f};
 
 //          // 2 -> plane
-//          float[] translation = new float[]{0f, -1.3755f, -1.5324f};
+////          float[] translation = new float[]{0f, -1.3755f, -1.5324f};    // Z + 1.7
+//          float[] translation = new float[]{0f, -1.0755f, -1.5324f};    // Z + 1.4
+////          float[] translation = new float[]{0f, -1.6755f, -1.5324f};    // Z + 2
 //          float[] rotation = new float[]{0f, -0.9977f, 0f, 0.0678f};
 //          Pose pose = new Pose(translation, rotation);
 //          Anchor anchor = arFragment.getArSceneView().getSession().createAnchor(pose);
