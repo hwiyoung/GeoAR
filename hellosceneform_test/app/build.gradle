@@ -110,3 +110,8 @@ sceneform.asset('sampledata/Yongsan_test/new_scene_0.obj',
         'default',
         'sampledata/Yongsan_test/new_scene_0.sfa',
         'src/main/assets/new_scene_0')
+
+sceneform.asset('sampledata/parkinglots/parkinglots.obj',
+        'default',
+        'sampledata/parkinglots/parkinglots.sfa',
+        'src/main/assets/parkinglots')
