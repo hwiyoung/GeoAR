@@ -83,7 +83,8 @@ public class HelloSceneformActivity extends AppCompatActivity {
 //              .setSource(this, Uri.parse("tile_test3.sfb"))
 //              .setSource(this, Uri.parse("rooftop_lcs_1.sfb"))
 //              .setSource(this, Uri.parse("new_scene_0.sfb"))
-              .setSource(this, Uri.parse("parkinglots.sfb"))
+//              .setSource(this, Uri.parse("parkinglots.sfb"))
+              .setSource(this, Uri.parse("parkinglots_6ea.sfb"))
               .build()
               .thenAccept(renderable -> parkingRenderable = renderable)
               .exceptionally(

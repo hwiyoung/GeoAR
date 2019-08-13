@@ -115,3 +115,8 @@ sceneform.asset('sampledata/parkinglots/parkinglots.obj',
         'default',
         'sampledata/parkinglots/parkinglots.sfa',
         'src/main/assets/parkinglots')
+
+sceneform.asset('sampledata/parkinglots/parkinglots_6ea.obj',
+        'default',
+        'sampledata/parkinglots/parkinglots_6ea.sfa',
+        'src/main/assets/parkinglots_6ea')
