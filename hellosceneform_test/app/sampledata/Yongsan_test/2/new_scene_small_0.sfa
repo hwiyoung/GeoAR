@@ -21,7 +21,7 @@
           roughness: 1,
         },
         {
-          opacity: null,
+          opacity: 0.5,
         },
       ],
       source: 'build/sceneform_sdk/default_materials/obj_material.sfm',
@@ -33,10 +33,9 @@
       'Orientation',
     ],
     collision: {},
-    file: 'sampledata/Yongsan_test/new_scene_0.obj',
-    name: 'new_scene_0',
+    file: 'sampledata/Yongsan_test/2/new_scene_small_0.obj',
+    name: 'new_scene_small_0',
     recenter: 'root',
-    scale: 0.071715000000000001,
   },
   version: '0.54:1',
 }

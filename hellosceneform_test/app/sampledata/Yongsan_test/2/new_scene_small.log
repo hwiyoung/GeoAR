@@ -1,0 +1,221 @@
+Export time: 2019/08/21 18:07:25 KST
+Export duration: 14.348s
+
+Export settings:
+	Export Geometry: Models with Shape Fallback
+	Output Path: C:\Users\podo_dev2team\Documents\CityEngine\Default Workspace\0015_young_san_double_squre\models
+	Simplify Terrain Meshes: true
+	Terrain Layers: Export all selected terrain layers
+	applicationName: CityEngine
+	applicationString: CityEngine 2018.1.4065 0822R
+	applicationVendor: Esri R&D Center Zurich Inc.
+	applicationVersion: 2018.1.4065 08221047
+	atlasAddWrapBorder: true
+	author: podo_dev2team
+	baseName: new_scene_small
+	collectTextures: true
+	createTextureAtlases: false
+	encoderID: com.esri.prt.codecs.OBJEncoder
+	encoderName: Wavefront OBJ
+	errorFallback: true
+	existingFiles: OVERWRITE
+	facesWithHoles: TRIANGULATE_FACES_WITH_HOLES
+	fileGranularity: MEMORY_BUDGET
+	globalOffset: [ 0.0, 0.0, 0.0 ]
+	includeMaterials: true
+	localOffset: NONE
+	maxAtlasDim: 11
+	memoryBudget: 500
+	mergeNormals: true
+	mergeTexcoords: true
+	mergeVertices: true
+	meshGranularity: PER_MATERIAL
+	normalPrecision: 0.001
+	sceneFile: /0015_young_san_double_squre/scenes/new_scene.cej
+	script: 
+	shapeNameDelimiter: _
+	texcoordPrecision: 1.0E-4
+	textureCoordinates: FIRST
+	triangulateMeshes: false
+	vertexNormals: PASS
+	vertexPrecision: 0.001
+	writeLog: true
+
+Initial shapes:
+	  0 :   OK                'Shape'             OID '0b72f208-0038-11b3-83ec-005282d15517'
+	  1 :   OK                'Shape'             OID '0b905832-0038-11b3-83ec-005282d15517'
+	  2 :   OK                'Shape'             OID '0b94310b-0038-11b3-83ec-005282d15517'
+	  3 :   OK                'Shape'             OID '0b97dc6f-0038-11b3-83ec-005282d15517'
+	  4 :   OK                'Shape'             OID '0b9a54ab-0038-11b3-83ec-005282d15517'
+	  5 :   OK                'Shape'             OID '0b9f3e3e-0038-11b3-83ec-005282d15517'
+	  6 :   OK                'Shape'             OID '0ba1c2de-0038-11b3-83ec-005282d15517'
+	  7 :   OK                'Shape'             OID '0ba4e8a7-0038-11b3-83ec-005282d15517'
+	  8 :   OK                'Shape'             OID '0ba858d1-0038-11b3-83ec-005282d15517'
+	  9 :   OK                'Shape'             OID '0baae2f4-0038-11b3-83ec-005282d15517'
+	 10 :   OK                'Shape'             OID '0bae0079-0038-11b3-83ec-005282d15517'
+	 11 :   OK                'Shape'             OID '0bb05223-0038-11b3-83ec-005282d15517'
+	 12 :   OK                'Shape'             OID '0bb25128-0038-11b3-83ec-005282d15517'
+	 13 :   OK                'Shape'             OID '0bb4c6a2-0038-11b3-83ec-005282d15517'
+	 14 :   OK                'Shape'             OID '0bb6f1bb-0038-11b3-83ec-005282d15517'
+	 15 :   OK                'Shape'             OID '0bb90f0d-0038-11b3-83ec-005282d15517'
+	 16 :   OK                'Shape'             OID '0bbb5712-0038-11b3-83ec-005282d15517'
+	 17 :   OK                'Shape'             OID '0bbe03a5-0038-11b3-83ec-005282d15517'
+	 18 :   OK                'Shape'             OID '0bbf8d95-0038-11b3-83ec-005282d15517'
+	 19 :   OK                'Shape'             OID '0bc46d84-0038-11b3-83ec-005282d15517'
+	 20 :   OK                'Shape'             OID '0bc7cd27-0038-11b3-83ec-005282d15517'
+	 21 :   OK                'Shape'             OID '0bcab233-0038-11b3-83ec-005282d15517'
+	 22 :   OK                'Shape'             OID '0bcd69ca-0038-11b3-83ec-005282d15517'
+	 23 :   OK                'Shape'             OID '0bd02162-0038-11b3-83ec-005282d15517'
+	 24 :   OK                'Shape'             OID '0bd29afd-0038-11b3-83ec-005282d15517'
+	 25 :   OK                'Shape'             OID '0bd4e725-0038-11b3-83ec-005282d15517'
+	 26 :   OK                'Shape'             OID '0bd743d3-0038-11b3-83ec-005282d15517'
+	 27 :   OK                'Shape'             OID '0bd98e9a-0038-11b3-83ec-005282d15517'
+	 28 :   OK                'Shape'             OID '0bdbd800-0038-11b3-83ec-005282d15517'
+	 29 :   OK                'Shape'             OID '0bde756c-0038-11b3-83ec-005282d15517'
+	 30 :   OK                'Shape'             OID '0be15395-0038-11b3-83ec-005282d15517'
+	 31 :   OK                'Shape'             OID '0be3c4ed-0038-11b3-83ec-005282d15517'
+	 32 :   OK                'Shape'             OID '0be63fe9-0038-11b3-83ec-005282d15517'
+	 33 :   OK                'Shape'             OID '0be88d71-0038-11b3-83ec-005282d15517'
+	 34 :   OK                'Shape'             OID '0beb086d-0038-11b3-83ec-005282d15517'
+	 35 :   OK                'Shape'             OID '0bedb7c1-0038-11b3-83ec-005282d15517'
+	 36 :   OK                'Shape'             OID '0bf011af-0038-11b3-83ec-005282d15517'
+	 37 :   OK                'Shape'             OID '0bf3216e-0038-11b3-83ec-005282d15517'
+	 38 :   OK                'Shape'             OID '0bf59587-0038-11b3-83ec-005282d15517'
+	 39 :   OK                'Shape'             OID '0bf782a4-0038-11b3-83ec-005282d15517'
+	 40 :   OK                'Shape'             OID '0bf9bfa4-0038-11b3-83ec-005282d15517'
+	 41 :   OK                'Shape'             OID '0bfbc16a-0038-11b3-83ec-005282d15517'
+	 42 :   OK                'Shape'             OID '0bfe054e-0038-11b3-83ec-005282d15517'
+	 43 :   OK                'Shape'             OID '0bfff10a-0038-11b3-83ec-005282d15517'
+	 44 :   OK                'Shape'             OID '0c0193c6-0038-11b3-83ec-005282d15517'
+	 45 :   OK                'Shape'             OID '0c037cc1-0038-11b3-83ec-005282d15517'
+	 46 :   OK                'Shape'             OID '0c055695-0038-11b3-83ec-005282d15517'
+	 47 :   OK                'Shape'             OID '0c077287-0038-11b3-83ec-005282d15517'
+	 48 :   OK                'Shape'             OID '0c090a3d-0038-11b3-83ec-005282d15517'
+	 49 :   OK                'Shape'             OID '0c0a96ef-0038-11b3-83ec-005282d15517'
+	 50 :   OK                'Shape'             OID '0c0c2240-0038-11b3-83ec-005282d15517'
+	 51 :   OK                'Shape'             OID '0c0f8e48-0038-11b3-83ec-005282d15517'
+	 52 :   OK                'Shape'             OID '0c113104-0038-11b3-83ec-005282d15517'
+	 53 :   OK                'Shape'             OID '0c12ec8a-0038-11b3-83ec-005282d15517'
+	 54 :   OK                'Shape'             OID '0c146a15-0038-11b3-83ec-005282d15517'
+	 55 :   OK                'Shape'             OID '0c15e0bd-0038-11b3-83ec-005282d15517'
+	 56 :   OK                'Shape'             OID '0c176109-0038-11b3-83ec-005282d15517'
+	 57 :   OK                'Shape'             OID '0c18eaf9-0038-11b3-83ec-005282d15517'
+	 58 :   OK                'Shape'             OID '0c1a384f-0038-11b3-83ec-005282d15517'
+	 59 :   OK                'Shape'             OID '0c1bad96-0038-11b3-83ec-005282d15517'
+	 60 :   OK                'Shape'             OID '0cdc4a15-0038-11b3-83ec-005282d15517'
+	 61 :   OK                'Shape'             OID '0cdca91f-0038-11b3-83ec-005282d15517'
+	 62 :   OK                'Shape'             OID '0cdfb4bc-0038-11b3-83ec-005282d15517'
+	 63 :   OK                'Shape'             OID '0ce00a23-0038-11b3-83ec-005282d15517'
+	 64 :   OK                'Shape'             OID '0ce0650b-0038-11b3-83ec-005282d15517'
+	 65 :   OK                'Shape'             OID '0ce0bbd2-0038-11b3-83ec-005282d15517'
+	 66 :   OK                'Shape'             OID '0ce10fd8-0038-11b3-83ec-005282d15517'
+	 67 :   OK                'Shape'             OID '0ce17465-0038-11b3-83ec-005282d15517'
+	 68 :   OK                'Shape'             OID '0ce1c70a-0038-11b3-83ec-005282d15517'
+	 69 :   OK                'Shape'             OID '0ce21b10-0038-11b3-83ec-005282d15517'
+	 70 :   OK                'Shape'             OID '0ce26db5-0038-11b3-83ec-005282d15517'
+	 71 :   OK                'Shape'             OID '0ce2bef9-0038-11b3-83ec-005282d15517'
+	 72 :   OK                'Shape'             OID '0ce38291-0038-11b3-83ec-005282d15517'
+	 73 :   OK                'Shape'             OID '0ce53e17-0038-11b3-83ec-005282d15517'
+	 74 :   OK                'Shape'             OID '0ce59e82-0038-11b3-83ec-005282d15517'
+	 75 :   OK                'Shape'             OID '0ce5f6aa-0038-11b3-83ec-005282d15517'
+	 76 :   OK                'Shape'             OID '0ce8b946-0038-11b3-83ec-005282d15517'
+	 77 :   OK                'Shape'             OID '0d17d31d-0038-11b3-83ec-005282d15517'
+	 78 :   OK                'Shape'             OID '0d182040-0038-11b3-83ec-005282d15517'
+	 79 :   OK                'Shape'             OID '0d186d62-0038-11b3-83ec-005282d15517'
+	 80 :   OK                'Shape'             OID '0d18ba85-0038-11b3-83ec-005282d15517'
+	 81 :   OK                'Shape'             OID '0d190647-0038-11b3-83ec-005282d15517'
+	 82 :   OK                'Shape'             OID '0d1950a8-0038-11b3-83ec-005282d15517'
+	 83 :   OK                'Shape'             OID '0d1999a9-0038-11b3-83ec-005282d15517'
+	 84 :   OK                'Shape'             OID '0d19e40a-0038-11b3-83ec-005282d15517'
+	 85 :   OK                'Shape'             OID '0d1a6424-0038-11b3-83ec-005282d15517'
+	 86 :   OK                'Shape'             OID '0d1ab2a7-0038-11b3-83ec-005282d15517'
+	 87 :   OK                'Shape'             OID '0d1afe69-0038-11b3-83ec-005282d15517'
+	 88 :   OK                'Shape'             OID '0d1b4b8b-0038-11b3-83ec-005282d15517'
+	 89 :   OK                'Shape'             OID '0d1b98ae-0038-11b3-83ec-005282d15517'
+	 90 :   OK                'Shape'             OID '0d1be470-0038-11b3-83ec-005282d15517'
+	 91 :   OK                'Shape'             OID '0d1c2ed1-0038-11b3-83ec-005282d15517'
+	 92 :   OK                'Shape'             OID '0d1c7932-0038-11b3-83ec-005282d15517'
+	 93 :   OK                'Shape'             OID '0d1cc394-0038-11b3-83ec-005282d15517'
+	 94 :   OK                'Shape'             OID '0d1d1639-0038-11b3-83ec-005282d15517'
+	 95 :   OK                'Shape'             OID '0d1d61fa-0038-11b3-83ec-005282d15517'
+	 96 :   OK                'Shape'             OID '0d1dac5c-0038-11b3-83ec-005282d15517'
+	 97 :   OK                'Shape'             OID '0d1df6bd-0038-11b3-83ec-005282d15517'
+	 98 :   OK                'Shape'             OID '0d1e3fbe-0038-11b3-83ec-005282d15517'
+	 99 :   OK                'Shape'             OID '0d1e8a1f-0038-11b3-83ec-005282d15517'
+	100 :   OK                'Shape'             OID '0d1ed480-0038-11b3-83ec-005282d15517'
+	101 :   OK                'Shape'             OID '0d1f1c20-0038-11b3-83ec-005282d15517'
+	102 :   OK                'Shape'             OID '0d1f6682-0038-11b3-83ec-005282d15517'
+	103 :   OK                'Shape'             OID '0d1fb3a4-0038-11b3-83ec-005282d15517'
+	104 :   OK                'Shape'             OID '0d1ffe06-0038-11b3-83ec-005282d15517'
+	105 :   OK                'Shape'             OID '0d204b28-0038-11b3-83ec-005282d15517'
+	106 :   OK                'Shape'             OID '0d20984b-0038-11b3-83ec-005282d15517'
+	107 :   OK                'Shape'             OID '0d20e14b-0038-11b3-83ec-005282d15517'
+	108 :   OK                'Shape'             OID '0d212bad-0038-11b3-83ec-005282d15517'
+	109 :   OK                'Shape'             OID '0d2178cf-0038-11b3-83ec-005282d15517'
+	110 :   OK                'Shape'             OID '0d2211b4-0038-11b3-83ec-005282d15517'
+	111 :   OK                'Shape'             OID '0d24a99d-0038-11b3-83ec-005282d15517'
+	112 :   OK                'Shape'             OID '0d258e43-0038-11b3-83ec-005282d15517'
+	113 :   OK                'Shape'             OID '0d25f170-0038-11b3-83ec-005282d15517'
+	114 :   OK                'Shape'             OID '0d26b3a7-0038-11b3-83ec-005282d15517'
+	115 :   OK                'Shape'             OID '0d27090d-0038-11b3-83ec-005282d15517'
+	116 :   OK                'Shape'             OID '0d275bb2-0038-11b3-83ec-005282d15517'
+	117 :   OK                'Shape'             OID '0d27ae57-0038-11b3-83ec-005282d15517'
+	118 :   OK                'Shape'             OID '0d27ff9b-0038-11b3-83ec-005282d15517'
+	119 :   OK                'Shape'             OID '0d284cbe-0038-11b3-83ec-005282d15517'
+	120 :   OK                'Shape'             OID '0d289b41-0038-11b3-83ec-005282d15517'
+	121 :   OK                'Shape'             OID '0d28e703-0038-11b3-83ec-005282d15517'
+	122 :   OK                'Shape'             OID '0d29abfb-0038-11b3-83ec-005282d15517'
+	123 :   OK                'Shape'             OID '0d29fd40-0038-11b3-83ec-005282d15517'
+	124 :   OK                'Shape'             OID '0d2a4a62-0038-11b3-83ec-005282d15517'
+	125 :   OK                'Shape'             OID '0d2a9785-0038-11b3-83ec-005282d15517'
+	126 :   OK                'Shape'             OID '0d2ae1e6-0038-11b3-83ec-005282d15517'
+	127 :   OK                'Shape'             OID '0d2b2ae7-0038-11b3-83ec-005282d15517'
+	128 :   OK                'Shape'             OID '0d2b73e7-0038-11b3-83ec-005282d15517'
+	129 :   OK                'Shape'             OID '0d2bbb87-0038-11b3-83ec-005282d15517'
+	130 :   OK                'Shape'             OID '0d2c05e9-0038-11b3-83ec-005282d15517'
+	131 :   OK                'Shape'             OID '0d2c6a76-0038-11b3-83ec-005282d15517'
+	132 :   OK                'Shape'             OID '0d2ecf68-0038-11b3-83ec-005282d15517'
+	133 :   OK                'Shape'             OID '0d2fafed-0038-11b3-83ec-005282d15517'
+	134 :   OK                'Shape'             OID '0d3057f8-0038-11b3-83ec-005282d15517'
+	135 :   OK                'Shape'             OID '0d30fbe1-0038-11b3-83ec-005282d15517'
+	136 :   OK                'Shape'             OID '0d319365-0038-11b3-83ec-005282d15517'
+	137 :   OK                'Shape'             OID '0d322828-0038-11b3-83ec-005282d15517'
+	138 :   OK                'Shape'             OID '0d32bcea-0038-11b3-83ec-005282d15517'
+	139 :   OK                'Shape'             OID '0d334c2b-0038-11b3-83ec-005282d15517'
+	140 :   OK                'Shape'             OID '0d33de2c-0038-11b3-83ec-005282d15517'
+	141 :   OK                'Shape'             OID '0d34702d-0038-11b3-83ec-005282d15517'
+	142 :   OK                'Shape'             OID '0d34fe0d-0038-11b3-83ec-005282d15517'
+	143 :   OK                'Shape'             OID '0d35866a-0038-11b3-83ec-005282d15517'
+	144 :   OK                'Shape'             OID '0d3612e9-0038-11b3-83ec-005282d15517'
+	145 :   OK                'Shape'             OID '0d36a229-0038-11b3-83ec-005282d15517'
+	146 :   OK                'Shape'             OID '0d399bde-0038-11b3-83ec-005282d15517'
+	147 :   OK                'Shape'             OID '0d3b6d6e-0038-11b3-83ec-005282d15517'
+	148 :   OK                'Shape'             OID '0d3c5375-0038-11b3-83ec-005282d15517'
+	149 :   OK                'Shape'             OID '0d3cc5c9-0038-11b3-83ec-005282d15517'
+	150 :   OK                'Shape'             OID '0d3d28f5-0038-11b3-83ec-005282d15517'
+	151 :   OK                'Shape'             OID '0d3dbc57-0038-11b3-83ec-005282d15517'
+	152 :   OK                'Shape'             OID '0d3e5ee0-0038-11b3-83ec-005282d15517'
+	153 :   OK                'Shape'             OID '0d3fa130-0038-11b3-83ec-005282d15517'
+	154 :   OK                'Shape'             OID '0d4064c8-0038-11b3-83ec-005282d15517'
+	155 :   OK                'Shape'             OID '0d415473-0038-11b3-83ec-005282d15517'
+	156 :   OK                'Shape'             OID '0d41cc49-0038-11b3-83ec-005282d15517'
+	157 :   OK                'Shape'             OID '0d424c62-0038-11b3-83ec-005282d15517'
+
+
+
+Files created:
+	'new_scene_small_0.obj':
+		Initial shapes:
+			0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126, 127, 128, 129, 130, 131, 132, 133, 134, 135, 136, 137, 138, 139, 140, 141, 142, 143, 144, 145, 146, 147, 148, 149, 150, 151, 152, 153, 154, 155, 156, 157, 
+		GEOMETRY:
+			Total Meshes: 1
+			Total Polygons: 159
+			  | Name                         | Material                | Polygons 
+			==+==============================+=========================+==========
+			1  'mesh_CityEngineShapeMaterial' 'CityEngineShapeMaterial'       159 
+	'new_scene_small.mtl':
+		MATERIAL:
+			Total Materials: 1
+			  | Name                    
+			==+=========================
+			1  'CityEngineShapeMaterial'

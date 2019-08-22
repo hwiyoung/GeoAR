@@ -64,8 +64,6 @@ sceneform.asset('sampledata/models/andy.obj',
         'sampledata/models/andy.sfa',
         'src/main/res/raw/andy')
 
-
-
 sceneform.asset('sampledata/GCP_edit_coords.obj',
         'default',
         'sampledata/GCP_edit_coords.sfa',
@@ -106,11 +104,6 @@ sceneform.asset('sampledata/tile/tile_test.obj',
         'sampledata/tile/tile_test.sfa',
         'src/main/assets/tile_test')
 
-sceneform.asset('sampledata/Yongsan_test/new_scene_0.obj',
-        'default',
-        'sampledata/Yongsan_test/new_scene_0.sfa',
-        'src/main/assets/new_scene_0')
-
 sceneform.asset('sampledata/parkinglots/parkinglots.obj',
         'default',
         'sampledata/parkinglots/parkinglots.sfa',
@@ -120,3 +113,13 @@ sceneform.asset('sampledata/parkinglots/parkinglots_6ea.obj',
         'default',
         'sampledata/parkinglots/parkinglots_6ea.sfa',
         'src/main/assets/parkinglots_6ea')
+
+sceneform.asset('sampledata/Yongsan_test/2/new_scene_small_0.obj',
+        'default',
+        'sampledata/Yongsan_test/2/new_scene_small_0.sfa',
+        'src/main/assets/new_scene_small_0')
+
+sceneform.asset('sampledata/Yongsan_test/1/new_scene_0.obj',
+        'default',
+        'sampledata/Yongsan_test/1/new_scene_0.sfa',
+        'src/main/assets/new_scene_0')
